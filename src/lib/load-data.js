@@ -1,8 +1,8 @@
 const readXlsxFile = require('read-excel-file/node');
 
-const records = {}
+let records
 
-const loadRecords = (year) => readXlsxFile(`${process.cwd()}/data${year}.xlsx`, {schema: {
+const loadRecords = (file) => readXlsxFile(file, {schema: {
 	'SPECIES': {
 		prop: 'species',
 		type: String
@@ -36,7 +36,7 @@ const loadRecords = (year) => readXlsxFile(`${process.cwd()}/data${year}.xlsx`, 
 		type: String
 	}
 }})
-	.then(({rows}) => records[year] = rows)
+	.then(({rows}) => records = rows)
 
 // const loadGazetteer = () => readXlsxFile(__dirname + '/2018 Gazetteer v7.xlsx', {schema: {
 // 	'Place': {
@@ -68,13 +68,13 @@ const loadRecords = (year) => readXlsxFile(`${process.cwd()}/data${year}.xlsx`, 
 
 
 
-const init = () => Promise.all([
+const init = (file) => Promise.all([
 	// loadGazetteer(),
-	loadRecords(2018)
+	loadRecords(file)
 ])
 
 module.exports = {
 	init,
 	// getGazetteer = ,
-	getRecords: (year = 2018) => records[year]
+	getRecords: () => records
 }
