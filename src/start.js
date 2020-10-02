@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron')
-
+const {init: loadData} = require('./data/load')
 const path = require('path')
 const url = require('url')
 
@@ -28,7 +28,7 @@ function createWindow() {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => loadData().then(createWindow))
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
