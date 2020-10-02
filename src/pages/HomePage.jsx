@@ -5,10 +5,10 @@ import {
   Link,
 } from "react-router-dom";
 
-export const HomePage = () => <html><head></head><body>
+export const HomePage = () => <>
 <h1>Bird report helper</h1><ul>
 
 {Object.keys(birds).map(bird => <li><Link to={`/bird/${bird}`}>{bird}</Link></li>)}
 
-</ul></body></html>;
+</ul></>;
 

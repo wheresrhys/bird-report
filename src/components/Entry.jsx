@@ -1,6 +1,6 @@
-const React = require('React');
+import React from 'react';
+import {getNumberOfSites, getCitywideSiteCounts, getCitywideCounts, getHighSiteCounts} from '../lib/data-tools';
 
-const {getNumberOfSites, getCitywideSiteCounts, getCitywideCounts, getHighSiteCounts} = require('../lib/data-tools')
 
 const CitywideCount = ({records}) => {
 	const {highestCount, details} = getCitywideCounts(records);
@@ -20,7 +20,7 @@ const SingleSiteCounts = ({records}) => {
 	</ul>
 }
 
-const Entry = ({heading, records, includeSites = true}) => records.length ? <li>{heading}:
+export const Entry = ({heading, records, includeSites = true}) => records.length ? <li>{heading}:
 	<ul>
 	<li>Number of sites: {getNumberOfSites(records)}</li>
 	<li>Citywide day counts: <CitywideCount records={records} /></li>
@@ -30,4 +30,3 @@ const Entry = ({heading, records, includeSites = true}) => records.length ? <li>
 	</li> : <li>{heading}: No records</li>
 
 
-module.exports = {Entry}

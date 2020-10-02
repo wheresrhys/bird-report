@@ -1,6 +1,6 @@
-const React = require('React');
-const {getMonthsOfRecords, findLateRecords, findEarlyRecords} = require('../lib/data-tools')
-const {Entry} = require('./Entry')
+import React from 'react'
+import {getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
+import {Entry} from './Entry'
 
 const Earlies = ({records, distribution, passageMonths}) => {
 	if (distribution.w) return null;
@@ -20,7 +20,7 @@ const Lates = ({records, distribution, breedingSites, passageMonths}) => {
 	</ul></li>
 }
 
-const Spring = ({records, distribution, breedingSites}) => {
+export const Spring = ({records, distribution, breedingSites}) => {
 	breedingSites = breedingSites.map(({location}) => location)
 	const passageMonths = [ 4, 5];
 	if (!distribution.b) {
@@ -57,6 +57,3 @@ const Spring = ({records, distribution, breedingSites}) => {
 
 	</section>
 }
-
-
-module.exports = {Spring}

@@ -1,6 +1,6 @@
-const React = require('React');
-const {getMonthsOfRecords, findLateRecords, findEarlyRecords} = require('../lib/data-tools')
-const {Entry} = require('./Entry')
+import React from 'react'
+import {getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
+import {Entry} from './Entry'
 
 const Earlies = ({records, distribution, breedingSites, passageMonths}) => {
 	if (distribution.b > 2) return null
@@ -24,7 +24,7 @@ const Lates = ({records, distribution, passageMonths}) => {
 	</ul></li>
 }
 
-const Autumn = ({records, distribution, breedingSites}) => {
+export const Autumn = ({records, distribution, breedingSites}) => {
 	breedingSites = breedingSites.map(({location}) => location)
 	const passageMonths = [7, 8, 9, 10];
 	if (distribution.b < 3) {
@@ -62,4 +62,3 @@ const Autumn = ({records, distribution, breedingSites}) => {
 }
 
 
-module.exports = {Autumn}

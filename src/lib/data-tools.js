@@ -1,21 +1,21 @@
 
 const {standardDeviation, mean} = require('simple-statistics')
 
-const sortPropAsc = (prop) =>
+export const sortPropAsc = (prop) =>
 	(a, b) => a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1
 
-const sortPropDesc = (prop) => {
+export const sortPropDesc = (prop) => {
 	const asc = sortPropAsc(prop);
 	return (a, b) => -1 * asc(a, b)
 }
 
-const earliestFirst = sortPropAsc('date')
+export const earliestFirst = sortPropAsc('date')
 
-const latestFirst = (...args) => -1 * earliestFirst(...args)
+export const latestFirst = (...args) => -1 * earliestFirst(...args)
 
-const getMonthsOfRecords = (records, ...months) => records.filter(({date}) => months.includes(new Date(date).getMonth() + 1))
+export const getMonthsOfRecords = (records, ...months) => records.filter(({date}) => months.includes(new Date(date).getMonth() + 1))
 
-const group = (records, keyAlgo) => {
+export const group = (records, keyAlgo) => {
 	const lists = records.reduce((lists, record) => {
 		const key = keyAlgo(record);
 		lists[key] = lists[key] || [];
@@ -25,14 +25,14 @@ const group = (records, keyAlgo) => {
 	return Object.values(lists)
 }
 
-const getNumberOfSites = records => {
+export const getNumberOfSites = records => {
 	const sites = new Set();
 	records.forEach(({location}) => sites.add(location));
 	return [...sites].length;
 }
 
 
-const groupByLocationAndDate = records => group(records, ({date, location}) => location + date.toISOString())
+export const groupByLocationAndDate = records => group(records, ({date, location}) => location + date.toISOString())
 		.map(list => ({
 			items: list,
 			location: list[0].location,
@@ -44,7 +44,7 @@ const groupByLocationAndDate = records => group(records, ({date, location}) => l
 		.sort(sortPropDesc('total'))
 
 
-const getOutliers = (list, prop, {tolerance = 2, minResults = 1} = {}) => {
+export const getOutliers = (list, prop, {tolerance = 2, minResults = 1} = {}) => {
 	if (!list.length) {
 		return []
 	}
@@ -56,7 +56,7 @@ const getOutliers = (list, prop, {tolerance = 2, minResults = 1} = {}) => {
 	return list.filter((obj, i) => obj[prop] >= highThreshold || i < minResults)
 }
 
-const getCitywideCounts = (records) => {
+export const getCitywideCounts = (records) => {
 	const counts = group(groupByLocationAndDate(records), ({date}) => date.toISOString())
 		.map(list => ({
 			items: list,
@@ -84,7 +84,7 @@ const getCitywideCounts = (records) => {
 	}
 }
 
-const getCitywideSiteCounts = (records) => {
+export const getCitywideSiteCounts = (records) => {
 	const counts = group(groupByLocationAndDate(records), ({date}) => date.toISOString())
 		.map(list => ({
 			items: list,
@@ -111,13 +111,13 @@ if (!counts.length) {
 	}
 }
 
-const getHighSiteCounts = (records) => {
+export const getHighSiteCounts = (records) => {
 	const counts = groupByLocationAndDate(records)
 	return getOutliers(counts, 'total')
 }
 
 
-const findEarlyRecords = (records, ...months) => {
+export const findEarlyRecords = (records, ...months) => {
 	records = getMonthsOfRecords(records, ...months).sort(earliestFirst);
 	const dates = records.flatMap(({date, numberIndex}) => [...Array(Math.ceil(numberIndex))].map(() => date.getTime()) )
 	const m = mean(dates);
@@ -130,7 +130,7 @@ const findEarlyRecords = (records, ...months) => {
 	}
 }
 
-const findLateRecords = (records, ...months) => {
+export const findLateRecords = (records, ...months) => {
 	records = getMonthsOfRecords(records, ...months).sort(latestFirst);
 	const dates = records.flatMap(({date, numberIndex}) => [...Array(Math.ceil(numberIndex))].map(() => date.getTime()) )
 	const m = mean(dates);
@@ -142,21 +142,3 @@ const findLateRecords = (records, ...months) => {
 		late: records.filter(({date}) => date > highOutlierBoundary)
 	}
 }
-
-module.exports = {
-	getMonthsOfRecords,
-	group,
-	sortPropAsc,
-	sortPropDesc,
-	latestFirst,
-	earliestFirst,
-	getNumberOfSites,
-	getCitywideCounts,
-	getCitywideSiteCounts,
-	getHighSiteCounts,
-	findLateRecords,
-	findEarlyRecords
-
-}
-
-

@@ -1,5 +1,5 @@
-const { app, BrowserWindow } = require('electron')
-const {init: loadData} = require('./data/load')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const {init: loadData, getRecords} = require('./data/load')
 const path = require('path')
 const url = require('url')
 
@@ -13,6 +13,7 @@ function createWindow() {
       nodeIntegration: true,
     },
   })
+  mainWindow.webContents.openDevTools()
 
   mainWindow.loadURL(
     process.env.ELECTRON_START_URL ||
@@ -40,4 +41,17 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
   }
+})
+
+
+const getSpecies = async (theSpecies) => {
+  const records = await getRecords(2018);
+  return records.filter(({species}) => species === theSpecies)
+}
+
+ipcMain.handle('get-bird', async (event, {bird}) => {
+
+  console.log({bird})
+  // ... do something on behalf of the renderer ...
+  return getSpecies(bird)
 })

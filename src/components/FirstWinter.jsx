@@ -1,8 +1,8 @@
-const React = require('React');
-const {getMonthsOfRecords} = require('../lib/data-tools')
-const {Entry} = require('./Entry')
+import React from 'react';
+import { getMonthsOfRecords } from '../lib/data-tools';
+import {Entry} from './Entry';
 
-const FirstWinter = ({records, distribution}) => {
+export const FirstWinter = ({records, distribution}) => {
 
 	// If it's not a widespread breeder then we assume winter stretches
 	// into March
@@ -20,6 +20,3 @@ const FirstWinter = ({records, distribution}) => {
 
 	</section>
 }
-
-
-module.exports = {FirstWinter}

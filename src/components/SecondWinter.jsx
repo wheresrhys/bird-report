@@ -1,8 +1,8 @@
-const React = require('React');
-const {getMonthsOfRecords} = require('../lib/data-tools')
-const {Entry} = require('./Entry')
+import React from 'react'
+import {getMonthsOfRecords} from '../lib/data-tools'
+import {Entry} from './Entry'
 
-const SecondWinter = ({records, distribution}) => {
+export const SecondWinter = ({records, distribution}) => {
 	return <section>
 <h1>Second winter (November and December )</h1>
 <ul>
@@ -15,4 +15,3 @@ const SecondWinter = ({records, distribution}) => {
 }
 
 
-module.exports = {SecondWinter}
