@@ -1,0 +1,10 @@
+todo.txt
+
+- file upload
+- dedupe records for the distribution (maybe do something about corroboration too)
+- styling
+- summer
+- inner city records
+- autodetect which birds are provided
+- manually enter config
+- 

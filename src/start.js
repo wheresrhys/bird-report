@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
-const {init: loadData, getRecords} = require('./data/load')
+const {init: loadData, getRecords} = require('./lib/load-data')
 const path = require('path')
 const url = require('url')
 
