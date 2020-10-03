@@ -41,10 +41,10 @@ export const Spring = ({records, distribution, breedingSites}) => {
 	// into March
 
 
-	return <Season heading="Spring passage" months={passageMonths} records={records} extraSummary={
-		<><Earlies records={records} distribution={distribution} passageMonths={passageMonths}/>
-		<Lates records={records} distribution={distribution} breedingSites={breedingSites} passageMonths={passageMonths}/></>
-	}/>
+	return <Season heading="Spring passage" months={passageMonths} records={records}
+		preContent={<Earlies records={records} distribution={distribution} passageMonths={passageMonths}/>}
+		postContent={<Lates records={records} distribution={distribution} breedingSites={breedingSites} passageMonths={passageMonths}/>}
+	/>
 
 }
 

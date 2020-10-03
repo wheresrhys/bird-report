@@ -9,11 +9,12 @@ import './App.css';
 
 import {BirdPage} from './pages/BirdPage';
 import birds from './config/birds'
+import {Navbar} from 'react-bootstrap';
 
 const App = () => <>
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="#">Bird report tool</a>
-</nav>
+<Navbar bg="light" expand="lg">
+  <Navbar.Brand href="#home">Bird report tool</Navbar.Brand>
+</Navbar>
 <div className="container">
 <nav class="nav">
 {Object.keys(birds).map(bird => <a class="nav-link active" href={`/bird/${bird}`}>{bird}</a>)}

@@ -5,3 +5,8 @@ todo.txt
 - summer
 - inner city records
 - repeat file upload
+- peak passage + differentiate early trickles from the main flow
+    + would help to have a graph over time
+- estimated throughput
+- for guessed breeding sites bring out the records with descriptions
+- search for keywords in descriptions e.g greenland. Boolean OR

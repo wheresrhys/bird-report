@@ -1,6 +1,6 @@
 import React from 'react';
 import {getNumberOfSites, getCitywideSiteCounts, getCitywideCounts, getHighSiteCounts} from '../lib/data-tools';
-
+import {Card, Button, Accordion} from 'react-bootstrap';
 
 const CitywideCount = ({records}) => {
 	const {highestCount, details} = getCitywideCounts(records);
@@ -20,17 +20,48 @@ const SingleSiteCounts = ({records}) => {
 	</ul>
 }
 
-export const Entry = ({heading, records, includeSites = true}) => records.length ? <div>{heading}:
+
+const EntryCard = ({heading, body}) => <Card>
+  <Card.Header>
+      {heading}
+  </Card.Header>
+  {body ? <Card.Body>{body}</Card.Body> : null}
+</Card>
+
+const AccordionEntryCard = ({heading, body, eventKey}) => body ? <Card>
+  <Card.Header>
+      <Accordion.Toggle as={Button} variant="link" eventKey={eventKey}>
+        {heading}
+      </Accordion.Toggle>
+  </Card.Header>
+  <Accordion.Collapse eventKey={eventKey}>
+      <Card.Body>{body}</Card.Body>
+    </Accordion.Collapse>
+</Card> : <EntryCard heading={heading} />
+
+export const Entry = ({heading, records, isAccordion = false, index,
+	preContent = null, postContent = null}) => {
+	if (!records.length) {
+		return <EntryCard heading={`${heading}: No records`} />
+	}
+	const body = <>
+	{preContent}
 	<ul>
 	<li>Number of sites: {getNumberOfSites(records)}</li>
 	<li>Max citywide day count: <CitywideCount records={records} /></li>
 	<li>Max citywide sites in a day: <CitywideSites records={records} /></li>
-	{includeSites ? <li>Single site counts: <SingleSiteCounts records={records} /></li> : null}
+	<li>Single site counts: <SingleSiteCounts records={records} /></li>
 	</ul>
-	</div> : <div>{heading}: No records</div>
+	{postContent}
+</>
 
-export const Month = props =>
-	<li style={{display: 'none'}}><Entry {...props} /></li>
+	return isAccordion ?
+		<AccordionEntryCard heading={heading} body={body} eventKey={"" + index} /> : <EntryCard heading={heading} body={body} />
+
+}
+
+
+
 
 
 
