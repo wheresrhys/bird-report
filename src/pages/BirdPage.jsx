@@ -1,20 +1,16 @@
 import React, {useState} from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link,
-  useRouteMatch,
   useParams
 } from "react-router-dom";
-import {FirstWinter} from '../components/FirstWinter';
+import {FirstWinter, SecondWinter} from '../components/Winter';
 import {Spring} from '../components/Spring';
 import {Autumn} from '../components/Autumn';
-import {SecondWinter} from '../components/SecondWinter';
-import {getMonthsOfRecords, group} from '../lib/data-tools';
+import {getMonthsOfRecords, group, clean} from '../lib/data-tools';
 import birds from '../config/birds';
 
 const { ipcRenderer } = window.require("electron")
+
 
 const Breeding = () => <pre>holding</pre>
 
@@ -36,7 +32,7 @@ export const BirdPage = () => {
   const [birdData, setBirdData] = useState({distribution : {}});
   ipcRenderer.invoke('get-bird', {bird}).then(data => {
   	setBirdData({
-  		records: data,
+  		records: clean(data),
   		distribution: birds[bird]
   	})
   });

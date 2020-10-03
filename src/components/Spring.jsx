@@ -1,23 +1,23 @@
 import React from 'react'
 import {getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
-import {Entry} from './Entry'
+import {Season} from './Season';
 
 const Earlies = ({records, distribution, passageMonths}) => {
 	if (distribution.w) return null;
 	const earlies = findEarlyRecords(records, ...passageMonths);
-	return <li>Earliest: {earlies.earliest.location}, {earlies.earliest.date.toDateString()}
+	return <div>Earliest: {earlies.earliest.location}, {earlies.earliest.date.toDateString()}
 	<ul>
 		{earlies.early.map(({location, date, numberIndex}) => <li>{location}, {date.toDateString()}: <b>{numberIndex}</b></li>)}
-	</ul></li>
+	</ul></div>
 }
 
 const Lates = ({records, distribution, breedingSites, passageMonths}) => {
 	if (distribution.b > 2) return null
 	const latest = findLateRecords(records.filter(({location}) => !breedingSites.includes(location)), ...passageMonths)
-	return <li>{distribution.b ? 'Latest non breeding' : 'Latest'}: {latest.latest.location}, {latest.latest.date.toDateString()}
+	return <div>{distribution.b ? 'Latest non breeding' : 'Latest'}: {latest.latest.location}, {latest.latest.date.toDateString()}
 	<ul>
 		{latest.late.map(({location, date, numberIndex}) => <li>{location}, {date.toDateString()}: <b>{numberIndex}</b></li>)}
-	</ul></li>
+	</ul></div>
 }
 
 export const Spring = ({records, distribution, breedingSites}) => {
@@ -41,19 +41,10 @@ export const Spring = ({records, distribution, breedingSites}) => {
 	// into March
 
 
+	return <Season heading="Spring passage" months={passageMonths} records={records} extraSummary={
+		<><Earlies records={records} distribution={distribution} passageMonths={passageMonths}/>
+		<Lates records={records} distribution={distribution} breedingSites={breedingSites} passageMonths={passageMonths}/></>
+	}/>
 
-	return <section>
-		<h1>Spring passage</h1>
-		<ul>
-			<Earlies records={records} distribution={distribution} passageMonths={passageMonths}/>
-			{!distribution.w ? <Entry heading="February" records={getMonthsOfRecords(records, 2)} /> : null}
-			{!distribution.w ? <Entry heading="March" records={getMonthsOfRecords(records, 3)} /> : null}
-			<Entry heading="April" records={getMonthsOfRecords(records, 4)} />
-			<Entry heading="May" records={getMonthsOfRecords(records, 5)} />
-			{!distribution.b ? <Entry heading="June" records={getMonthsOfRecords(records, 6)} /> : null}
-			<Entry heading="Whole period" records={getMonthsOfRecords(records, ...passageMonths)} includeSites={false} />
-			<Lates records={records} distribution={distribution} breedingSites={breedingSites} passageMonths={passageMonths}/>
-		</ul>
-
-	</section>
 }
+
