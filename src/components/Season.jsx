@@ -7,7 +7,7 @@ const monthsToNames = months => `${MONTH_NAMES[months[0]]} to ${MONTH_NAMES[mont
 
 export function Season ({heading, extraSummary = null, months, records}) {
 return <section>
-<h1>{heading} ({monthsToNames(months)})</h1>
+<h2>{heading} ({monthsToNames(months)})</h2>
 <Entry heading="Summary" records={getMonthsOfRecords(records, ...months)}/>
 {extraSummary}
 <ul>

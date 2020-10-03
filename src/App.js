@@ -7,20 +7,27 @@ import {
 import logo from './logo.svg';
 import './App.css';
 
-import {HomePage} from './pages/HomePage';
 import {BirdPage} from './pages/BirdPage';
+import birds from './config/birds'
 
-const App = () => <Router>
+const App = () => <>
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">Bird report tool</a>
+</nav>
+<div className="container">
+<nav class="nav">
+{Object.keys(birds).map(bird => <a class="nav-link active" href={`/bird/${bird}`}>{bird}</a>)}
+</nav>
+<Router>
     <Switch>
       <Route path="/bird/:bird">
         <BirdPage />
       </Route>
       <Route path="/">
-        <HomePage />
       </Route>
     </Switch>
 </Router>
-
+</div></>
 
 
 export default App;

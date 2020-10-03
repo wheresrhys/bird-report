@@ -42,7 +42,7 @@ export const BirdPage = () => {
 		breedingSites = getBreedingSites(birdData.records)
 	}
 	return <>
-	<h1>{bird}</h1><Link to="/">home</Link>
+	<h1>{bird}</h1>
 	{birdData.distribution.w ? <FirstWinter {...birdData} /> : null}
 	{birdData.distribution.s ? <Spring {...birdData} breedingSites={breedingSites}/> : null}
 	{birdData.breeding ? <Breeding {...birdData} /> : null}

@@ -1,10 +1,7 @@
 todo.txt
-
-- file upload
-- dedupe records for the distribution (maybe do something about corroboration too) - reduce
 - styling
-- summer
-- inner city records
 - autodetect which birds are provided
 - manually enter config
-- 
+- summer
+- inner city records
+- repeat file upload
