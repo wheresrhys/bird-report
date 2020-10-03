@@ -39,7 +39,7 @@ export const Spring = ({records, distribution, breedingSites}) => {
 	// else assume long distance migrant
 	// If it's not a widespread breeder then we assume winter stretches
 	// into March
-
+	records = getMonthsOfRecords(records, ...passageMonths)
 
 	return <Season heading="Spring passage" months={passageMonths} records={records}
 		preContent={<Earlies records={records} distribution={distribution} passageMonths={passageMonths}/>}

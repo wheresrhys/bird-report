@@ -39,9 +39,10 @@ export const Autumn = ({records, distribution, breedingSites}) => {
 
 		// ...((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
 
+	records = getMonthsOfRecords(records, ...passageMonths)
 
 	return <Season heading="Autumn passage" months={passageMonths} records={records}
-			preContent={<Earlies records={records} distribution={distribution} passageMonths={passageMonths} breedingSites={breedingSites}  />}
+			preContent={<Earlies records={records} distribution={distribution} passageMonths={passageMonths} breedingSites={breedingSites} />}
 			postContent={<Lates records={records} distribution={distribution} passageMonths={passageMonths}/>}
 	/>
 }

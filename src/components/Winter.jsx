@@ -1,11 +1,6 @@
 import React from 'react';
 import {Season} from './Season';
-
-
-export const SecondWinter = ({records, distribution}) => {
-
-	return <Season heading="Second winter" months={[11, 12]} records={records} />
-}
+import {getMonthsOfRecords} from '../lib/data-tools'
 
 export const FirstWinter = ({records, distribution}) => {
 
@@ -13,6 +8,12 @@ export const FirstWinter = ({records, distribution}) => {
 	// into March
 	const notWidespreadBreeder = distribution.b < 3;
 	const months = notWidespreadBreeder < 3 ? [1, 2, 3] : [1, 2]
-
+	records = getMonthsOfRecords(records, ...months)
 	return <Season heading="First winter" months={months} records={records} />
 }
+
+export const SecondWinter = ({records, distribution}) => {
+	records = getMonthsOfRecords(records, 11, 12)
+	return <Season heading="Second winter" months={[11, 12]} records={records} />
+}
+
