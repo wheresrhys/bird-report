@@ -8,7 +8,7 @@ import {Spring} from '../components/Spring'
 import {Autumn} from '../components/Autumn'
 import {getMonthsOfRecords, group, clean} from '../lib/data-tools'
 import birds from '../config/birds'
-
+import {Tabs, Tab} from 'react-bootstrap'
 const { ipcRenderer } = window.require('electron')
 
 
@@ -48,14 +48,21 @@ export const BirdPage = () => {
 	if (birdData.distribution.b && birdData.distribution.b < 3) {
 		breedingSites = getBreedingSites(birdData.records)
 	}
-	return (
-  <>
-    <h1>{bird}</h1>
-    {birdData.distribution.w ? <FirstWinter {...birdData} /> : null}
+	return (<>
+		<h1>{bird}</h1>
+<Tabs defaultActiveKey="winter" id="uncontrolled-tab-example">
+  <Tab eventKey="winter" title="Winter" disabled={!birdData.distribution.w}>
+    {birdData.distribution.w ? <><FirstWinter {...birdData} /><SecondWinter {...birdData} /></> : null}
+  </Tab>
+  <Tab eventKey="spring" title="Spring passage" disabled={!birdData.distribution.s}>
     {birdData.distribution.s ? <Spring {...birdData} breedingSites={breedingSites} /> : null}
+  </Tab>
+  <Tab eventKey="breeding" title="Breeding" disabled={!birdData.distribution.b}>
     {birdData.breeding ? <Breeding {...birdData} /> : null}
+  </Tab>
+  <Tab eventKey="autumn" title="Autumn passage" disabled={!birdData.distribution.a}>
     {birdData.distribution.a ? <Autumn {...birdData} breedingSites={breedingSites} /> : null}
-    {birdData.distribution.w ? <SecondWinter {...birdData} /> : null}
-  </>
+  </Tab>
+</Tabs></>
 )}
 

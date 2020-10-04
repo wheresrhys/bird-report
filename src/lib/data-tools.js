@@ -76,5 +76,33 @@ export const throughput = (records) => {
     'Lower bound': Math.round(group(records, ({ location }) => location)
       .map((records) => Math.max(...records.map(({ numberIndex }) => numberIndex)))
       .reduce((total, value) => total + value, 0)),
+    'Two day stay': Math.round(group(records, ({ location }) => location)
+      .flatMap((records) => records.map((record, i) => {
+      	if (i % 2 === 1) {
+      		return {
+      			...record,
+      			numberIndex: Math.max(0, record.numberIndex - records[i - 1].numberIndex)
+      		}
+	      }
+	      return record
+	    }))
+      .reduce((total, {numberIndex}) => total + numberIndex, 0)),
+    'Three day stay': Math.round(group(records, ({ location }) => location)
+      .flatMap((records) => records.map((record, i) => {
+      	if (i % 3 === 1) {
+      		return {
+      			...record,
+      			numberIndex: Math.max(0, record.numberIndex - records[i - 1].numberIndex)
+      		}
+	      }
+	      if (i % 3 === 2) {
+      		return {
+      			...record,
+      			numberIndex: Math.max(0, record.numberIndex - Math.max(records[i - 1].numberIndex, records[i - 2].numberIndex))
+      		}
+	      }
+	      return record
+	    }))
+      .reduce((total, {numberIndex}) => total + numberIndex, 0))
   }
 }
