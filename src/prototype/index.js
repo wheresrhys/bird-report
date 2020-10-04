@@ -72,25 +72,25 @@ const readXlsxFile = require('read-excel-file/node')
 // }
 
 const analyseRecords = (records, {
-  w, s, b, a,
+  winter, springPassage, breeding, autumnPassage,
 }) => {
-  // Need a daily histogram
+  // Need autumnPassage daily histogram
   const results = {}
-  if (w) {
+  if (winter) {
     results.winter = analyseWinter(records)
   }
-  if (s) {
-    results.spring = analyseSpring(records, { w, b })
+  if (springPassage) {
+    results.spring = analyseSpring(records, { winter, breeding })
   }
 
-  if (b === 2) {
-    results.breeding = analyseBreeding(records, { b })
+  if (breeding === 2) {
+    results.breeding = analyseBreeding(records, { breeding })
   }
 
-  if (a) {
+  if (autumnPassage) {
     results.autumn = analyseAutumn(records, {
-      w,
-      b,
+      winter,
+      breeding,
       ignoreLocations:
 				results.breeding
 				&& results.breeding.sites.map(({ location }) => location),
@@ -107,22 +107,22 @@ const analyseRecords = (records, {
 
 (async () => {
   analyseRecords(getSpecies('Stonechat')(records), {
-    w: 3,
-    s: 3,
-    b: 2,
-    a: 3,
+    winter: 3,
+    springPassage: 3,
+    breeding: 2,
+    autumnPassage: 3,
   })
   // analyseRecords(getSpecies('Wheatear')(records), {
-  //   w: 0,
-  //   s: 3,
-  //   b: 0,
-  //   a: 3
+  //   winter: 0,
+  //   springPassage: 3,
+  //   breeding: 0,
+  //   autumnPassage: 3
   // })
   // analyseRecords(getSpecies('Whinchat')(records), {
-  //   w: 0,
-  //   s: 3,
-  //   b: 0,
-  //   a: 3
+  //   winter: 0,
+  //   springPassage: 3,
+  //   breeding: 0,
+  //   autumnPassage: 3
   // })
 
   // console.log(getSpringMigration())

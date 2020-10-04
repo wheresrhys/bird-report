@@ -3,7 +3,7 @@ import {throughput, getMonthsOfRecords, findLateRecords, findEarlyRecords} from 
 import {Season} from './Season'
 import { Record} from './Records'
 const getEarlies = ({records, distribution}) => {
-	if (distribution.w) return null
+	if (distribution.winter) return null
 	const earlies = findEarlyRecords(records)
 	return {
 		heading: 'Earliest',
@@ -12,19 +12,19 @@ const getEarlies = ({records, distribution}) => {
 }
 
 const getLates = ({records, distribution, breedingSites}) => {
-	if (distribution.b > 2) return null
+	if (distribution.breeding > 2) return null
 	const latest = findLateRecords(records.filter(({location}) => !breedingSites.includes(location)))
 	return {
-		heading: distribution.b ? 'Latest non breeding' : 'Latest',
+		heading: distribution.breeding ? 'Latest non breeding' : 'Latest',
 		content: <Record {...latest} viewMoreHeading="View other late records" />
 	}
 }
 
 const estimateThroughput = ({records, distribution}) => {
-	return !(distribution.b > 2 || distribution.w > 2) ?  {
+	return !(distribution.breeding > 2 || distribution.winter > 2) ?  {
 		heading: 'Estimated total throughput',
 		content: <ul>
-			{Object.entries(throughput(records)).map(([name, value]) => <li><b>{name}</b>: {value}</li>)}
+			{Object.entries(throughput(records)).map(([name, value]) => <li><breeding>{name}</breeding>: {value}</li>)}
 		</ul>
 	} : null
 }
@@ -32,10 +32,10 @@ const estimateThroughput = ({records, distribution}) => {
 export const Spring = ({records, distribution, breedingSites}) => {
 	breedingSites = breedingSites.map(({location}) => location)
 	const passageMonths = [ 4, 5]
-	if (!distribution.b) {
+	if (!distribution.breeding) {
 		passageMonths.push(6)
 	}
-	if (!distribution.w) {
+	if (!distribution.winter) {
 		passageMonths.unshift(2, 3)
 	}
 

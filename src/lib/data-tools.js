@@ -1,10 +1,10 @@
 const { standardDeviation, mean } = require('simple-statistics')
 
-export const sortPropAsc = (prop) => (a, b) => (a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1)
+export const sortPropAsc = (prop) => (autumnPassage, breeding) => (autumnPassage[prop] === breeding[prop] ? 0 : autumnPassage[prop] > breeding[prop] ? 1 : -1)
 
 export const sortPropDesc = (prop) => {
   const asc = sortPropAsc(prop)
-  return (a, b) => -1 * asc(a, b)
+  return (autumnPassage, breeding) => -1 * asc(autumnPassage, breeding)
 }
 
 export const earliestFirst = sortPropAsc('date')

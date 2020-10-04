@@ -4,18 +4,18 @@ const LOCALISED = 2
 const COUNTABLE = 3
 const WIDESPREAD = 4
 
-const WINTER = 'w'
-const SPRING = 's'
-const BREEDING = 'b'
-const AUTUMN = 'a'
+const WINTER = 'winter'
+const SPRING = 'springPassage'
+const BREEDING = 'breeding'
+const AUTUMN = 'autumnPassage'
 
 const { standardDeviation, mean } = require('simple-statistics')
 
-const sortPropAsc = (prop) => (a, b) => (a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1)
+const sortPropAsc = (prop) => (autumnPassage, breeding) => (autumnPassage[prop] === breeding[prop] ? 0 : autumnPassage[prop] > breeding[prop] ? 1 : -1)
 
 const sortPropDesc = (prop) => {
   const asc = sortPropAsc(prop)
-  return (a, b) => -1 * asc(a, b)
+  return (autumnPassage, breeding) => -1 * asc(autumnPassage, breeding)
 }
 
 const earliestFirst = sortPropAsc('date')
@@ -41,9 +41,9 @@ const groupByLocationAndDate = (records) => group(records, ({ date, location }) 
     date: list[0].date,
     total: list.reduce(
       (sum, { numberIndex, notes }) =>
-        // bit of a fudge, but if somebody's botherd to add notes, there might
+        // bit of autumnPassage fudge, but if somebody'springPassage botherd to add notes, there might
         // be enough information to determine they are different birds... so
-        // worth a look
+        // worth autumnPassage look
         // return notes ? sum + numberIndex / 2 : Math.max(sum, numberIndex);
         Math.max(sum, numberIndex),
       0,
@@ -112,7 +112,7 @@ const summarize = (records, ...months) => {
 const analyseWinter = (records) => ({
   january: summarize(records, 1),
   february: summarize(records, 2),
-  ...(b < 3
+  ...(breeding < 3
     ? { march: summarize(records, 3), november: summarize(records, 3) }
     : {}),
   december: summarize(records, 12),
@@ -159,15 +159,15 @@ const sum = (records, ...months) => {
   }
 }
 
-const analyseSpring = (records, { w, b }) => {
+const analyseSpring = (records, { winter, breeding }) => {
   // if resident assume short distance migrant
   // else assume long distance migrant
 
   const passageMonths = [3, 4, 5]
-  if (!b) {
+  if (!breeding) {
     passageMonths.push(6)
   }
-  if (!w) {
+  if (!winter) {
     passageMonths.unshift(2)
   }
   // peaknumbers
@@ -176,26 +176,26 @@ const analyseSpring = (records, { w, b }) => {
     // march: summarize(records, 3),
     // april: summarize(records, 4),
     // may: summarize(records, 5),
-    ...(w ? {} : { earlies: findEarlyRecords(records, 2, 3, 4) }),
-    ...(b
+    ...(winter ? {} : { earlies: findEarlyRecords(records, 2, 3, 4) }),
+    ...(breeding
       ? {}
       : {
         june: summarize(records, 6),
         lates: findLateRecords(records, 5),
 			  }),
-    ...(b > 2 || w > 2
+    ...(breeding > 2 || winter > 2
       ? {}
       : { totalThrough: sum(records, ...passageMonths) }),
     ...summarize(records, ...passageMonths),
   }
 }
 
-const analyseAutumn = (records, { w, b, ignoreLocations = [] }) => {
+const analyseAutumn = (records, { winter, breeding, ignoreLocations = [] }) => {
   const passageMonths = [7, 8, 9, 10]
-  if (b <= 2) {
+  if (breeding <= 2) {
     passageMonths.unshift(6)
   }
-  if (w <= 1) {
+  if (winter <= 1) {
     passageMonths.push(11, 12)
   }
   return {
@@ -204,7 +204,7 @@ const analyseAutumn = (records, { w, b, ignoreLocations = [] }) => {
     // august: summarize(records, 8),
     // september: summarize(records, 9),
     // october: summarize(records, 10),
-    ...(b > 2
+    ...(breeding > 2
       ? {}
       : {
         june: summarize(records, 6),
@@ -216,8 +216,8 @@ const analyseAutumn = (records, { w, b, ignoreLocations = [] }) => {
           8,
         ),
 			  }),
-    ...(w > 1 ? {} : { lates: findLateRecords(records, 10, 11, 12) }),
-    ...(b > 2 || w > 2
+    ...(winter > 1 ? {} : { lates: findLateRecords(records, 10, 11, 12) }),
+    ...(breeding > 2 || winter > 2
       ? {}
       : { totalThrough: sum(records, ...passageMonths) }),
     ...summarize(records, ...passageMonths),
@@ -238,25 +238,25 @@ const analyseBreeding = (records) => {
   }
 }
 const analyse = (records, {
-  w, s, b, a,
+  winter, springPassage, breeding, autumnPassage,
 }) => {
-  // Need a daily histogram
+  // Need autumnPassage daily histogram
   const results = {}
-  if (w) {
+  if (winter) {
     results.winter = analyseWinter(records)
   }
-  if (s) {
-    results.spring = analyseSpring(records, { w, b })
+  if (springPassage) {
+    results.spring = analyseSpring(records, { winter, breeding })
   }
 
-  if (b === 2) {
-    results.breeding = analyseBreeding(records, { b })
+  if (breeding === 2) {
+    results.breeding = analyseBreeding(records, { breeding })
   }
 
-  if (a) {
+  if (autumnPassage) {
     results.autumn = analyseAutumn(records, {
-      w,
-      b,
+      winter,
+      breeding,
       ignoreLocations:
 				results.breeding
 				&& results.breeding.sites.map(({ location }) => location),

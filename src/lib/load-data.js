@@ -52,11 +52,11 @@ const loadRecords = (file) => readXlsxFile(file, {
 // 		prop: 'gridRef',
 // 		type: String
 // 	},
-// 	"Kms from St. Paul's": {
+// 	"Kms from St. Paul'springPassage": {
 // 		prop: 'kmsOut',
 // 		type: String
 // 	},
-// 	"Miles from St Paul's": {
+// 	"Miles from St Paul'springPassage": {
 // 		prop: 'milesOut',
 // 		type: String
 // 	},

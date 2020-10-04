@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import {
   Link,
   useParams
 } from 'react-router-dom'
+import { Species } from "../lib/Context";
 import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
 import {Autumn} from '../components/Autumn'
@@ -30,8 +31,11 @@ const getBreedingSites = records => {
 const birdsCache = {}
 
 export const BirdPage = () => {
+
   const { bird } = useParams()
   const [birdData, setBirdData] = useState(birdsCache[bird] || {distribution : {}})
+  const [speciesConfigs] = useContext(Species);
+  console.log(speciesConfigs)
   const fetchData = () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
   	birdsCache[bird] = {
   		records: clean(data),
@@ -45,23 +49,23 @@ export const BirdPage = () => {
   }, [])
 
 	let breedingSites = []
-	if (birdData.distribution.b && birdData.distribution.b < 3) {
+	if (birdData.distribution.breeding && birdData.distribution.breeding < 3) {
 		breedingSites = getBreedingSites(birdData.records)
 	}
 	return (<>
 		<h1>{bird}</h1>
 <Tabs defaultActiveKey="winter" id="uncontrolled-tab-example">
-  <Tab eventKey="winter" title="Winter" disabled={!birdData.distribution.w}>
-    {birdData.distribution.w ? <><FirstWinter {...birdData} /><SecondWinter {...birdData} /></> : null}
+  <Tab eventKey="winter" title="Winter" disabled={!birdData.distribution.winter}>
+    {birdData.distribution.winter ? <><FirstWinter {...birdData} /><SecondWinter {...birdData} /></> : null}
   </Tab>
-  <Tab eventKey="spring" title="Spring passage" disabled={!birdData.distribution.s}>
-    {birdData.distribution.s ? <Spring {...birdData} breedingSites={breedingSites} /> : null}
+  <Tab eventKey="spring" title="Spring passage" disabled={!birdData.distribution.springPassage}>
+    {birdData.distribution.springPassage ? <Spring {...birdData} breedingSites={breedingSites} /> : null}
   </Tab>
-  <Tab eventKey="breeding" title="Breeding" disabled={!birdData.distribution.b}>
+  <Tab eventKey="breeding" title="Breeding" disabled={!birdData.distribution.breeding}>
     {birdData.breeding ? <Breeding {...birdData} /> : null}
   </Tab>
-  <Tab eventKey="autumn" title="Autumn passage" disabled={!birdData.distribution.a}>
-    {birdData.distribution.a ? <Autumn {...birdData} breedingSites={breedingSites} /> : null}
+  <Tab eventKey="autumn" title="Autumn passage" disabled={!birdData.distribution.autumnPassage}>
+    {birdData.distribution.autumnPassage ? <Autumn {...birdData} breedingSites={breedingSites} /> : null}
   </Tab>
 </Tabs></>
 )}

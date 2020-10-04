@@ -99,7 +99,7 @@ records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
 )}
         />
         <TableRow
-          heading="Max citywide sites in a day"
+          heading="Max citywide sites in autumnPassage day"
           content={(
             <Record {...aggregateByDay(
 records => records.length

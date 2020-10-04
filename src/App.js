@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import logo from './logo.svg'
 import './App.css'
 
@@ -28,18 +28,18 @@ const App = () => {
   }, [])
 
   return <Species.Provider value={[species, setSpecies]}>
-    <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="/">Bird report tool</Navbar.Brand>
+   <Router> <Navbar bg="light" expand="lg">
+      <Link href="/">Bird report tool</Link>
     </Navbar>
     <div className="container">
       <nav className="nav">
         {speciesList.map((bird) => (
-          <a className="nav-link active" href={`/bird/${bird}`}>
+          <Link className="nav-link active" to={`/bird/${bird}`}>
             {bird}
-          </a>
+          </Link>
         ))}
       </nav>
-      <Router>
+
         <Switch>
           <Route path="/bird/:bird">
             <BirdPage />
@@ -48,8 +48,9 @@ const App = () => {
             <ConfigPage />
           </Route>
         </Switch>
-      </Router>
+
     </div>
+    </Router>
   </Species.Provider>
 }
 

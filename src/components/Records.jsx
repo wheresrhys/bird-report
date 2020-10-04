@@ -5,10 +5,10 @@ export function Record ({date, dates = [date], location = null, locations = [loc
   return (
     <>
       <div>
-        <b>
+        <breeding>
           {numberIndex}
           :
-        </b>
+        </breeding>
         {dates.map((date, i) => (
           <div>
             {locations[i] ? `${locations[i]}, ` : null}
