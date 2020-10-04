@@ -1,14 +1,10 @@
-const readXlsxFile = require('read-excel-file/node');
-
-
+const readXlsxFile = require('read-excel-file/node')
 
 // const getHistogram = records => {
 // 	const months = [...Array(12)].map(() => 0)
 // 	records.forEach(({date}) => months[date.getMonth()]++)
 // 	return months
 // }
-
-
 
 // const getStatus = records => {
 // 	// resident
@@ -50,7 +46,6 @@ const readXlsxFile = require('read-excel-file/node');
 // 	}
 // }
 
-
 // const getHighDayCounts = records => {
 // 	const byLocationAndDate = records.reduce((lists, record) => {
 // 		const key = record.location + record.date;
@@ -76,57 +71,61 @@ const readXlsxFile = require('read-excel-file/node');
 // 		.map(({location, date, total}) => ({location, date, total}))
 // }
 
+const analyseRecords = (records, {
+  w, s, b, a,
+}) => {
+  // Need a daily histogram
+  const results = {}
+  if (w) {
+    results.winter = analyseWinter(records)
+  }
+  if (s) {
+    results.spring = analyseSpring(records, { w, b })
+  }
 
-const analyseRecords = (records, {w, s, b, a}) => {
-	// Need a daily histogram
-	const results = {};
-	if (w) {
-		results.winter = analyseWinter(records);
-	}
-	if (s) {
-		results.spring = analyseSpring(records, {w, b})
-	}
+  if (b === 2) {
+    results.breeding = analyseBreeding(records, { b })
+  }
 
-	if (b === 2) {
-		results.breeding = analyseBreeding(records, {b})
-	}
+  if (a) {
+    results.autumn = analyseAutumn(records, {
+      w,
+      b,
+      ignoreLocations:
+				results.breeding
+				&& results.breeding.sites.map(({ location }) => location),
+    })
+  }
 
-	if (a) {
-		results.autumn = analyseAutumn(records, {w, b, ignoreLocations: results.breeding && results.breeding.sites.map(({location}) => location)})
-	}
+  results.innerLondon = group(
+    records.filter(({ viceCounty }) => viceCounty === 'IL'),
+    ({ location }) => location,
+  )
 
-	results.innerLondon = group(records.filter(({viceCounty}) => viceCounty === 'IL'), ({location}) => location)
-
-	return results
-}
+  return results
+};
 
 (async () => {
+  analyseRecords(getSpecies('Stonechat')(records), {
+    w: 3,
+    s: 3,
+    b: 2,
+    a: 3,
+  })
+  // analyseRecords(getSpecies('Wheatear')(records), {
+  //   w: 0,
+  //   s: 3,
+  //   b: 0,
+  //   a: 3
+  // })
+  // analyseRecords(getSpecies('Whinchat')(records), {
+  //   w: 0,
+  //   s: 3,
+  //   b: 0,
+  //   a: 3
+  // })
 
-
-	analyseRecords(getSpecies('Stonechat')(records), {
-		w: 3,
-		s: 3,
-		b: 2,
-		a: 3
-	})
-	// analyseRecords(getSpecies('Wheatear')(records), {
-	//   w: 0,
-	//   s: 3,
-	//   b: 0,
-	//   a: 3
-	// })
-	// analyseRecords(getSpecies('Whinchat')(records), {
-	//   w: 0,
-	//   s: 3,
-	//   b: 0,
-	//   a: 3
-	// })
-
-	// console.log(getSpringMigration())
-	// getHistogram(getSpecies('Whinchat')(records))
-	// getHistogram(getSpecies('Stonechat')(records))
-
-
+  // console.log(getSpringMigration())
+  // getHistogram(getSpecies('Whinchat')(records))
+  // getHistogram(getSpecies('Stonechat')(records))
 })()
-
-
