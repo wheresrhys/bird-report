@@ -66,6 +66,13 @@ const AccordionEntryCard = ({heading, body, eventKey}) => body ? (
 ) : <EntryCard heading={heading} />
 
 
+const TableRow = ({heading, content}) => (
+  <tr>
+    <th>{heading}</th>
+    <td>{content}</td>
+  </tr>
+)
+
 export const Entry = ({heading, records, isAccordion = false, index,
 	preContent = null, postContent = null}) => {
 	if (!records.length) {
@@ -76,34 +83,32 @@ export const Entry = ({heading, records, isAccordion = false, index,
     {preContent}
     <Table>
       <tbody>
-        <tr>
-          <th>Number of sites</th>
-          <td>{getNumberOfSites(records)}</td>
-        </tr>
-        <tr>
-          <th>Max citywide day count</th>
-          <td> 
-            {' '}
+        <TableRow
+          heading="Number of sites"
+          content={getNumberOfSites(records)}
+        />
+        <TableRow
+          heading="Max citywide day count"
+          content={(
             <Record {...aggregateByDay(
 records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
 	)(records)}
             />
-          </td>
-        </tr>
-        <tr>
-          <th>Max citywide sites in a day</th>
-          <td> 
-            {' '}
+)}
+        />
+        <TableRow
+          heading="Max citywide sites in a day"
+          content={(
             <Record {...aggregateByDay(
 records => records.length
 	)(records)}
             />
-          </td>
-        </tr>
-        <tr>
-          <th>High single site counts</th>
-          <td><Record {...aggregate(getOutliers(records, 'numberIndex'))} /></td>
-        </tr>
+)}
+        />
+        <TableRow
+          heading="High single site counts"
+          content={<Record {...aggregate(getOutliers(records, 'numberIndex'))} />}
+        />
       </tbody>
     </Table>
     {postContent}
