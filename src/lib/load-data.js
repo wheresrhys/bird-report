@@ -75,5 +75,5 @@ const init = (file) => Promise.all([
 module.exports = {
   init,
   // getGazetteer = ,
-  getRecords: () => records,
+  getRecords: () => records
 }

@@ -1,5 +1,4 @@
 todo.txt
-- styling
 - autodetect which birds are provided
 - manually enter config, also rethink what it looks like
 - summer

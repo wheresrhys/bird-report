@@ -7,6 +7,14 @@ const { init: loadData, getRecords } = require('./lib/load-data')
 
 let mainWindow
 
+ipcMain.handle('get-bird',
+  async (event, { bird }) => getRecords().filter(({ species }) => species === bird)
+)
+
+ipcMain.handle('get-species-list',
+  async (event) => [...getRecords().reduce((set, {species}) => set.add(species), new Set())]
+)
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
@@ -52,4 +60,4 @@ app.on('activate', () => {
   }
 })
 
-ipcMain.handle('get-bird', async (event, { bird }) => getRecords().filter(({ species }) => species === bird))
+
