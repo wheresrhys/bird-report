@@ -1,25 +1,32 @@
 import React from 'react'
-import {getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
+import {throughput, getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
 import {Season} from './Season'
 import { Record} from './Records'
-const getEarlies = ({records, distribution, passageMonths}) => {
+const getEarlies = ({records, distribution}) => {
 	if (distribution.w) return null
-	const earlies = findEarlyRecords(records, ...passageMonths)
+	const earlies = findEarlyRecords(records)
 	return {
 		heading: 'Earliest',
-		 content: <Record {...earlies} />
+		 content: <Record {...earlies} viewMoreHeading="View other early records" />
 	}
-
-
 }
 
-const getLates = ({records, distribution, breedingSites, passageMonths}) => {
+const getLates = ({records, distribution, breedingSites}) => {
 	if (distribution.b > 2) return null
-	const latest = findLateRecords(records.filter(({location}) => !breedingSites.includes(location)), ...passageMonths)
+	const latest = findLateRecords(records.filter(({location}) => !breedingSites.includes(location)))
 	return {
 		heading: distribution.b ? 'Latest non breeding' : 'Latest',
-		content: <Record {...latest} />
+		content: <Record {...latest} viewMoreHeading="View other late records" />
+	}
 }
+
+const estimateThroughput = ({records, distribution}) => {
+	return !(distribution.b > 2 || distribution.w > 2) ?  {
+		heading: 'Estimated total throughput',
+		content: <ul>
+			{Object.entries(throughput(records)).map(([name, value]) => <li><b>{name}</b>: {value}</li>)}
+		</ul>
+	} : null
 }
 
 export const Spring = ({records, distribution, breedingSites}) => {
@@ -31,16 +38,7 @@ export const Spring = ({records, distribution, breedingSites}) => {
 	if (!distribution.w) {
 		passageMonths.unshift(2, 3)
 	}
-	// // peaknumbers
-	// // total sites
-	// 	...((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
-	// }
-	// TODO - show multiple records for early and late
 
-	// if resident assume short distance migrant
-	// else assume long distance migrant
-	// If it's not a widespread breeder then we assume winter stretches
-	// into March
 	records = getMonthsOfRecords(records, ...passageMonths)
 
 	return (
@@ -52,14 +50,12 @@ export const Spring = ({records, distribution, breedingSites}) => {
     	[getEarlies({
     		records,
     		distribution,
-    		passageMonths
     	})]
     }
     postContent={
-			[getLates({
+			[estimateThroughput({records, distribution}), getLates({
     		records,
     		distribution,
-    		passageMonths,
     		breedingSites
     	})]
 }

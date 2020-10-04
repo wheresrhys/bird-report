@@ -8,6 +8,7 @@ todo.txt
 - peak passage + differentiate early trickles from the main flow
     + would help to have a graph over time
 - estimated throughput (upper + lower bounds, + different methodologies - calculate on demand... with slider)
+    + ((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
 - for guessed breeding sites bring out the records with descriptions
 - search for keywords in descriptions e.g greenland. Boolean OR
 - don't bother with citywide site count if it's less than about 5

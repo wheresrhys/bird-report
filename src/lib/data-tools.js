@@ -44,24 +44,37 @@ export const getOutliers = (
   const numbers = list.map((obj) => obj[prop])
   const m = mean(numbers)
   const sd = standardDeviation(numbers)
-  const comparator =		highLow === 'high'
+  const comparator = highLow === 'high'
 		  ? (val) => val >= m + tolerance * sd
 		  : (val) => val <= m - tolerance * sd
   return list.filter((obj, i) => comparator(obj[prop]) || i < minResults)
 }
 
-export const findEarlyRecords = (records, ...months) => {
-  records = getMonthsOfRecords(records, ...months).sort(earliestFirst)
+export const findEarlyRecords = (records) => {
+  records = records.sort(earliestFirst)
   return {
     ...records[0],
-    records: getOutliers(records, 'date', { highLow: 'low' }),
+    records: records.slice(0, 5)//getOutliers(records, 'date', { highLow: 'low' }),
   }
 }
 
-export const findLateRecords = (records, ...months) => {
-  records = getMonthsOfRecords(records, ...months).sort(latestFirst)
+export const findLateRecords = (records) => {
+  records = records.sort(latestFirst)
   return {
     ...records[0],
-    records: getOutliers(records, 'date'),
+    records: records.slice(0, 5)//getOutliers(records, 'date'),
+  }
+}
+
+export const throughput = (records) => {
+  records = records.sort(earliestFirst)
+  return {
+    'Upper bound': Math.round(records.reduce(
+      (total, { numberIndex }) => total + numberIndex,
+      0,
+    )),
+    'Lower bound': Math.round(group(records, ({ location }) => location)
+      .map((records) => Math.max(...records.map(({ numberIndex }) => numberIndex)))
+      .reduce((total, value) => total + value, 0)),
   }
 }

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Button, Collapse} from 'react-bootstrap'
 
-export function Record ({date, dates = [date], location = null, locations = [location], numberIndex, records}) {
+export function Record ({date, dates = [date], location = null, locations = [location], numberIndex, records, viewMoreHeading}) {
   return (
     <>
       <div>
@@ -16,7 +16,7 @@ export function Record ({date, dates = [date], location = null, locations = [loc
           </div>
 ))}
       </div>
-      {records ? <Records records={records} /> : null }
+      {records ? <Records records={records} heading={viewMoreHeading}/> : null }
     </>
 )
 }
