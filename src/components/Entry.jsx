@@ -1,18 +1,18 @@
-import React from 'react';
-import {group, getOutliers, sortPropDesc} from '../lib/data-tools';
-import {Card, Button, Accordion, Table} from 'react-bootstrap';
-import {Records, Record} from './Records';
+import React from 'react'
+import {Card, Button, Accordion, Table} from 'react-bootstrap'
+import {group, getOutliers, sortPropDesc} from '../lib/data-tools'
+import {Records, Record} from './Records'
 
 const getNumberOfSites = records => {
-	const sites = new Set();
-	records.forEach(({location}) => sites.add(location));
-	return [...sites].length;
+	const sites = new Set()
+	records.forEach(({location}) => sites.add(location))
+	return [...sites].length
 }
 
 const aggregate = records => {
 
-	const maxNumberIndex = records[0].numberIndex;
-	const occasions = records.filter(({numberIndex}) => numberIndex === maxNumberIndex);
+	const maxNumberIndex = records[0].numberIndex
+	const occasions = records.filter(({numberIndex}) => numberIndex === maxNumberIndex)
 
 	return {
 		...records[0],
@@ -43,23 +43,27 @@ const aggregateByDay = (func) => (records) => {
 		return aggregate(records)
 }
 
-const EntryCard = ({heading, body}) => <Card>
-  <Card.Header>
+const EntryCard = ({heading, body}) => (
+  <Card>
+    <Card.Header>
       {heading}
-  </Card.Header>
-  {body ? <Card.Body>{body}</Card.Body> : null}
-</Card>
+    </Card.Header>
+    {body ? <Card.Body>{body}</Card.Body> : null}
+  </Card>
+)
 
-const AccordionEntryCard = ({heading, body, eventKey}) => body ? <Card>
-  <Card.Header>
+const AccordionEntryCard = ({heading, body, eventKey}) => body ? (
+  <Card>
+    <Card.Header>
       <Accordion.Toggle as={Button} variant="link" eventKey={eventKey}>
         {heading}
       </Accordion.Toggle>
-  </Card.Header>
-  <Accordion.Collapse eventKey={eventKey}>
+    </Card.Header>
+    <Accordion.Collapse eventKey={eventKey}>
       <Card.Body>{body}</Card.Body>
     </Accordion.Collapse>
-</Card> : <EntryCard heading={heading} />
+  </Card>
+) : <EntryCard heading={heading} />
 
 
 export const Entry = ({heading, records, isAccordion = false, index,
@@ -67,25 +71,47 @@ export const Entry = ({heading, records, isAccordion = false, index,
 	if (!records.length) {
 		return null
 	}
-	const body = <>
-	{preContent}
-	<Table >
-  <tbody>
-    <tr><th>Number of sites</th><td>{getNumberOfSites(records)}</td></tr>
-		<tr><th>Max citywide day count</th><td> <Record {...aggregateByDay(
+	const body = (
+  <>
+    {preContent}
+    <Table>
+      <tbody>
+        <tr>
+          <th>Number of sites</th>
+          <td>{getNumberOfSites(records)}</td>
+        </tr>
+        <tr>
+          <th>Max citywide day count</th>
+          <td> 
+            {' '}
+            <Record {...aggregateByDay(
 records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
-	)(records)} /></td></tr>
-		<tr><th>Max citywide sites in a day</th><td> <Record {...aggregateByDay(
+	)(records)}
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>Max citywide sites in a day</th>
+          <td> 
+            {' '}
+            <Record {...aggregateByDay(
 records => records.length
-	)(records)} /></td></tr>
-		<tr><th>High single site counts</th><td><Record {...aggregate(getOutliers(records, 'numberIndex'))} /></td></tr>
-  </tbody>
-</Table>
-	{postContent}
-</>
+	)(records)}
+            />
+          </td>
+        </tr>
+        <tr>
+          <th>High single site counts</th>
+          <td><Record {...aggregate(getOutliers(records, 'numberIndex'))} /></td>
+        </tr>
+      </tbody>
+    </Table>
+    {postContent}
+  </>
+)
 
 	return isAccordion ?
-		<AccordionEntryCard heading={heading} body={body} eventKey={"" + index} /> : <EntryCard heading={heading} body={body} />
+  <AccordionEntryCard heading={heading} body={body} eventKey={`${  index}`} /> : <EntryCard heading={heading} body={body} />
 
 }
 
