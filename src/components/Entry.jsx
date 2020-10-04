@@ -1,25 +1,7 @@
 import React from 'react';
 import {getNumberOfSites, getCitywideSiteCounts, getCitywideCounts, getHighSiteCounts} from '../lib/data-tools';
-import {Card, Button, Accordion} from 'react-bootstrap';
-
-const CitywideCount = ({records}) => {
-	const {highestCount, details} = getCitywideCounts(records);
-	return <>{highestCount} ({details.map(({date}, i) => <>{i > 0 ? (<>, </>) : null}{date.toDateString()}</>)})</>
-}
-
-const CitywideSites = ({records}) => {
-	const {highestCount, details} = getCitywideSiteCounts(records);
-	return <>{highestCount} ({details.map(({date}, i) => <>{i > 0 ? <>, </> : null}{date.toDateString()}</>)})</>
-}
-
-const SingleSiteCounts = ({records}) => {
-	const counts = getHighSiteCounts(records);
-
-	return <ul>
-		{counts.map(({location, date, numberIndex}) => <li>{location}, {date.toDateString()}: <b>{numberIndex}</b></li>)}
-	</ul>
-}
-
+import {Card, Button, Accordion, Table} from 'react-bootstrap';
+import {Records, Record} from './Records';
 
 const EntryCard = ({heading, body}) => <Card>
   <Card.Header>
@@ -39,19 +21,22 @@ const AccordionEntryCard = ({heading, body, eventKey}) => body ? <Card>
     </Accordion.Collapse>
 </Card> : <EntryCard heading={heading} />
 
+
 export const Entry = ({heading, records, isAccordion = false, index,
 	preContent = null, postContent = null}) => {
 	if (!records.length) {
-		return <EntryCard heading={`${heading}: No records`} />
+		return null
 	}
 	const body = <>
 	{preContent}
-	<ul>
-	<li>Number of sites: {getNumberOfSites(records)}</li>
-	<li>Max citywide day count: <CitywideCount records={records} /></li>
-	<li>Max citywide sites in a day: <CitywideSites records={records} /></li>
-	<li>Single site counts: <SingleSiteCounts records={records} /></li>
-	</ul>
+	<Table >
+  <tbody>
+    <tr><th>Number of sites</th><td>{getNumberOfSites(records)}</td></tr>
+		<tr><th>Max citywide day count</th><td> <Record {...getCitywideCounts(records)} /></td></tr>
+		<tr><th>Max citywide sites in a day</th><td> <Record {...getCitywideSiteCounts(records)} /></td></tr>
+		<tr><th>High single site counts</th><td><Record {...getHighSiteCounts(records)} /></td></tr>
+  </tbody>
+</Table>
 	{postContent}
 </>
 

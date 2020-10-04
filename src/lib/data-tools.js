@@ -36,7 +36,7 @@ export const clean = records => group(records, ({date, location}) => location + 
 		records = records.sort(sortPropDesc('numberIndex'))
 		return {
 			...records[0],
-			records
+			...(records.length > 1 ? {records} : {})
 		}
 	})
 
@@ -57,25 +57,26 @@ export const getCitywideCounts = (records) => {
 			items: list,
 			date: list[0].date,
 			sites: list.length,
-			total: list.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
+			numberIndex: list.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
 		}))
-		.sort(sortPropDesc('total'))
+		.sort(sortPropDesc('numberIndex'))
 
 		if (!counts.length) {
 			return  {
-		highestCount: 0,
+		numberIndex: 0,
 		details: [],
 		all: [],
 		outliers: []
 	}
 		}
-		const highestCount = counts[0].total;
-
+		const maxNumberIndex = counts[0].numberIndex;
+const occasions = counts.filter(({numberIndex}) => numberIndex === maxNumberIndex);
 	return {
-		highestCount,
-		details: counts.filter(({total}) => total === highestCount),
-		all: counts,
-		outliers: getOutliers(counts, 'total')
+		...counts[0],
+		...(occasions.length > 1 ? {
+			dates: occasions.map(({date}) => date)
+		} : {}),
+		records: getOutliers(counts, 'numberIndex')
 	}
 }
 
@@ -84,30 +85,46 @@ export const getCitywideSiteCounts = (records) => {
 		.map(list => ({
 			items: list,
 			date: list[0].date,
-			sites: list.length,
-			total: list.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
+			numberIndex: list.length,
 		}))
 		.sort(sortPropDesc('sites'))
 
 		if (!counts.length) {
 			return  {
-				highestCount: 0,
+				numberIndex: 0,
 				details: [],
 				all: [],
 				outliers: []
 			}
 		}
-		const highestCount = counts[0].sites;
+		const maxSitesCount = counts[0].numberIndex;
+
+	const occasions = counts.filter(({numberIndex}) => numberIndex === maxSitesCount);
 
 	return {
-		highestCount,
-		details: counts.filter(({sites}) => sites === highestCount),
-		all: counts,
-		outliers: getOutliers(counts, 'sites')
+		...counts[0],
+		...(occasions.length > 1 ? {
+			dates: occasions.map(({date}) => date)
+		} : {}),
+		records: getOutliers(counts, 'numberIndex')
 	}
 }
 
-export const getHighSiteCounts = (records) => getOutliers(records, 'numberIndex')
+export const getHighSiteCounts = (records) => {
+
+	records = getOutliers(records, 'numberIndex');
+	const max = records[0].numberIndex;
+	const occasions = records.filter(({numberIndex}) => numberIndex === max);
+
+	return {
+		...records[0],
+		...(occasions.length > 1 ? {
+			dates: occasions.map(({date}) => date),
+			locations: occasions.map(({location}) => location),
+		} : {}),
+		records
+	}
+}
 
 export const findEarlyRecords = (records, ...months) => {
 	records = getMonthsOfRecords(records, ...months).sort(earliestFirst);

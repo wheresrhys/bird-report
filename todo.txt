@@ -10,3 +10,4 @@ todo.txt
 - estimated throughput
 - for guessed breeding sites bring out the records with descriptions
 - search for keywords in descriptions e.g greenland. Boolean OR
+- don't bother with citywide site count if it's less than about 5
