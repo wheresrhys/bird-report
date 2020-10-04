@@ -7,9 +7,8 @@ todo.txt
 - repeat file upload
 - peak passage + differentiate early trickles from the main flow
     + would help to have a graph over time
-- estimated throughput
+- estimated throughput (upper + lower bounds, + different methodologies - calculate on demand... with slider)
 - for guessed breeding sites bring out the records with descriptions
 - search for keywords in descriptions e.g greenland. Boolean OR
 - don't bother with citywide site count if it's less than about 5
-- that memory leak
 - pass bird data as props to bird page to avoid the weird infinite loop

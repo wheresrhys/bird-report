@@ -74,15 +74,17 @@ const TableRow = ({heading, content}) => (
 )
 
 export const Entry = ({heading, records, isAccordion = false, index,
-	preContent = null, postContent = null}) => {
+	preContent = [], postContent = []}) => {
 	if (!records.length) {
 		return null
 	}
+	console.log(preContent, postContent)
 	const body = (
   <>
-    {preContent}
+
     <Table>
       <tbody>
+        {preContent.map(props => <TableRow {...props} />)}
         <TableRow
           heading="Number of sites"
           content={getNumberOfSites(records)}
@@ -109,9 +111,10 @@ records => records.length
           heading="High single site counts"
           content={<Record {...aggregate(getOutliers(records, 'numberIndex'))} />}
         />
+        {postContent.map(props => <TableRow {...props} />)}
       </tbody>
     </Table>
-    {postContent}
+
   </>
 )
 

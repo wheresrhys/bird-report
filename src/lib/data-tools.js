@@ -53,15 +53,15 @@ export const getOutliers = (
 export const findEarlyRecords = (records, ...months) => {
   records = getMonthsOfRecords(records, ...months).sort(earliestFirst)
   return {
-    earliest: records[0],
-    early: getOutliers(records, 'date', { highLow: 'low' }),
+    ...records[0],
+    records: getOutliers(records, 'date', { highLow: 'low' }),
   }
 }
 
 export const findLateRecords = (records, ...months) => {
   records = getMonthsOfRecords(records, ...months).sort(latestFirst)
   return {
-    latest: records[0],
-    late: getOutliers(records, 'date'),
+    ...records[0],
+    records: getOutliers(records, 'date'),
   }
 }

@@ -7,7 +7,7 @@ const MONTH_NAMES = [null, 'January', 'February', 'March', 'April', 'May', 'June
 
 const monthsToNames = months => `${MONTH_NAMES[months[0]]} to ${MONTH_NAMES[months[months.length-1]]}`
 
-export function Season ({heading, extraSummary = null, months, records}) {
+export function Season ({heading, preContent, postContent, months, records}) {
 return (
   <section>
     <h2>
@@ -19,7 +19,7 @@ return (
     </h2>
 
     <Accordion defaultActiveKey="0">
-      <Entry isAccordion index={0} heading="Summary" records={getMonthsOfRecords(records, ...months)} extraContent={extraSummary} />
+      <Entry isAccordion index={0} heading="Summary" records={getMonthsOfRecords(records, ...months)} preContent={preContent} postContent={postContent} />
 
       {months.map((month, index) =>
 

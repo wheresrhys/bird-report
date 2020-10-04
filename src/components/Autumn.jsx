@@ -1,63 +1,25 @@
 import React from 'react'
 import {getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
 import {Season} from './Season'
-
-const Earlies = ({records, distribution, breedingSites, passageMonths}) => {
+import { Record} from './Records'
+const getEarlies = ({records, distribution, breedingSites, passageMonths}) => {
 	if (distribution.b > 2) return null
 	const earlies = findEarlyRecords(records.filter(({location}) => !breedingSites.includes(location)), ...passageMonths)
-	return (
-  <div>
-    {distribution.b ? 'Earliest non breeding' : 'Earliest'}
-    :
-    {' '}
-    {earlies.earliest.location}
-    ,
-    {' '}
-    {earlies.earliest.date.toDateString()}
-    <ul>
-      {earlies.early.map(({location, date, numberIndex}) => (
-        <li key={`${location}${date.toDateString()}`}>
-          {location}
-          ,
-          {' '}
-          {date.toDateString()}
-          :
-          {' '}
-          <b>{numberIndex}</b>
-        </li>
-))}
-    </ul>
+	return {
+		heading: distribution.b ? 'Earliest non breeding' : 'Earliest',
 
-  </div>
-)
+
+  content: <Record {...earlies} />
+
+}
 }
 
-// TODO need to clean data to get rid of duplicates which are
-// skewing the distribution
-const Lates = ({records, distribution, passageMonths}) => {
+const getLates = ({records, distribution, passageMonths}) => {
 	if (distribution.w) return null
 	const latest = findLateRecords(records, ...passageMonths)
-	return (
-  <div>
-    Latest:
-    {latest.latest.location}
-    ,
-    {latest.latest.date.toDateString()}
-    <ul>
-      {latest.late.map(({location, date, numberIndex}) => (
-        <li key={`${location}${date.toDateString()}`}>
-          {location}
-          ,
-          {' '}
-          {date.toDateString()}
-          :
-          {' '}
-          <b>{numberIndex}</b>
-        </li>
-))}
-    </ul>
-  </div>
-)
+	return {heading: 'Latest',
+  content: <Record {...latest} />
+}
 }
 
 export const Autumn = ({records, distribution, breedingSites}) => {
@@ -82,8 +44,22 @@ export const Autumn = ({records, distribution, breedingSites}) => {
     heading="Autumn passage"
     months={passageMonths}
     records={records}
-    preContent={<Earlies records={records} distribution={distribution} passageMonths={passageMonths} breedingSites={breedingSites} />}
-    postContent={<Lates records={records} distribution={distribution} passageMonths={passageMonths} />}
+    preContent={
+    	[getEarlies({
+    		records,
+    		distribution,
+    		passageMonths,
+    		breedingSites
+    	})]
+    }
+    postContent={
+			[getLates({
+    		records,
+    		distribution,
+    		passageMonths,
+
+    	})]
+}
   />
 )
 }
