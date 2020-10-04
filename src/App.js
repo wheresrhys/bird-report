@@ -25,7 +25,6 @@ const App = () => (
           <Route path="/bird/:bird">
             <BirdPage />
           </Route>
-          <Route path="/" />
         </Switch>
       </Router>
     </div>

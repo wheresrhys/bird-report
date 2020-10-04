@@ -52,4 +52,4 @@ app.on('activate', () => {
   }
 })
 
-ipcMain.handle('get-bird', async (event, { bird }) => getRecords().filter(({ species }) => species === bird))
+ipcMain.handle('get-bird', async (event, { bird }) => getRecords().filter(({ species }) => species === bird).slice(0, 50))

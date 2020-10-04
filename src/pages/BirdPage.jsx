@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   Link,
   useParams
@@ -26,16 +26,23 @@ const getBreedingSites = records => {
 		.filter(items => !!items)
 }
 
-export const BirdPage = () => {
 
+const birdsCache = {}
+
+export const BirdPage = () => {
   const { bird } = useParams()
-  const [birdData, setBirdData] = useState({distribution : {}})
-  ipcRenderer.invoke('get-bird', {bird}).then(data => {
-  	setBirdData({
+  const [birdData, setBirdData] = useState(birdsCache[bird] || {distribution : {}})
+  const fetchData = () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
+  	birdsCache[bird] = {
   		records: clean(data),
   		distribution: birds[bird]
-  	})
+  	}
+  	setBirdData(birdsCache[bird])
   })
+
+  useEffect(() => {
+  	fetchData()
+  }, [])
 
 	let breedingSites = []
 	if (birdData.distribution.b && birdData.distribution.b < 3) {

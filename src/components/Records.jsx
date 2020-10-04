@@ -33,11 +33,13 @@ export function Records({records, heading = 'View records'}) {
       >
         {heading}
       </Button>
-      <Collapse in={open}>
-        <ul>
-          {records.map(props => <li><Record {...props} /></li>)}
-        </ul>
-      </Collapse>
+      {open ? (
+        <Collapse in={open}>
+          <ul>
+            {records.map(props => <li><Record {...props} /></li>)}
+          </ul>
+        </Collapse>
+)  : null}
     </>
   )
 }

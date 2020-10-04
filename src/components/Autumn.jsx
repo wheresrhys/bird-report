@@ -8,20 +8,20 @@ const Earlies = ({records, distribution, breedingSites, passageMonths}) => {
 	return (
   <div>
     {distribution.b ? 'Earliest non breeding' : 'Earliest'}
-    : 
+    :
     {' '}
     {earlies.earliest.location}
-    , 
+    ,
     {' '}
     {earlies.earliest.date.toDateString()}
     <ul>
       {earlies.early.map(({location, date, numberIndex}) => (
-        <li>
+        <li key={`${location}${date.toDateString()}`}>
           {location}
-          , 
+          ,
           {' '}
           {date.toDateString()}
-          : 
+          :
           {' '}
           <b>{numberIndex}</b>
         </li>
@@ -45,12 +45,12 @@ const Lates = ({records, distribution, passageMonths}) => {
     {latest.latest.date.toDateString()}
     <ul>
       {latest.late.map(({location, date, numberIndex}) => (
-        <li>
+        <li key={`${location}${date.toDateString()}`}>
           {location}
-          , 
+          ,
           {' '}
           {date.toDateString()}
-          : 
+          :
           {' '}
           <b>{numberIndex}</b>
         </li>
