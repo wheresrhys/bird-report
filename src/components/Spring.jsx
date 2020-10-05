@@ -2,6 +2,7 @@ import React from 'react'
 import {throughput, getMonthsOfRecords, findLateRecords, findEarlyRecords} from '../lib/data-tools'
 import {Season} from './Season'
 import { Record} from './Records'
+
 const getEarlies = ({records, distribution}) => {
 	if (distribution.winter) return null
 	const earlies = findEarlyRecords(records)
@@ -24,8 +25,15 @@ const estimateThroughput = ({records, distribution}) => {
 	return !(distribution.breeding > 2 || distribution.winter > 2) ?  {
 		heading: 'Estimated total throughput',
 		content: <ul>
-			{Object.entries(throughput(records)).map(([name, value]) => <li><breeding>{name}</breeding>: {value}</li>)}
-		</ul>
+  {Object.entries(throughput(records)).map(([name, value]) => (
+    <li>
+      <breeding>{name}</breeding>
+      : 
+      {' '}
+      {value}
+    </li>
+))}
+</ul>
 	} : null
 }
 

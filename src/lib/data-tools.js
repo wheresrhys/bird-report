@@ -54,7 +54,7 @@ export const findEarlyRecords = (records) => {
   records = records.sort(earliestFirst)
   return {
     ...records[0],
-    records: records.slice(0, 5)//getOutliers(records, 'date', { highLow: 'low' }),
+    records: records.slice(0, 5)// getOutliers(records, 'date', { highLow: 'low' }),
   }
 }
 
@@ -62,7 +62,7 @@ export const findLateRecords = (records) => {
   records = records.sort(latestFirst)
   return {
     ...records[0],
-    records: records.slice(0, 5)//getOutliers(records, 'date'),
+    records: records.slice(0, 5)// getOutliers(records, 'date'),
   }
 }
 

@@ -16,7 +16,7 @@ export function Record ({date, dates = [date], location = null, locations = [loc
           </div>
 ))}
       </div>
-      {records ? <Records records={records} heading={viewMoreHeading}/> : null }
+      {records ? <Records records={records} heading={viewMoreHeading} /> : null }
     </>
 )
 }
