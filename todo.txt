@@ -1,6 +1,4 @@
 todo.txt
-- autodetect which birds are provided
-- manually enter config, also rethink what it looks like
 - summer
 - inner city records
 - repeat file upload

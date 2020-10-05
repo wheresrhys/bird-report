@@ -18,13 +18,14 @@ const Dropdown = ({value, species, season}) => {
   const [speciesConfigs, setSpecies] = useContext(Species)
 
   const updateSpecies = (event) => {
-    const clone = cloneDeep(speciesConfigs)
+    const clone = cloneDeep(speciesConfigs || {})
     clone[species][season] = Number(event.target.value)
     setSpecies(clone)
   }
 
   return (
     <Form.Control as="select" value={value} onChange={updateSpecies}>
+      <option value={null}>Please select</option>
       <option value={UNKNOWN}>UNKNOWN</option>
       <option value={VAGRANT}>VAGRANT</option>
       <option value={HIGHLY_LOCALISED}>HIGHLY_LOCALISED</option>

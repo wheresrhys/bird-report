@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import logo from './logo.svg'
 import './App.css'
@@ -19,10 +19,9 @@ const App = () => {
     setSpeciesList(data)
     setSpecies(Object.fromEntries(data.map(name => ([name, {}]))))
   })
-
-  useEffect(() => {
+  if (!Object.keys(species).length) {
     fetchSpeciesList()
-  }, [])
+  }
 
   return (
     <Species.Provider value={[species, setSpecies]}>
