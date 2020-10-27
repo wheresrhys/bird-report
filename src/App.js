@@ -4,7 +4,6 @@ import logo from './logo.svg'
 import './App.css'
 
 import { BirdPage } from './pages/BirdPage'
-import { ConfigPage } from './pages/ConfigPage'
 import { Navbar } from 'react-bootstrap'
 import { Species } from './lib/Context.js'
 
@@ -41,7 +40,6 @@ const App = () => {
               <BirdPage />
             </Route>
             <Route path="/">
-              <ConfigPage />
             </Route>
           </Switch>
 

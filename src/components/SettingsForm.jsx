@@ -1,10 +1,7 @@
 import React, { useContext} from 'react'
 import {Form} from 'react-bootstrap'
 import cloneDeep from 'lodash.clonedeep'
-import {useLocalStorage} from 'react-use'
-import { Species } from '../lib/Context'
-
-
+import {useLocalStorage} from '../lib/useLocalStorage'
 
 import {UNKNOWN,
  VAGRANT,
@@ -43,9 +40,7 @@ const Dropdown = ({value, species, season, setDistribution, distribution}) => {
 )
  }
 
-const SettingsForm = ({species}) => {
-
-  const [distribution, setDistribution] = useLocalStorage(species, {})
+export const SettingsForm = ({species, distribution, setDistribution}) => {
 
   const {winter, springPassage, breeding, autumnPassage} = distribution
 
@@ -66,13 +61,4 @@ const SettingsForm = ({species}) => {
 
 
 
-export const ConfigPage = () => {
-
-  const [speciesList] = useContext(Species)
-  return (
-    <Form>
-      {speciesList.map(species => <SettingsForm species={species} />)}
-    </Form>
-)
-}
 

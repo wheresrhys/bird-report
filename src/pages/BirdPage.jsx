@@ -4,12 +4,13 @@ import {
   useParams,Redirect
 } from 'react-router-dom'
 import {Tabs, Tab} from 'react-bootstrap'
-import {useLocalStorage} from 'react-use'
+import {useLocalStorage} from '../lib/useLocalStorage'
 import { Species } from '../lib/Context'
 import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
 import {Trends} from '../components/Trends'
 import {Months} from '../components/Months'
+import {SettingsForm} from '../components/SettingsForm'
 import {Autumn} from '../components/Autumn'
 import {getMonthsOfRecords, group, clean} from '../lib/data-tools'
 
@@ -33,32 +34,29 @@ const birdsCache = {}
 
 export const BirdPage = () => {
 
-  const { bird } = useParams()
+  const { bird } = useParams();
 
   const [records, setBirdData] = useState(birdsCache[bird] || [])
-  const [distribution] = useLocalStorage(bird)
-
-  if (!distribution || Object.keys(distribution).length < 4) {
-    return <Redirect to="/" />
-  }
+  const [distribution, setDistribution] = useLocalStorage(bird)
+  console.log(bird, distribution)
 
   const fetchData = () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
-  	birdsCache[bird] = clean(data)
-  	setBirdData(birdsCache[bird])
+    birdsCache[bird] = clean(data)
+    setBirdData(birdsCache[bird])
   })
   if (!birdsCache[bird]) {
     fetchData()
   }
 
-	let breedingSites = []
-	if (distribution.breeding && distribution.breeding < 3) {
-		breedingSites = getBreedingSites(records)
-	}
+  let breedingSites = []
+  if (distribution.breeding && distribution.breeding < 3) {
+    breedingSites = getBreedingSites(records)
+  }
 
   const birdData = {records, distribution}
 
 
-	return (
+  return (
   <>
     <h1>{bird}</h1>
     <Trends {...birdData} />
@@ -84,7 +82,11 @@ export const BirdPage = () => {
       <Tab eventKey="autumn" title="Autumn passage" disabled={!distribution.autumnPassage}>
         {distribution.autumnPassage ? <Autumn {...birdData} breedingSites={breedingSites} /> : null}
       </Tab>
+      <Tab eventKey="settings" title="Settings" >
+        <SettingsForm species={bird} distribution={distribution} setDistribution={setDistribution}/>
+      </Tab>
     </Tabs>
   </>
-)}
+  )
+}
 
