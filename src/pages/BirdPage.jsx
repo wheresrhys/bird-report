@@ -8,6 +8,7 @@ import {useLocalStorage} from 'react-use'
 import { Species } from '../lib/Context'
 import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
+import {Trends} from '../components/Trends'
 import {Months} from '../components/Months'
 import {Autumn} from '../components/Autumn'
 import {getMonthsOfRecords, group, clean} from '../lib/data-tools'
@@ -60,6 +61,7 @@ export const BirdPage = () => {
 	return (
   <>
     <h1>{bird}</h1>
+    <Trends {...birdData} />
     <Tabs defaultActiveKey="months" id="uncontrolled-tab-example">
       <Tab eventKey="months" title="Individual months">
         <Months {...birdData} />

@@ -10,7 +10,7 @@ const monthsToNames = months => `${MONTH_NAMES[months[0]]} to ${MONTH_NAMES[mont
 export function Months ({heading, preContent, postContent, months, records}) {
 return (
   <section>
-    <Accordion defaultActiveKey="0">
+    <Accordion>
 
       {MONTH_NAMES.map((month, index) =>
 
