@@ -21,6 +21,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-use": "^15.3.4",
     "read-excel-file": "^4.0.7",
     "simple-statistics": "^7.3.0"
   },

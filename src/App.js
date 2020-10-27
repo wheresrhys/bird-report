@@ -13,17 +13,15 @@ const { ipcRenderer } = window.require('electron')
 const App = () => {
 
   const [speciesList, setSpeciesList] = useState([])
-  const [species, setSpecies] = useState({})
   const fetchSpeciesList = () => ipcRenderer.invoke('get-species-list').then(data => {
     setSpeciesList(data)
-    setSpecies(Object.fromEntries(data.map(name => ([name, {}]))))
   })
-  if (!Object.keys(species).length) {
+  if (!speciesList.length) {
     fetchSpeciesList()
   }
 
   return (
-    <Species.Provider value={[species, setSpecies]}>
+    <Species.Provider value={[speciesList, setSpeciesList]}>
       <Router>
         {' '}
         <Navbar bg="light" expand="lg">

@@ -4,6 +4,7 @@ import {
   useParams,Redirect
 } from 'react-router-dom'
 import {Tabs, Tab} from 'react-bootstrap'
+import {useLocalStorage} from 'react-use'
 import { Species } from '../lib/Context'
 import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
@@ -32,14 +33,13 @@ const birdsCache = {}
 export const BirdPage = () => {
 
   const { bird } = useParams()
-  const [records, setBirdData] = useState(birdsCache[bird] || [])
-  const [speciesConfigs] = useContext(Species)
 
-  if (!speciesConfigs[bird] || Object.keys(speciesConfigs[bird]).length < 4) {
+  const [records, setBirdData] = useState(birdsCache[bird] || [])
+  const [distribution] = useLocalStorage(bird)
+
+  if (!distribution || Object.keys(distribution).length < 4) {
     return <Redirect to="/" />
   }
-
-  const distribution = speciesConfigs[bird]
 
   const fetchData = () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
   	birdsCache[bird] = clean(data)
@@ -61,7 +61,10 @@ export const BirdPage = () => {
   <>
     <h1>{bird}</h1>
     <Tabs defaultActiveKey="months" id="uncontrolled-tab-example">
-      <Tab eventKey="months" title="Individual months"><Months {...birdData} /> </Tab>
+      <Tab eventKey="months" title="Individual months">
+        <Months {...birdData} />
+        {' '}
+      </Tab>
       <Tab eventKey="winter" title="Winter" disabled={!distribution.winter}>
         {distribution.winter ? (
           <>

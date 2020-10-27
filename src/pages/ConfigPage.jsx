@@ -1,7 +1,10 @@
 import React, { useContext} from 'react'
 import {Form} from 'react-bootstrap'
 import cloneDeep from 'lodash.clonedeep'
+import {useLocalStorage} from 'react-use'
 import { Species } from '../lib/Context'
+
+
 
 import {UNKNOWN,
  VAGRANT,
@@ -14,13 +17,18 @@ const SPRING = 'springPassage'
 const BREEDING = 'breeding'
 const AUTUMN = 'autumnPassage'
 
-const Dropdown = ({value, species, season}) => {
-  const [speciesConfigs, setSpecies] = useContext(Species)
+const Dropdown = ({value, species, season, setDistribution, distribution}) => {
 
   const updateSpecies = (event) => {
-    const clone = cloneDeep(speciesConfigs || {})
-    clone[species][season] = Number(event.target.value)
-    setSpecies(clone)
+    const value = Number(event.target.value)
+    if (isNaN(value)) {
+      const clone = {...distribution}
+      delete clone[season]
+      setDistribution(clone)
+    } else {
+      setDistribution({...distribution, [season]: value})
+    }
+
   }
 
   return (
@@ -35,18 +43,23 @@ const Dropdown = ({value, species, season}) => {
 )
  }
 
-const SettingsForm = ({species, winter, springPassage, breeding, autumnPassage}) => {
+const SettingsForm = ({species}) => {
+
+  const [distribution, setDistribution] = useLocalStorage(species, {})
+
+  const {winter, springPassage, breeding, autumnPassage} = distribution
+
   return (
     <Form.Group>
       <h2>{species}</h2>
       <Form.Label>Winter</Form.Label>
-      <Dropdown value={winter} species={species} season="winter" />
+      <Dropdown value={winter} species={species} setDistribution={setDistribution} distribution={distribution} season="winter" />
       <Form.Label>Spring passage</Form.Label>
-      <Dropdown value={springPassage} species={species} season="springPassage" />
+      <Dropdown value={springPassage} species={species} setDistribution={setDistribution} distribution={distribution} season="springPassage" />
       <Form.Label>Breeding</Form.Label>
-      <Dropdown value={breeding} species={species} season="breeding" />
+      <Dropdown value={breeding} species={species} setDistribution={setDistribution} distribution={distribution} season="breeding" />
       <Form.Label>Autumn passage</Form.Label>
-      <Dropdown value={autumnPassage} species={species} season="autumnPassage" />
+      <Dropdown value={autumnPassage} species={species} setDistribution={setDistribution} distribution={distribution} season="autumnPassage" />
     </Form.Group>
 )
 }
@@ -55,15 +68,10 @@ const SettingsForm = ({species, winter, springPassage, breeding, autumnPassage})
 
 export const ConfigPage = () => {
 
-  const [speciesConfigs] = useContext(Species)
-
-
+  const [speciesList] = useContext(Species)
   return (
     <Form>
-      {
-
-    Object.entries(speciesConfigs).map(([species, config]) => <SettingsForm species={species} {...config} />)
-  }
+      {speciesList.map(species => <SettingsForm species={species} />)}
     </Form>
 )
 }
