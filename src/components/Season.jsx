@@ -20,11 +20,6 @@ return (
 
     <Accordion defaultActiveKey="0">
       <Entry isAccordion index={0} heading="Summary" records={getMonthsOfRecords(records, ...months)} preContent={preContent} postContent={postContent} />
-
-      {months.map((month, index) =>
-
-        <Entry isAccordion index={index + 1} heading={MONTH_NAMES[month]} records={getMonthsOfRecords(records, month)} />
-		)}
     </Accordion>
 
 

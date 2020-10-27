@@ -73,12 +73,11 @@ const TableRow = ({heading, content}) => (
   </tr>
 )
 
-export const Entry = ({heading, records, isAccordion = false, index,
-	preContent = [], postContent = []}) => {
+export const Entry = ({allowEmpty = false, heading, records, isAccordion = false, index,
+  preContent = [], postContent = []}) => {
 	if (!records.length) {
-		return null
+		return allowEmpty  ?  <EntryCard heading={heading} body={null} />: null
 	}
-	console.log(preContent, postContent)
 	const body = (
   <>
 
@@ -118,8 +117,9 @@ records => records.length
   </>
 )
 
-	return isAccordion ?
-  <AccordionEntryCard heading={heading} body={body} eventKey={`${  index}`} /> : <EntryCard heading={heading} body={body} />
+  const Wrapper = isAccordion ? AccordionEntryCard : EntryCard
+
+	return <Wrapper heading={heading} body={body} eventKey={`${  index}`} />
 
 }
 
