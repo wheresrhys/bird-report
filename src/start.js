@@ -23,7 +23,6 @@ function createWindow() {
   })
   mainWindow.maximize()
   // mainWindow.webContents.openDevTools()
-
   dialog
     .showOpenDialog(mainWindow, {
       title: 'Select an excel file of bird records',

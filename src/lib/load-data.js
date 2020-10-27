@@ -36,8 +36,12 @@ const loadRecords = (file) => readXlsxFile(file, {
       prop: 'viceCounty',
       type: String,
     },
+    Sector: {
+      prop: 'sector',
+      type: String,
+    },
   },
-}).then(({ rows }) => (records = rows))
+}).then(({ rows, errors }) => (records = rows.map(row => ({...row, viceCounty: row.viceCounty || row.sector}))))
 
 // const loadGazetteer = () => readXlsxFile(__dirname + '/2018 Gazetteer v7.xlsx', {schema: {
 // 	'Place': {

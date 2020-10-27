@@ -5,7 +5,6 @@ import './App.css'
 
 import { BirdPage } from './pages/BirdPage'
 import { ConfigPage } from './pages/ConfigPage'
-import birds from './config/birds'
 import { Navbar } from 'react-bootstrap'
 import { Species } from './lib/Context.js'
 
