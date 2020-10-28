@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Button, Accordion, Table} from 'react-bootstrap'
 import {group, getOutliers, sortPropDesc} from '../lib/data-tools'
-import {Records, Record} from './Records'
+import {Records, Record, AllRecords} from './Records'
 
 const getNumberOfSites = records => {
 	const sites = new Set()
@@ -68,16 +68,28 @@ const AccordionEntryCard = ({heading, body, eventKey}) => body ? (
 
 const TableRow = ({heading, content}) => (
   <tr>
-    <th>{heading}</th>
+    <th style={{minWidth: '100px'}}>{heading}</th>
     <td>{content}</td>
   </tr>
 )
+
+const MaxOrForgetIt = ({aggregate, threshold = 1}) => {
+  return aggregate.numberIndex > threshold ? <Record {...aggregate} /> : <div>Nothing of note</div>;
+}
 
 export const Entry = ({allowEmpty = false, heading, records, isAccordion = false, index,
   preContent = [], postContent = []}) => {
 	if (!records.length) {
 		return allowEmpty  ?  <EntryCard heading={heading} body={null} />: null
 	}
+
+  const maxCitywideDayCount = aggregateByDay(
+records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
+  )(records);
+
+  const numberOfSites = getNumberOfSites(records);
+  const highSingleSiteCount = aggregate(getOutliers(records, 'numberIndex'));
+
 	const body = (
   <>
 
@@ -86,34 +98,34 @@ export const Entry = ({allowEmpty = false, heading, records, isAccordion = false
         {preContent.map(props => <TableRow {...props} />)}
         <TableRow
           heading="Number of sites"
-          content={getNumberOfSites(records)}
+          content={numberOfSites}
         />
-        <TableRow
-          heading="Max citywide day count"
-          content={(
-            <Record {...aggregateByDay(
-records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
-	)(records)}
-            />
-)}
-        />
-        <TableRow
-          heading="Max citywide sites in autumnPassage day"
+        {numberOfSites > 1 ? <TableRow
+          heading="Max citywide sites in day"
           content={(
             <Record {...aggregateByDay(
 records => records.length
-	)(records)}
+  )(records)}
             />
 )}
-        />
-        <TableRow
+        /> : null}
+        { maxCitywideDayCount.numberIndex > 1 ? <TableRow
+          heading="Max citywide day count"
+          content={(
+            <Record {...maxCitywideDayCount}
+            />
+)}
+        /> : null}
+
+        {highSingleSiteCount.numberIndex > 1 ? <TableRow
           heading="High single site counts"
-          content={<Record {...aggregate(getOutliers(records, 'numberIndex'))} />}
-        />
+          content={<Record {...highSingleSiteCount} />}
+        /> : null}
         {postContent.map(props => <TableRow {...props} />)}
+
       </tbody>
     </Table>
-
+    <Records records={records} heading="View all records" />
   </>
 )
 

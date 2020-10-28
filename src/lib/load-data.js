@@ -40,6 +40,10 @@ const loadRecords = (file) => readXlsxFile(file, {
       prop: 'sector',
       type: String,
     },
+    Observer: {
+      prop: 'observer',
+      type: String
+    }
   },
 }).then(({ rows, errors }) => (records = rows.map(row => ({...row, viceCounty: row.viceCounty || row.sector}))))
 
