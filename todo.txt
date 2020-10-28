@@ -16,5 +16,4 @@ todo.txt
 - when drilled WAY down onto records show the notes and other columns
 - BUG - high single site counst only show one sitewhen clicking view records
 - High single site/london wide counts when is only 1 is pointless... maybe even 2 or 3
-- Maybe just do a monthly breakdown, with some kind of shading on the row to indicate NUMBER, and an extra each row for the summaries
-- Top row shoudl be a graph - 1px per day showing total sites and numbers
+
