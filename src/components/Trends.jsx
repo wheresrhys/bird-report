@@ -1,5 +1,5 @@
 import React from 'react'
-import {AreaChart, Area, XAxis, YAxis} from 'recharts';
+import {AreaChart, Area, XAxis, YAxis, Tooltip} from 'recharts';
 import moment from 'moment';
 
 import {group} from '../lib/data-tools'
@@ -39,6 +39,7 @@ export function Trends ({records}) {
   </defs>
 <XAxis dataKey="month" />
  <YAxis />
+ <Tooltip/>
   <Area type="monotone" dataKey="locations" stroke="#8884d8" fillOpacity={1} fill="url(#colorLocations)" />
   <Area type="monotone" dataKey="total" stroke="#82ca9d" fillOpacity={1} fill="url(#colorTotal)" />
 </AreaChart>

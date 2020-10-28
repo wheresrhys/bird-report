@@ -32,21 +32,23 @@ const getBreedingSites = records => {
 
 const birdsCache = {}
 
-export const BirdPage = () => {
+const BirdContent = ({bird}) => {
 
-  const { bird } = useParams();
-
-  const [records, setBirdData] = useState(birdsCache[bird] || [])
+  const [records, setBirdData] = useState([])
   const [distribution, setDistribution] = useLocalStorage(bird)
-  console.log(bird, distribution)
 
-  const fetchData = () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
-    birdsCache[bird] = clean(data)
-    setBirdData(birdsCache[bird])
-  })
-  if (!birdsCache[bird]) {
-    fetchData()
-  }
+
+  useEffect(() => {
+    console.log(records.length)
+      const fetchData = async () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
+        setBirdData(clean(data))
+      })
+
+    //if (!records.length) {
+        fetchData();
+    //}
+  }, [bird]);
+
 
   let breedingSites = []
   if (distribution.breeding && distribution.breeding < 3) {
@@ -54,7 +56,6 @@ export const BirdPage = () => {
   }
 
   const birdData = {records, distribution}
-
 
   return (
   <>
@@ -88,5 +89,10 @@ export const BirdPage = () => {
     </Tabs>
   </>
   )
+}
+
+export const BirdPage = () => {
+  const { bird } = useParams();
+  return <BirdContent bird={bird} />
 }
 
