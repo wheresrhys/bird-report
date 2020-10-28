@@ -4,6 +4,15 @@ import moment from 'moment';
 
 import {group} from '../lib/data-tools'
 
+function CustomisedTick ({x, y, payload: {value}}) {
+	const [month, day] = value.split('-');
+	return day === '1' ? <g className="recharts-layer recharts-cartesian-axis-tick">
+  <text x={0} y={0} dy={16} textAnchor="end" fill="#666" >{month}</text>
+</g> : null
+}
+
+
+
 export function Trends ({records}) {
 	const days = group(records, ({ date }) => date.toISOString())
 		.map(records => {
@@ -11,7 +20,9 @@ export function Trends ({records}) {
 			return {
 				date: records[0].date,
 				dayOfYear: moment(records[0].date).dayOfYear(),
-				month: moment(records[0].date).format('MMM'),
+				month:  moment(records[0].date).format('MMM'),
+				dayOfMonth: Number(moment(records[0].date).format('D')),
+				axisLabel:  `${moment(records[0].date).format('MMM')}-${moment(records[0].date).format('D')}`,
 				locations: locations.length,
 				total: Math.round(locations
 				.map((records) => Math.max(...records.map(({ numberIndex }) => numberIndex)))
@@ -19,10 +30,18 @@ export function Trends ({records}) {
 			}
 		})
 
-	const data = [...Array(365)].map((_, day) => days.find(({dayOfYear}) => dayOfYear === day + 1) || {
+	const data = [...Array(365)].map((_, day) => {
+		const realRecord = days.find(({dayOfYear}) => dayOfYear === day + 1);
+		if (realRecord) return realRecord;
+		 return {
 		month: moment().dayOfYear(day + 1).format('MMM'),
+		dayOfMonth: Number(moment().dayOfYear(day + 1).format('D')),
+		axisLabel:  `${moment().dayOfYear(day + 1).format('MMM')}-${moment().dayOfYear(day + 1).format('D')}`,
 		locations: 0,
 		total: 0
+	}
+
+
 	})
 
 	return <AreaChart width={730} height={250} data={data}
@@ -37,7 +56,7 @@ export function Trends ({records}) {
       <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
     </linearGradient>
   </defs>
-<XAxis dataKey="month" />
+ <XAxis dataKey="month" minTickGap={28} type="category" allowDuplicatedCategory={true} />
  <YAxis />
  <Tooltip/>
   <Area type="monotone" dataKey="locations" stroke="#8884d8" fillOpacity={1} fill="url(#colorLocations)" />
