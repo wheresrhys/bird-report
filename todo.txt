@@ -1,6 +1,5 @@
 todo.txt
-- summer
-- for guessed breeding sites bring out the records with descriptions
+- BUG - birds are sharing same settings when navigating (though not writing to wrong ones)
 - repeat file upload
 - peak passage + differentiate early trickles from the main flow
     + would help to have a graph over time

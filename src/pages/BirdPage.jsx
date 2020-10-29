@@ -22,12 +22,12 @@ const birdsCache = {}
 
 const BirdContent = ({bird}) => {
 
-  const [records, setBirdData] = useState([])
+  const [records, setRecords] = useState([])
   const [distribution, setDistribution] = useLocalStorage(bird, {})
 
   useEffect(() => {
       const fetchData = async () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
-        setBirdData(clean(data))
+        setRecords(clean(data))
       })
       fetchData();
   }, [bird]);
