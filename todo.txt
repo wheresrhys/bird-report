@@ -1,14 +1,11 @@
 todo.txt
 - summer
-- inner city records
+- for guessed breeding sites bring out the records with descriptions
 - repeat file upload
 - peak passage + differentiate early trickles from the main flow
     + would help to have a graph over time
 - estimated throughput (upper + lower bounds, + different methodologies - calculate on demand... with slider)
     + ((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
-- for guessed breeding sites bring out the records with descriptions
 - search for keywords in descriptions e.g greenland. Boolean OR
-- BUG - high single site counst only show one sitewhen clicking view records
-- High single site/london wide counts when is only 1 is pointless... maybe even 2 or 3
 - Add year round highlights (max count etc) for resident birds
-- All records list shodul be ordered (and grouped?) by date
+- 100% webapp

@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Button, Accordion, Table} from 'react-bootstrap'
 import {group, getOutliers, sortPropDesc} from '../lib/data-tools'
-import {Records, Record, AllRecords} from './Records'
+import {Records, Record} from './Records'
 
 const getNumberOfSites = records => {
 	const sites = new Set()

@@ -8,28 +8,15 @@ import {useLocalStorage} from '../lib/useLocalStorage'
 import { Species } from '../lib/Context'
 import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
+import {Breeding, getBreedingSites} from '../components/Breeding'
 import {Trends} from '../components/Trends'
 import {Months} from '../components/Months'
 import {Records} from '../components/Records'
 import {SettingsForm} from '../components/SettingsForm'
 import {Autumn} from '../components/Autumn'
-import {getMonthsOfRecords, group, clean} from '../lib/data-tools'
+import { clean} from '../lib/data-tools'
 
 const { ipcRenderer } = window.require('electron')
-
-const Breeding = () => <pre>holding</pre>
-
-const getBreedingSites = records => {
-	const breedingMonths = [5, 6]
-	records = getMonthsOfRecords(records, ...breedingMonths)
-
-	return group(records, ({location}) => location)
-		.map(items => items.length > 2 ? {
-			items,
-			location: items[0].location
-		} : null)
-		.filter(items => !!items)
-}
 
 const birdsCache = {}
 
@@ -46,10 +33,7 @@ const BirdContent = ({bird}) => {
   }, [bird]);
 
 
-  let breedingSites = []
-  if (distribution.breeding && distribution.breeding < 3) {
-    breedingSites = getBreedingSites(records)
-  }
+  const breedingSites = getBreedingSites(records, distribution)
 
   const birdData = {records, distribution}
 
@@ -77,7 +61,7 @@ const BirdContent = ({bird}) => {
         {distribution.springPassage ? <Spring {...birdData} breedingSites={breedingSites} /> : null}
       </Tab>
       <Tab eventKey="breeding" title="Breeding" disabled={!distribution.breeding}>
-        {birdData.breeding ? <Breeding {...birdData} /> : null}
+        {distribution.breeding ? <Breeding {...birdData} breedingSites={breedingSites}/> : null}
       </Tab>
       <Tab eventKey="autumn" title="Autumn passage" disabled={!distribution.autumnPassage}>
         {distribution.autumnPassage ? <Autumn {...birdData} breedingSites={breedingSites} /> : null}
