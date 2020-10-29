@@ -47,7 +47,10 @@ export const getOutliers = (
   const comparator = highLow === 'high'
 		  ? (val) => val >= m + tolerance * sd
 		  : (val) => val <= m - tolerance * sd
-  return list.filter((obj, i) => comparator(obj[prop]) || i < minResults)
+  const sorter = highLow === 'high' ? sortPropDesc('numberIndex') : sortPropAsc('numberIndex')
+  return list
+    .filter((obj, i) => comparator(obj[prop]) || i < minResults)
+    .sort(sorter)
 }
 
 export const findEarlyRecords = (records) => {
@@ -76,7 +79,7 @@ export const throughput = (records) => {
     'Lower bound': Math.round(group(records, ({ location }) => location)
       .map((records) => Math.max(...records.map(({ numberIndex }) => numberIndex)))
       .reduce((total, value) => total + value, 0)),
-    'Two day stay': Math.round(group(records, ({ location }) => location)
+    'Assuming each bird stays 2 days': Math.round(group(records, ({ location }) => location)
       .flatMap((records) => records.map((record, i) => {
       	if (i % 2 === 1) {
       		return {
@@ -87,7 +90,7 @@ export const throughput = (records) => {
 	      return record
 	    }))
       .reduce((total, {numberIndex}) => total + numberIndex, 0)),
-    'Three day stay': Math.round(group(records, ({ location }) => location)
+    'Assuming each bird stays 3 days': Math.round(group(records, ({ location }) => location)
       .flatMap((records) => records.map((record, i) => {
       	if (i % 3 === 1) {
       		return {

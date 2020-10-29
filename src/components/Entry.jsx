@@ -88,8 +88,8 @@ records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
   )(records);
 
   const numberOfSites = getNumberOfSites(records);
-  const highSingleSiteCount = aggregate(getOutliers(records, 'numberIndex'));
-
+  const highSingleSiteCounts = getOutliers(records, 'numberIndex');
+  // console.log(getOutliers(records, 'numberIndex'))
 	const body = (
   <>
 
@@ -117,9 +117,12 @@ records => records.length
 )}
         /> : null}
 
-        {highSingleSiteCount.numberIndex > 1 ? <TableRow
+        {highSingleSiteCounts[0].numberIndex > 1 ? <TableRow
           heading="High single site counts"
-          content={<Record {...highSingleSiteCount} />}
+          content={<>
+            <Record {...highSingleSiteCounts[0]} />
+            <Records records={highSingleSiteCounts.slice(1)} heading="View other high counts"/>
+           </>}
         /> : null}
         {postContent.map(props => <TableRow {...props} />)}
 
