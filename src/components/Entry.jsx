@@ -10,7 +10,7 @@ const getNumberOfSites = records => {
 }
 
 const aggregate = records => {
-	records = records.sort(sortPropDesc('numberIndex'))
+	records = [...records].sort(sortPropDesc('numberIndex'))
 	const maxNumberIndex = records[0].numberIndex
 	const occasions = records.filter(({numberIndex}) => numberIndex === maxNumberIndex)
 

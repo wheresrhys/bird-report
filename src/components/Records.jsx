@@ -4,7 +4,7 @@ import { Button, Collapse} from 'react-bootstrap'
 export function Record ({
   date, dates = [date],
   location = null, locations = [location],
-  numberIndex, records, viewMoreHeading, notes, observer}) {
+  numberIndex, records, viewMoreHeading, notes, observer, viceCounty}) {
 
   if (records && records.length === 1) {
     return <Record {...records[0]} />
@@ -23,7 +23,6 @@ export function Record ({
             {locations[i] ? `${locations[i]}, ` : null}
             {date.toDateString()}
             {!hasChildRecords ? <span>
-
               {notes ? `, ${notes}` : null}
               {observer ? `, ${observer}` : null}
             </span>: null}
@@ -38,18 +37,18 @@ export function Record ({
 )
 }
 
-export function Records({records, heading = 'View nested records'}) {
-  const [open, setOpen] = useState(false)
+export function Records({initialState = false,records, heading = 'View nested records'}) {
+  const [open, setOpen] = useState(initialState)
 
   return (
     <>
-      <Button
+      {initialState === false ? <Button
         onClick={() => setOpen(!open)}
         aria-controls="example-collapse-text"
         aria-expanded={open}
       >
         {heading}
-      </Button>
+      </Button> : null}
       {open ? (
         <Collapse in={open}>
           <ul>

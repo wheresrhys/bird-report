@@ -10,6 +10,7 @@ import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
 import {Trends} from '../components/Trends'
 import {Months} from '../components/Months'
+import {Records} from '../components/Records'
 import {SettingsForm} from '../components/SettingsForm'
 import {Autumn} from '../components/Autumn'
 import {getMonthsOfRecords, group, clean} from '../lib/data-tools'
@@ -35,7 +36,7 @@ const birdsCache = {}
 const BirdContent = ({bird}) => {
 
   const [records, setBirdData] = useState([])
-  const [distribution, setDistribution] = useLocalStorage(bird)
+  const [distribution, setDistribution] = useLocalStorage(bird, {})
 
   useEffect(() => {
       const fetchData = async () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
@@ -60,6 +61,9 @@ const BirdContent = ({bird}) => {
       <Tab eventKey="months" title="Individual months">
         <Months {...birdData} />
         {' '}
+      </Tab>
+      <Tab eventKey="inner-london" title="Inner London" >
+        <Records records={records.filter(({viceCounty}) => viceCounty === 'IL')} initialState={true} />
       </Tab>
       <Tab eventKey="winter" title="Winter" disabled={!distribution.winter}>
         {distribution.winter ? (

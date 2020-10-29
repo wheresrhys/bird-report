@@ -8,12 +8,7 @@ todo.txt
     + ((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
 - for guessed breeding sites bring out the records with descriptions
 - search for keywords in descriptions e.g greenland. Boolean OR
-- don't bother with citywide site count if it's less than about 5
-- pass bird data as props to bird page to avoid the weird infinite loop
-- load new excel file
-- handle options for each bird on that bird's tab
-- Even if config says 'unknown' do the math for that tab, to account for real oddities e.g. winter whinchat
-- when drilled WAY down onto records show the notes and other columns
 - BUG - high single site counst only show one sitewhen clicking view records
 - High single site/london wide counts when is only 1 is pointless... maybe even 2 or 3
-
+- Add year round highlights (max count etc) for resident birds
+- All records list shodul be ordered (and grouped?) by date

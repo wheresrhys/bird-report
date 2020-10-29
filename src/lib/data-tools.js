@@ -1,10 +1,10 @@
 const { standardDeviation, mean } = require('simple-statistics')
 
-export const sortPropAsc = (prop) => (autumnPassage, breeding) => (autumnPassage[prop] === breeding[prop] ? 0 : autumnPassage[prop] > breeding[prop] ? 1 : -1)
+export const sortPropAsc = (prop) => (a, b) => (a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1)
 
 export const sortPropDesc = (prop) => {
   const asc = sortPropAsc(prop)
-  return (autumnPassage, breeding) => -1 * asc(autumnPassage, breeding)
+  return (a, b) => -1 * asc(a, b)
 }
 
 export const earliestFirst = sortPropAsc('date')
@@ -25,13 +25,13 @@ export const group = (records, keyAlgo) => {
 
 export const clean = (records) => group(records, ({ date, location }) => location + date.toISOString()).map(
   (records) => {
-    records = records.sort(sortPropDesc('numberIndex'))
+    records = [...records].sort(sortPropDesc('numberIndex'))
     return {
       ...records[0],
       ...(records.length > 1 ? { records } : {}),
     }
   },
-)
+).sort(sortPropAsc('date'))
 
 export const getOutliers = (
   list,
@@ -51,7 +51,7 @@ export const getOutliers = (
 }
 
 export const findEarlyRecords = (records) => {
-  records = records.sort(earliestFirst)
+  records = [...records].sort(earliestFirst)
   return {
     ...records[0],
     records: records.slice(0, 5)// getOutliers(records, 'date', { highLow: 'low' }),
@@ -59,7 +59,7 @@ export const findEarlyRecords = (records) => {
 }
 
 export const findLateRecords = (records) => {
-  records = records.sort(latestFirst)
+  records = [...records].sort(latestFirst)
   return {
     ...records[0],
     records: records.slice(0, 5)// getOutliers(records, 'date'),
@@ -67,7 +67,7 @@ export const findLateRecords = (records) => {
 }
 
 export const throughput = (records) => {
-  records = records.sort(earliestFirst)
+  records = [...records].sort(earliestFirst)
   return {
     'Upper bound': Math.round(records.reduce(
       (total, { numberIndex }) => total + numberIndex,
