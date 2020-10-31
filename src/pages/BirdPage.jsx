@@ -16,17 +16,13 @@ import {SettingsForm} from '../components/SettingsForm'
 import {Autumn} from '../components/Autumn'
 import { clean} from '../lib/data-tools'
 
-const { ipcRenderer } = window.require('electron')
-
-const birdsCache = {}
-
 const BirdContent = ({bird}) => {
 
   const [distribution, setDistribution] = useLocalStorage(bird, {})
 
   const [allBirdData] = useContext(BirdData)
 
-  const records = allBirdData.records.filter(({ species }) => species === bird)
+  const records = clean(allBirdData.records.filter(({ species }) => species === bird))
 
   const breedingSites = getBreedingSites(records, distribution)
 
