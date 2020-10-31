@@ -89,7 +89,6 @@ records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
 
   const numberOfSites = getNumberOfSites(records);
   const highSingleSiteCounts = getOutliers(records, 'numberIndex');
-  // console.log(getOutliers(records, 'numberIndex'))
 	const body = (
   <>
 
@@ -105,14 +104,14 @@ records => records.reduce((sum, {numberIndex}) => sum + numberIndex, 0)
           content={(
             <Record {...aggregateByDay(
 records => records.length
-  )(records)}
+  )(records)} viewMoreHeading="View other high counts"
             />
 )}
         /> : null}
         { maxCitywideDayCount.numberIndex > 1 ? <TableRow
           heading="Max citywide day count"
           content={(
-            <Record {...maxCitywideDayCount}
+            <Record {...maxCitywideDayCount} viewMoreHeading="View other high counts"
             />
 )}
         /> : null}

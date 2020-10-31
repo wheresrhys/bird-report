@@ -7,6 +7,7 @@ import {Tabs, Tab} from 'react-bootstrap'
 import {useLocalStorage} from '../lib/useLocalStorage'
 import { BirdData } from '../lib/Context'
 import {FirstWinter, SecondWinter} from '../components/Winter'
+import {Entry} from '../components/Entry'
 import {Spring} from '../components/Spring'
 import {Breeding, getBreedingSites} from '../components/Breeding'
 import {Trends} from '../components/Trends'
@@ -32,7 +33,10 @@ const BirdContent = ({bird}) => {
   <>
     <h1>{bird}</h1>
     <Trends {...birdData} />
-    <Tabs defaultActiveKey="months" id="uncontrolled-tab-example">
+    <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
+      <Tab eventKey="whole-year" title="Whole year" >
+        <Entry records={records} initialState={true} />
+      </Tab>
       <Tab eventKey="months" title="Individual months">
         <Months {...birdData} />
         {' '}

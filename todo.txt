@@ -6,4 +6,3 @@ todo.txt
     + ((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
 - search for keywords in descriptions e.g greenland. Boolean OR
 - Add year round highlights (max count etc) for resident birds
-
