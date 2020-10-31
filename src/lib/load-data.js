@@ -1,51 +1,24 @@
-const readXlsxFile = require('read-excel-file/node')
-
+const XLSX = require('xlsx')
 let records
 
-const loadRecords = (file) => readXlsxFile(file, {
-  schema: {
-    SPECIES: {
-      prop: 'species',
-      type: String,
-    },
-    Location: {
-      prop: 'location',
-      type: String,
-    },
-    'Date:D': {
-      prop: 'date',
-      type: Date,
-    },
-    Number: {
-      prop: 'number',
-      type: Number,
-    },
-    NumberIndex: {
-      prop: 'numberIndex',
-      type: Number,
-    },
-    Notes: {
-      prop: 'notes',
-      type: String,
-    },
-    RecordingArea: {
-      prop: 'recordingArea',
-      type: String,
-    },
-    ViceCounty: {
-      prop: 'viceCounty',
-      type: String,
-    },
-    Sector: {
-      prop: 'sector',
-      type: String,
-    },
-    Observer: {
-      prop: 'observer',
-      type: String
-    }
-  },
-}).then(({ rows, errors }) => (records = rows.map(row => ({...row, viceCounty: row.viceCounty || row.sector}))))
+const loadRecords = (file) => {
+  const rawData = XLSX.readFile(file, {cellDates: true});
+  const data = XLSX.utils.sheet_to_json(rawData.Sheets[rawData.SheetNames[0]]);
+
+
+  records = data.map(row => ({
+    species: row.SPECIES,
+    location: row.Location,
+    date: row['Date:D'],
+    number: row.Number,
+    numberIndex: row.NumberIndex,
+    notes: row.Notes,
+    recordingArea: row.RecordingArea,
+    viceCounty: row.ViceCounty || row.Sector,
+    observer: row.Observer,
+    source: row.Source
+  }));
+}
 
 // const loadGazetteer = () => readXlsxFile(__dirname + '/2018 Gazetteer v7.xlsx', {schema: {
 // 	'Place': {
