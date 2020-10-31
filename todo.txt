@@ -1,10 +1,9 @@
 todo.txt
 - BUG - birds are sharing same settings when navigating (though not writing to wrong ones)
-- repeat file upload
 - peak passage + differentiate early trickles from the main flow
     + would help to have a graph over time
 - estimated throughput (upper + lower bounds, + different methodologies - calculate on demand... with slider)
     + ((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
 - search for keywords in descriptions e.g greenland. Boolean OR
 - Add year round highlights (max count etc) for resident birds
-- 100% webapp https://www.npmjs.com/package/xlsx
+
