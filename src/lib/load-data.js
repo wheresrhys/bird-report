@@ -1,24 +1,4 @@
-const XLSX = require('xlsx')
-let records
 
-const loadRecords = (file) => {
-  const rawData = XLSX.readFile(file, {cellDates: true});
-  const data = XLSX.utils.sheet_to_json(rawData.Sheets[rawData.SheetNames[0]]);
-
-
-  records = data.map(row => ({
-    species: row.SPECIES,
-    location: row.Location,
-    date: row['Date:D'],
-    number: row.Number,
-    numberIndex: row.NumberIndex,
-    notes: row.Notes,
-    recordingArea: row.RecordingArea,
-    viceCounty: row.ViceCounty || row.Sector,
-    observer: row.Observer,
-    source: row.Source
-  }));
-}
 
 // const loadGazetteer = () => readXlsxFile(__dirname + '/2018 Gazetteer v7.xlsx', {schema: {
 // 	'Place': {
@@ -53,8 +33,8 @@ const init = (file) => Promise.all([
   loadRecords(file),
 ])
 
-module.exports = {
-  init,
-  // getGazetteer = ,
-  getRecords: () => records
-}
+// module.exports = {
+//   init,
+//   // getGazetteer = ,
+//   getRecords: () => records
+// }

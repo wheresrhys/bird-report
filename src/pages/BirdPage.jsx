@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import {Tabs, Tab} from 'react-bootstrap'
 import {useLocalStorage} from '../lib/useLocalStorage'
-import { Species } from '../lib/Context'
+import { BirdData } from '../lib/Context'
 import {FirstWinter, SecondWinter} from '../components/Winter'
 import {Spring} from '../components/Spring'
 import {Breeding, getBreedingSites} from '../components/Breeding'
@@ -22,16 +22,11 @@ const birdsCache = {}
 
 const BirdContent = ({bird}) => {
 
-  const [records, setRecords] = useState([])
   const [distribution, setDistribution] = useLocalStorage(bird, {})
 
-  useEffect(() => {
-      const fetchData = async () => ipcRenderer.invoke('get-bird', {bird}).then(data => {
-        setRecords(clean(data))
-      })
-      fetchData();
-  }, [bird]);
+  const [allBirdData] = useContext(BirdData)
 
+  const records = allBirdData.records.filter(({ species }) => species === bird)
 
   const breedingSites = getBreedingSites(records, distribution)
 

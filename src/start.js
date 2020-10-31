@@ -3,17 +3,17 @@ const {
 } = require('electron')
 const path = require('path')
 const url = require('url')
-const { init: loadData, getRecords } = require('./lib/load-data')
+// const { init: loadData, getRecords } = require('./lib/load-data')
 
 let mainWindow
 
-ipcMain.handle('get-bird',
-  async (event, { bird }) => getRecords().filter(({ species }) => species === bird)
-)
+// ipcMain.handle('get-bird',
+//   async (event, { bird }) => getRecords().filter(({ species }) => species === bird)
+// )
 
-ipcMain.handle('get-species-list',
-  async (event) => [...getRecords().reduce((set, {species}) => set.add(species), new Set())]
-)
+// ipcMain.handle('get-species-list',
+//   async (event) => [...getRecords().reduce((set, {species}) => set.add(species), new Set())]
+// )
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -23,13 +23,13 @@ function createWindow() {
   })
   mainWindow.maximize()
   // mainWindow.webContents.openDevTools()
-  dialog
-    .showOpenDialog(mainWindow, {
-      title: 'Select an excel file of bird records',
-      properties: ['openFile'],
-    })
-    .then(async (files) => {
-      await loadData(files.filePaths[0])
+  // dialog
+  //   .showOpenDialog(mainWindow, {
+  //     title: 'Select an excel file of bird records',
+  //     properties: ['openFile'],
+  //   })
+  //   .then(async (files) => {
+  //     await loadData(files.filePaths[0])
       mainWindow.loadURL(
         process.env.ELECTRON_START_URL
 					|| url.format({
@@ -38,7 +38,7 @@ function createWindow() {
 					  slashes: true,
 					}),
       )
-    })
+    // })
 
   mainWindow.on('closed', () => {
     mainWindow = null
