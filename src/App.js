@@ -57,14 +57,14 @@ const App = () => {
         <div className="container">
           <nav className="nav">
             {birdData.speciesList.map((bird) => (
-              <Link className="nav-link active" to={`/bird/${bird}`}>
+              <Link className="nav-link active" to={`/bird-report/${bird}`}>
                 {bird}
               </Link>
             ))}
           </nav>
 
           <Switch>
-            <Route path="/bird/:bird">
+            <Route path="/bird-report/:bird">
               <BirdPage />
             </Route>
             <Route path="/">
