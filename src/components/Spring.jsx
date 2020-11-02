@@ -27,8 +27,8 @@ const estimateThroughput = ({records, distribution}) => {
 		content: <ul>
   {Object.entries(throughput(records)).map(([name, value]) => (
     <li>
-      <breeding>{name}</breeding>
-      : 
+      <b>{name}</b>
+      :
       {' '}
       {value}
     </li>
