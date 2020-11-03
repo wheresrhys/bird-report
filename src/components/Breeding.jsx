@@ -28,7 +28,7 @@ export function Breeding ({records, distribution, breedingSites}) {
     </Card.Header>
     <Accordion.Collapse eventKey={`breeding-${i}`}>
       <Card.Body>
-      	<Records records={records} initialState={true}/>
+      	<Records records={records} initiallyOpen={true}/>
       </Card.Body>
     </Accordion.Collapse>
   </Card>)}</Accordion>

@@ -37,12 +37,12 @@ export function Record ({
 )
 }
 
-export function Records({initialState = false,records, heading = 'View nested records'}) {
-  const [open, setOpen] = useState(initialState)
+export function Records({initiallyOpen = false,records, heading = 'View nested records'}) {
+  const [open, setOpen] = useState(initiallyOpen)
 
   return (
     <>
-      {initialState === false ? <Button
+      {initiallyOpen === false ? <Button
         onClick={() => setOpen(!open)}
         aria-controls="example-collapse-text"
         aria-expanded={open}

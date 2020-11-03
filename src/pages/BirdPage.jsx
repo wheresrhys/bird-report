@@ -14,6 +14,7 @@ import {Trends} from '../components/Trends'
 import {Months} from '../components/Months'
 import {Records} from '../components/Records'
 import {SettingsForm} from '../components/SettingsForm'
+import {Search} from '../components/Search'
 import {Autumn} from '../components/Autumn'
 import { clean} from '../lib/data-tools'
 
@@ -22,8 +23,8 @@ const BirdContent = ({bird}) => {
   const [distribution, setDistribution] = useLocalStorage(bird, {})
 
   const [allBirdData] = useContext(BirdData)
-
-  const records = clean(allBirdData.records.filter(({ species }) => species === bird))
+  const rawRecords = allBirdData.records.filter(({ species }) => species === bird);
+  const records = clean(rawRecords);
 
   const breedingSites = getBreedingSites(records, distribution)
 
@@ -35,14 +36,14 @@ const BirdContent = ({bird}) => {
     <Trends {...birdData} />
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
       <Tab eventKey="whole-year" title="Whole year" >
-        <Entry records={records} initialState={true} />
+        <Entry records={records} initiallyOpen={true} />
       </Tab>
       <Tab eventKey="months" title="Individual months">
         <Months {...birdData} />
         {' '}
       </Tab>
       <Tab eventKey="inner-london" title="Inner London" >
-        <Records records={records.filter(({viceCounty}) => viceCounty === 'IL')} initialState={true} />
+        <Records records={records.filter(({viceCounty}) => viceCounty === 'IL')} initiallyOpen={true} />
       </Tab>
       <Tab eventKey="winter" title="Winter" disabled={!distribution.winter}>
         {distribution.winter ? (
@@ -60,6 +61,9 @@ const BirdContent = ({bird}) => {
       </Tab>
       <Tab eventKey="autumn" title="Autumn passage" disabled={!distribution.autumnPassage}>
         {distribution.autumnPassage ? <Autumn {...birdData} breedingSites={breedingSites} /> : null}
+      </Tab>
+      <Tab eventKey="search" title="Search" >
+        <Search records={rawRecords}/>
       </Tab>
       <Tab eventKey="settings" title="Settings" >
         <SettingsForm species={bird} distribution={distribution} setDistribution={setDistribution}/>

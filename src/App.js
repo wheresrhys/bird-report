@@ -4,7 +4,7 @@ import logo from './logo.svg'
 import './App.css'
 
 import { BirdPage } from './pages/BirdPage'
-import { Navbar } from 'react-bootstrap'
+import { Navbar, Form } from 'react-bootstrap'
 import { BirdData } from './lib/Context'
 import XLSX from 'xlsx';
 
@@ -52,8 +52,13 @@ const App = () => {
         <Navbar bg="light" expand="lg">
           <Link to="/">Bird report tool</Link>
         </Navbar>
-        <label>Load spreadsheet</label><input type="file" name="load-spreadsheet" onChange={onFileChange} />
-
+        <Form><Form.Row>
+          <Form.File
+            id="custom-file"
+            label="Load spreadsheet"
+            onChange={onFileChange}
+          /></Form.Row>
+        </Form>
         <div className="container">
           <nav className="nav">
             {birdData.speciesList.map((bird) => (
