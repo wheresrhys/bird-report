@@ -1,0 +1,17 @@
+{
+  "name": "birdviz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-then": "^1.0.1",
+    "geodesy": "^2.2.0",
+    "http-server": "^0.11.1",
+    "mt-osgridref": "^0.1.0"
+  }
+}

@@ -16,6 +16,7 @@ import {Records} from '../components/Records'
 import {SettingsForm} from '../components/SettingsForm'
 import {Autumn} from '../components/Autumn'
 import { clean} from '../lib/data-tools'
+import { LondonMap } from '../components/LondonMap'
 
 const BirdContent = ({bird}) => {
 
@@ -32,7 +33,8 @@ const BirdContent = ({bird}) => {
   return (
   <>
     <h1>{bird}</h1>
-    <Trends {...birdData} />
+    <div style={{display: 'flex'}}>
+    <Trends {...birdData} /><LondonMap {...birdData} /></div>
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
       <Tab eventKey="whole-year" title="Whole year" >
         <Entry records={records} initialState={true} />

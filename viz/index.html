@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+
+</style>
+</head>
+<body>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/topojson.v0.min.js"></script>
+<script>
+
+var width = window.innerWidth,
+    height = window.innerHeight,
+    scale = 32000
+
+// 12000, 3000
+var circleScale = scale / 1000;
+
+
+var projection = d3.geo.albers()
+    .center([4.3, 51.5])
+    .rotate([4.4, 0])
+    .parallels([50, 60])
+    .scale(scale)
+    .translate([width / 2, height / 2]);
+
+var path = d3.geo.path()
+    .projection(projection)
+    .pointRadius(2);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+d3.json("uk.json", function(error, uk) {
+  var subunits = topojson.object(uk, uk.objects.subunits),
+      places = topojson.object(uk, uk.objects.places);
+
+  svg.selectAll(".subunit")
+      .data(subunits.geometries)
+    .enter().append("path")
+      .attr("class", function(d) { return "subunit " + d.id; })
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a !== b && a.id !== "IRL"; }))
+      .attr("d", path)
+      .attr("class", "subunit-boundary");
+
+  svg.append("path")
+      .datum(topojson.mesh(uk, uk.objects.subunits, function(a, b) { return a === b && a.id === "IRL"; }))
+      .attr("d", path)
+      .attr("class", "subunit-boundary IRL");
+
+      d3.json(`${location.search.substr(1)}.json`, (error, data) => {
+
+        let currentDay = 0;
+        const int = setInterval(() => {
+
+          currentDay++;
+
+          if (currentDay > 365) {
+            return clearInterval(int)
+          }
+
+          const todaysData = data
+          .filter(({day}) => day <= currentDay )
+          .map(({count, lat, lon, day}) => ({
+            count,
+            day,
+            loc: projection([lon, lat])
+          }))
+                    console.log(currentDay, todaysData.length)
+          svg
+          .selectAll("circle")
+            .data(todaysData).enter()
+            .append("circle")
+            .attr("cx", d => d.loc[0])
+            .attr("cy", d => d.loc[1])
+            .attr("r", d => Math.sqrt(d.count) * circleScale)
+            .attr("fill", d => d3.hsl(d.day*360*0.8/365, 1, 0.5))
+            .attr("fill-opacity", 0.1) // 0.3
+        }, 100)
+
+      })
+
+});
+ //https://www.naturalearthdata.com/downloads/50m-cultural-vectors/
+ // https://bost.ocks.org/mike/map/
+</script>
+</body>
+</html>
