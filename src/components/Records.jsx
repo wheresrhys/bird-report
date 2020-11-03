@@ -18,6 +18,7 @@ export function Record ({
           {numberIndex}:
         </b>
         <div>
+        <b>{viceCounty}</b>
         {dates.map((date, i) => (
           <div>
             {locations[i] ? `${locations[i]}, ` : null}
