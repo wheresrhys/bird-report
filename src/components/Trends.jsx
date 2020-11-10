@@ -36,7 +36,7 @@ export function Trends ({records}) {
 		 return {
 		month: moment().dayOfYear(day + 1).format('MMM'),
 		dayOfMonth: Number(moment().dayOfYear(day + 1).format('D')),
-		axisLabel:  moment(records[0].date).format('MMM-D'),
+		axisLabel:  moment().dayOfYear(day + 1).format('MMM-D'),
 		locations: 0,
 		total: 0
 	}
