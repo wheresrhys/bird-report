@@ -1,7 +1,7 @@
 import React from 'react'
 import {Card, Button, Accordion, Table} from 'react-bootstrap'
 import {group, getOutliers, sortPropDesc} from '../lib/data-tools'
-import {Records, Record} from './Records'
+import {DailyRecords, Records, Record} from './Records'
 
 const getNumberOfSites = records => {
 	const sites = new Set()
@@ -77,7 +77,7 @@ const MaxOrForgetIt = ({aggregate, threshold = 1}) => {
   return aggregate.numberIndex > threshold ? <Record {...aggregate} /> : <div>Nothing of note</div>;
 }
 
-export const Entry = ({allowEmpty = false, heading, records, isAccordion = false, index,
+export const Entry = ({allRecordsFormat = "list", allowEmpty = false, heading, records, isAccordion = false, index,
   preContent = [], postContent = []}) => {
 	if (!records.length) {
 		return allowEmpty  ?  <EntryCard heading={heading} body={null} />: null
@@ -127,7 +127,7 @@ records => records.length
 
       </tbody>
     </Table>
-    <Records records={records} heading="View all records" />
+    {allRecordsFormat === 'daily' ? <DailyRecords records={records} heading="View all records" /> : <Records records={records} heading="View all records" />}
   </>
 )
 

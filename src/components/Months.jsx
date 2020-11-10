@@ -14,7 +14,7 @@ return (
 
       {MONTH_NAMES.map((month, index) =>
 
-        <Entry allowEmpty isAccordion index={index} heading={month} records={getMonthsOfRecords(records, index + 1)} />
+        <Entry allowEmpty isAccordion index={index} heading={month} records={getMonthsOfRecords(records, index + 1)} allRecordsFormat="daily"/>
 		)}
     </Accordion>
   </section>

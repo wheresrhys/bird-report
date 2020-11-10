@@ -22,7 +22,7 @@ export function Trends ({records}) {
 				dayOfYear: moment(records[0].date).dayOfYear(),
 				month:  moment(records[0].date).format('MMM'),
 				dayOfMonth: Number(moment(records[0].date).format('D')),
-				axisLabel:  `${moment(records[0].date).format('MMM')}-${moment(records[0].date).format('D')}`,
+				axisLabel:  moment(records[0].date).format('MMM-D'),
 				locations: locations.length,
 				total: Math.round(locations
 				.map((records) => Math.max(...records.map(({ numberIndex }) => numberIndex)))
@@ -36,7 +36,7 @@ export function Trends ({records}) {
 		 return {
 		month: moment().dayOfYear(day + 1).format('MMM'),
 		dayOfMonth: Number(moment().dayOfYear(day + 1).format('D')),
-		axisLabel:  `${moment().dayOfYear(day + 1).format('MMM')}-${moment().dayOfYear(day + 1).format('D')}`,
+		axisLabel:  moment(records[0].date).format('MMM-D'),
 		locations: 0,
 		total: 0
 	}
@@ -56,7 +56,7 @@ export function Trends ({records}) {
       <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
     </linearGradient>
   </defs>
- <XAxis dataKey="month" minTickGap={28} type="category" allowDuplicatedCategory={true} />
+ <XAxis dataKey="axisLabel" minTickGap={28} type="category" allowDuplicatedCategory={true} />
  <YAxis />
  <Tooltip/>
   <Area type="monotone" dataKey="locations" stroke="#8884d8" fillOpacity={1} fill="url(#colorLocations)" />
