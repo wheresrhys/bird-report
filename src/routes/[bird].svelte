@@ -1,10 +1,27 @@
+<script context="module">
+
+  export function load({ page }) {
+    return {
+      props: {
+        bird: page.params.bird
+      }
+    }
+  }
+
+  // import { page } from '$app/stores';
+  // console.log(page)
+  // export let bird = page.bird;
+</script>
+<script>
+  export let bird
+</script>
 <svelte:head>
-	<title>lala</title>
+	<title>{bird}</title>
 </svelte:head>
 
 
 
-<h1>lala</h1>
+<h1>{bird}</h1>
 <!--     <Trends {...birdData} />
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
       <Tab eventKey="whole-year" title="Whole year" >
