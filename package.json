@@ -27,6 +27,7 @@
   },
   "type": "module",
   "dependencies": {
-    "sveltestrap": "^5.6.3"
+    "sveltestrap": "^5.6.3",
+    "xlsx": "^0.17.3"
   }
 }
