@@ -1,41 +1,4 @@
-<svelte:head>
-	<title>London Bidr Report</title>
-</svelte:head>
 
-<script>
-  import { Form, FormGroup, Input } from 'sveltestrap';
-  import { loadRecords }  from '../lib/data-loader'
-  import { setContext } from 'svelte';
-
-
-  /**
-   * @param {import('../lib/data-loader').BirdRecord[]} records
-   * @returns {string[]}
-   */
-  const getSpeciesList = records => [...records.reduce((set, {species}) => set.add(species), new Set())]
-
-  /**
-   * @param {CustomEvent} ev
-   */
-  const handleFileLoad = (ev) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-       const records = loadRecords( new Uint8Array(/** @type {ArrayBuffer} */(reader.result)))
-
-       setContext('species', getSpeciesList(records));
-       setContext('allRecords', records)
-      });
-      reader.readAsArrayBuffer(/** @type {HTMLInputElement} */(ev.currentTarget).files[0]);
-  }
-
-</script>
-        <Form><FormGroup>
-          <Input type="file"
-            id="custom-file"
-            label="Load spreadsheet"
-            on:change={handleFileLoad}
-          /></FormGroup>
-        </Form>
 <!--
 
   import React, {useState} from 'react'

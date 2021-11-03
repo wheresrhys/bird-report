@@ -21,7 +21,7 @@
 
 
 
-<h1>{bird}</h1>
+<h2>{bird}</h2>
 <!--     <Trends {...birdData} />
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
       <Tab eventKey="whole-year" title="Whole year" >
