@@ -5,10 +5,23 @@
 <script>
   import {Form, FormGroup, Input} from 'sveltestrap';
   import {importData}  from '../lib/data-loader'
-  function handleFileLoad(buffer) {
-    const result = importData(buffer)
-    console.log(result)
+
+  /**
+   * @param {CustomEvent} ev
+   */
+  const handleFileLoad = (ev) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+       const result = importData( new Uint8Array(reader.result))
+       console.log(result)
+       // setBirdData({
+       //   speciesList: getSpeciesList(records),
+       //   records
+       // })
+      });
+      reader.readAsArrayBuffer(ev.currentTarget.files[0]);
   }
+
 </script>
         <Form><FormGroup>
           <Input type="file"
@@ -19,15 +32,15 @@
         </Form>
 <!--
 
-import React, {useState} from 'react'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import logo from './logo.svg'
-import './App.css'
+  import React, {useState} from 'react'
+  import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+  import logo from './logo.svg'
+  import './App.css'
 
-import { BirdPage } from './pages/BirdPage'
-import { Navbar, Form } from 'react-bootstrap'
-import { BirdData } from './lib/Context'
-import XLSX from 'xlsx';
+  import { BirdPage } from './pages/BirdPage'
+  import { Navbar, Form } from 'react-bootstrap'
+  import { BirdData } from './lib/Context'
+  import XLSX from 'xlsx';
 
 const loadRecords = (buffer) => {
   const rawData = XLSX.read(buffer, {cellDates: true, type: 'array'});
