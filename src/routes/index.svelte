@@ -12,14 +12,14 @@
   const handleFileLoad = (ev) => {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-       const result = importData( new Uint8Array(reader.result))
+       const result = importData( new Uint8Array(/** @type {ArrayBuffer} */(reader.result)))
        console.log(result)
        // setBirdData({
        //   speciesList: getSpeciesList(records),
        //   records
        // })
       });
-      reader.readAsArrayBuffer(ev.currentTarget.files[0]);
+      reader.readAsArrayBuffer(/** @type {HTMLInputElement} */(ev.currentTarget).files[0]);
   }
 
 </script>
