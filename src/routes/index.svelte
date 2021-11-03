@@ -3,8 +3,16 @@
 </svelte:head>
 
 <script>
-  import {Form, FormGroup, Input} from 'sveltestrap';
-  import {importData}  from '../lib/data-loader'
+  import { Form, FormGroup, Input } from 'sveltestrap';
+  import { loadRecords }  from '../lib/data-loader'
+  import { setContext } from 'svelte';
+
+
+  /**
+   * @param {import('../lib/data-loader').BirdRecord[]} records
+   * @returns {string[]}
+   */
+  const getSpeciesList = records => [...records.reduce((set, {species}) => set.add(species), new Set())]
 
   /**
    * @param {CustomEvent} ev
@@ -12,12 +20,10 @@
   const handleFileLoad = (ev) => {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-       const result = importData( new Uint8Array(/** @type {ArrayBuffer} */(reader.result)))
-       console.log(result)
-       // setBirdData({
-       //   speciesList: getSpeciesList(records),
-       //   records
-       // })
+       const records = loadRecords( new Uint8Array(/** @type {ArrayBuffer} */(reader.result)))
+
+       setContext('species', getSpeciesList(records));
+       setContext('allRecords', records)
       });
       reader.readAsArrayBuffer(/** @type {HTMLInputElement} */(ev.currentTarget).files[0]);
   }
