@@ -1,4 +1,5 @@
 <script>
+	import { TabContent, TabPane } from 'sveltestrap';
 	import { allRecords } from '../lib/stores.js';
 	import { clean } from '../lib/data-tools.js';
 	import Entry from './Entry.svelte';
@@ -12,22 +13,27 @@
 	//   autumnPassage: -1
 	// })
 
+	let rawRecords;
+	$: rawRecords = $allRecords.filter(({ species }) => species === bird);
+	let recordCount;
+	$: recordCount = rawRecords.length;
 	let records;
-	$: records = clean($allRecords.filter(({ species }) => species === bird));
-
+	$: records = clean(rawRecords);
 	// const breedingSites = getBreedingSites(records, distribution)
 
 	// const birdData = {records, distribution}
 </script>
 
-<div>{bird} {records.length}</div>
-
-<Entry {records} />
+<h2>{bird} - {recordCount} records</h2>
+<div>{bird}</div>
+<div>Trends graph</div>
+<TabContent>
+	<TabPane tabId="whole-year" tab="Whole year" active>
+		<Entry {records} />
+	</TabPane>
+</TabContent>
 <!--     <Trends {...birdData} />
-    <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
-      <Tab eventKey="whole-year" title="Whole year" >
 
-      </Tab>
       <Tab eventKey="months" title="Individual months">
         <Months {...birdData} />
         {' '}
@@ -56,5 +62,5 @@
       <Tab eventKey="settings" title="Settings" >
         <SettingsForm species={bird} distribution={distribution} setDistribution={setDistribution}/>
       </Tab>
-    </Tabs>
+    </TabContent>
  -->

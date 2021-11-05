@@ -1,11 +1,13 @@
 <script>
 	import {
-		Navbar,
+		Nav,
 		NavItem,
 		NavLink,
 		Form,
 		FormGroup,
-		Input
+		Input,
+		Container,
+		Row
 	} from 'sveltestrap';
 	import { loadRecords } from '../lib/data-loader';
 	import { speciesList, allRecords } from '../lib/stores.js';
@@ -40,21 +42,28 @@
 <svelte:head>
 	<title>London Bird Report</title>
 </svelte:head>
-<h1>London bird report helper</h1>
-<Form
-	><FormGroup>
-		<Input
-			type="file"
-			id="custom-file"
-			label="Load spreadsheet"
-			on:change={handleFileLoad}
-		/></FormGroup
-	>
-</Form>
-<Navbar>
-	{#each $speciesList as species}
-		<NavItem><NavLink href={`/${species}`}>{species}</NavLink></NavItem>
-	{/each}
-</Navbar>
-<slot />
+<Container>
+	<Row>
+		<h1>London bird report helper</h1>
+		<Form
+			><FormGroup>
+				<Input
+					type="file"
+					id="custom-file"
+					label="Load spreadsheet"
+					on:change={handleFileLoad}
+				/></FormGroup
+			>
+		</Form>
+	</Row>
+	<Row>
+		<Nav>
+			{#each $speciesList as species}
+				<NavItem><NavLink href={`/${species}`}>{species}</NavLink></NavItem>
+			{/each}
+		</Nav>
+	</Row><Row>
+		<slot />
+	</Row>
+</Container>
 <Styles />

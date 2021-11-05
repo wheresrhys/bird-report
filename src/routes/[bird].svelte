@@ -16,6 +16,4 @@
 <svelte:head>
 	<title>{bird}</title>
 </svelte:head>
-
-<h2>{bird}</h2>
 <Bird {bird} />
