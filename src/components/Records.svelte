@@ -1,6 +1,8 @@
 <script>
 	import Record from './Record.svelte';
+	/** @type {import('../lib/data-tools').Record[]} */
 	export let records;
+	/** @type {string} */
 	export let heading;
 </script>
 

@@ -1,5 +1,12 @@
 <script>
-	import { Navbar, NavItem, NavLink, Form, FormGroup, Input } from 'sveltestrap';
+	import {
+		Navbar,
+		NavItem,
+		NavLink,
+		Form,
+		FormGroup,
+		Input
+	} from 'sveltestrap';
 	import { loadRecords } from '../lib/data-loader';
 	import { speciesList, allRecords } from '../lib/stores.js';
 	import { Styles } from 'sveltestrap';
@@ -17,12 +24,16 @@
 	const handleFileLoad = (ev) => {
 		const reader = new FileReader();
 		reader.addEventListener('load', () => {
-			const records = loadRecords(new Uint8Array(/** @type {ArrayBuffer} */ (reader.result)));
+			const records = loadRecords(
+				new Uint8Array(/** @type {ArrayBuffer} */ (reader.result))
+			);
 
 			$speciesList = getSpeciesList(records);
 			$allRecords = records;
 		});
-		reader.readAsArrayBuffer(/** @type {HTMLInputElement} */ (ev.currentTarget).files[0]);
+		reader.readAsArrayBuffer(
+			/** @type {HTMLInputElement} */ (ev.currentTarget).files[0]
+		);
 	};
 </script>
 

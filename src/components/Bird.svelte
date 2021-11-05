@@ -3,6 +3,7 @@
 	import { clean } from '../lib/data-tools.js';
 	import Entry from './Entry.svelte';
 
+	/** @type {string} */
 	export let bird;
 	//     const [distribution, setDistribution] = useLocalStorage(bird, {
 	//   winter: -1,

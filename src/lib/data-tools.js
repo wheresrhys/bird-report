@@ -1,12 +1,5 @@
 // import { standardDeviation, mean } from 'simple-statistics'
 
-export const sortPropAsc = (prop) => (a, b) => a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1;
-
-export const sortPropDesc = (prop) => {
-	const asc = sortPropAsc(prop);
-	return (a, b) => -1 * asc(a, b);
-};
-
 // export const earliestFirst = sortPropAsc('date')
 
 // export const latestFirst = (...args) => -1 * earliestFirst(...args)
@@ -27,6 +20,32 @@ export const sortPropDesc = (prop) => {
  */
 
 /** @typedef {(AggregateRecord | BirdRecord) } Record */
+
+
+
+/**
+ * @typedef {Function} RecordSorter
+ * @param {Record[]} a
+ * @param {Record[]} b
+ * @returns {number}
+ */
+
+/**
+ * @param {string} prop
+ * @returns {RecordSorter}
+ */
+export const sortPropAsc = (prop) => (a, b) =>
+  a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1;
+
+
+/**
+ * @param {string} prop
+ * @returns {RecordSorter}
+ */
+export const sortPropDesc = (prop) => {
+  const asc = sortPropAsc(prop);
+  return (a, b) => -1 * asc(a, b);
+};
 
 /**
  * @param {Record[]} records
@@ -50,13 +69,13 @@ export const group = (records, keyAlgo) => {
 export const clean = (records) =>
 	group(records, ({ date, location }) => location + date.toISOString())
 		.map((records) => {
-			records = [...records].sort(sortPropDesc('numberIndex'));
+			records = [...records].sort(/** @type {RecordSorter} */(sortPropDesc('numberIndex')));
 			return {
 				...records[0],
 				...(records.length > 1 ? { records } : {})
 			};
 		})
-		.sort(sortPropAsc('date'));
+		.sort(/** @type {RecordSorter} */(sortPropAsc('date')));
 
 // export const getOutliers = (
 //   list,
