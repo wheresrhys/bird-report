@@ -1,7 +1,7 @@
 <script>
 	import { allRecords } from '../lib/stores.js';
 	import { clean } from '../lib/data-tools.js';
-  import Entry from './Entry.svelte'
+	import Entry from './Entry.svelte';
 
 	export let bird;
 	//     const [distribution, setDistribution] = useLocalStorage(bird, {
@@ -21,7 +21,7 @@
 
 <div>{bird} {records.length}</div>
 
-<Entry records={records}/>
+<Entry {records} />
 <!--     <Trends {...birdData} />
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
       <Tab eventKey="whole-year" title="Whole year" >

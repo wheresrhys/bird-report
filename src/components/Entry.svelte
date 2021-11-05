@@ -1,8 +1,6 @@
 <script>
-	import Records from './Records.svelte'
+	import Records from './Records.svelte';
 	export let records;
 </script>
-<Records records={records} heading="View all records" />
 
-
-
+<Records {records} heading="View all records" />

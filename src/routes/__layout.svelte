@@ -2,7 +2,7 @@
 	import { Navbar, NavItem, NavLink, Form, FormGroup, Input } from 'sveltestrap';
 	import { loadRecords } from '../lib/data-loader';
 	import { speciesList, allRecords } from '../lib/stores.js';
-  import { Styles } from 'sveltestrap';
+	import { Styles } from 'sveltestrap';
 	/**
 	 * @param {import('../lib/data-loader').BirdRecord[]} records
 	 * @returns {string[]}
