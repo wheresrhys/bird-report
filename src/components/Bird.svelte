@@ -1,6 +1,7 @@
 <script>
 	import { allRecords } from '../lib/stores.js';
 	import { clean } from '../lib/data-tools.js';
+  import Entry from './Entry.svelte'
 
 	export let bird;
 	//     const [distribution, setDistribution] = useLocalStorage(bird, {
@@ -10,20 +11,21 @@
 	//   autumnPassage: -1
 	// })
 
-	let rawRecords;
-	$: rawRecords = clean($allRecords.filter(({ species }) => species === bird));
+	let records;
+	$: records = clean($allRecords.filter(({ species }) => species === bird));
 
 	// const breedingSites = getBreedingSites(records, distribution)
 
 	// const birdData = {records, distribution}
 </script>
 
-<div>{bird} {rawRecords.length}</div>
+<div>{bird} {records.length}</div>
 
+<Entry records={records}/>
 <!--     <Trends {...birdData} />
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">
       <Tab eventKey="whole-year" title="Whole year" >
-        <Entry records={records} initiallyOpen={true} />
+
       </Tab>
       <Tab eventKey="months" title="Individual months">
         <Months {...birdData} />
