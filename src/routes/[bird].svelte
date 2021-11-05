@@ -3,7 +3,7 @@
 	export function load({ page }) {
 		return {
 			props: {
-				bird: page.params.bird
+				bird: /** @type {string} */ (page.params.bird)
 			}
 		};
 	}

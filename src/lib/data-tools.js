@@ -4,9 +4,6 @@
 
 // export const latestFirst = (...args) => -1 * earliestFirst(...args)
 
-// *
-//  * @param {Record[]} records}
-
 // export const getMonthsOfRecords = (records, ...months) => records.filter(({ date }) => months.includes(new Date(date).getMonth() + 1))
 
 /**
@@ -21,35 +18,25 @@
 
 /** @typedef {(AggregateRecord | BirdRecord) } Record */
 
-
-
-/**
- * @typedef {Function} RecordSorter
- * @param {Record[]} a
- * @param {Record[]} b
- * @returns {number}
- */
-
 /**
  * @param {string} prop
- * @returns {RecordSorter}
+ * @returns {(a: any, b: any) => number}
  */
 export const sortPropAsc = (prop) => (a, b) =>
-  a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1;
-
+	a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1;
 
 /**
  * @param {string} prop
- * @returns {RecordSorter}
+ * @returns {(a: any, b: any) => number}
  */
 export const sortPropDesc = (prop) => {
-  const asc = sortPropAsc(prop);
-  return (a, b) => -1 * asc(a, b);
+	const asc = sortPropAsc(prop);
+	return (a, b) => -1 * asc(a, b);
 };
 
 /**
  * @param {Record[]} records
- * @param {Function} keyAlgo
+ * @param {function} keyAlgo
  * @returns {Record[][]}
  */
 export const group = (records, keyAlgo) => {
@@ -69,13 +56,13 @@ export const group = (records, keyAlgo) => {
 export const clean = (records) =>
 	group(records, ({ date, location }) => location + date.toISOString())
 		.map((records) => {
-			records = [...records].sort(/** @type {RecordSorter} */(sortPropDesc('numberIndex')));
+			records = [...records].sort(sortPropDesc('numberIndex'));
 			return {
 				...records[0],
 				...(records.length > 1 ? { records } : {})
 			};
 		})
-		.sort(/** @type {RecordSorter} */(sortPropAsc('date')));
+		.sort(sortPropAsc('date'));
 
 // export const getOutliers = (
 //   list,
