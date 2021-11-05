@@ -18,21 +18,20 @@ import XLSX from 'xlsx';
  * @param {Uint8Array} buffer
  * @returns {BirdRecord[]}
  */
-export function loadRecords (buffer) {
-  const rawData = XLSX.read(buffer, {cellDates: true, type: 'array'});
-  const data = XLSX.utils.sheet_to_json(rawData.Sheets[rawData.SheetNames[0]]);
+export function loadRecords(buffer) {
+	const rawData = XLSX.read(buffer, { cellDates: true, type: 'array' });
+	const data = XLSX.utils.sheet_to_json(rawData.Sheets[rawData.SheetNames[0]]);
 
-  return data.map(row => ({
-    species: row.SPECIES,
-    location: row.Location,
-    date: row['Date:D'],
-    number: row.Number,
-    numberIndex: row.NumberIndex,
-    notes: row.Notes,
-    recordingArea: row.RecordingArea,
-    viceCounty: row.ViceCounty || row.Sector,
-    observer: row.Observer,
-    source: row.Source
-  }));
+	return data.map((row) => ({
+		species: row.SPECIES,
+		location: row.Location,
+		date: row['Date:D'],
+		number: row.Number,
+		numberIndex: row.NumberIndex,
+		notes: row.Notes,
+		recordingArea: row.RecordingArea,
+		viceCounty: row.ViceCounty || row.Sector,
+		observer: row.Observer,
+		source: row.Source
+	}));
 }
-

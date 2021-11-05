@@ -1,30 +1,24 @@
 <script>
+	import { allRecords } from '../lib/stores.js';
+	import { clean } from '../lib/data-tools.js';
 
-  import { allRecords } from '../lib/stores.js'
-  // import { clean } from '../lib/stores.js'
+	export let bird;
+	//     const [distribution, setDistribution] = useLocalStorage(bird, {
+	//   winter: -1,
+	//   springPassage: -1,
+	//   breeding: -1,
+	//   autumnPassage: -1
+	// })
 
-  export let bird
-  //     const [distribution, setDistribution] = useLocalStorage(bird, {
-  //   winter: -1,
-  //   springPassage: -1,
-  //   breeding: -1,
-  //   autumnPassage: -1
-  // })
+	let rawRecords;
+	$: rawRecords = clean($allRecords.filter(({ species }) => species === bird));
 
-  let rawRecords
-  $: rawRecords = $allRecords.filter(({ species }) => species === bird);
+	// const breedingSites = getBreedingSites(records, distribution)
 
-    // const records = clean(rawRecords);
-
-  // const breedingSites = getBreedingSites(records, distribution)
-
-  // const birdData = {records, distribution}
-
+	// const birdData = {records, distribution}
 </script>
 
 <div>{bird} {rawRecords.length}</div>
-
-
 
 <!--     <Trends {...birdData} />
     <Tabs defaultActiveKey="whole-year" id="uncontrolled-tab-example">

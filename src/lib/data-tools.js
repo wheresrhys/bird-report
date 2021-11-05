@@ -1,37 +1,62 @@
 // import { standardDeviation, mean } from 'simple-statistics'
 
-// export const sortPropAsc = (prop) => (a, b) => (a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1)
+export const sortPropAsc = (prop) => (a, b) => a[prop] === b[prop] ? 0 : a[prop] > b[prop] ? 1 : -1;
 
-// export const sortPropDesc = (prop) => {
-//   const asc = sortPropAsc(prop)
-//   return (a, b) => -1 * asc(a, b)
-// }
+export const sortPropDesc = (prop) => {
+	const asc = sortPropAsc(prop);
+	return (a, b) => -1 * asc(a, b);
+};
 
 // export const earliestFirst = sortPropAsc('date')
 
 // export const latestFirst = (...args) => -1 * earliestFirst(...args)
 
+// *
+//  * @param {Record[]} records}
+
 // export const getMonthsOfRecords = (records, ...months) => records.filter(({ date }) => months.includes(new Date(date).getMonth() + 1))
 
-// export const group = (records, keyAlgo) => {
-//   const lists = records.reduce((lists, record) => {
-//     const key = keyAlgo(record)
-//     lists[key] = lists[key] || []
-//     lists[key].push(record)
-//     return lists
-//   }, {})
-//   return Object.values(lists)
-// }
+/**
+ * @typedef {import('./data-loader.js').BirdRecord} BirdRecord
+ */
 
-// export const clean = (records) => group(records, ({ date, location }) => location + date.toISOString()).map(
-//   (records) => {
-//     records = [...records].sort(sortPropDesc('numberIndex'))
-//     return {
-//       ...records[0],
-//       ...(records.length > 1 ? { records } : {}),
-//     }
-//   },
-// ).sort(sortPropAsc('date'))
+/**
+ * @typedef {Object} AggregateRecord
+ * @implements {BirdRecord}
+ * @property {Record[]} [records]
+ */
+
+/** @typedef {(AggregateRecord | BirdRecord) } Record */
+
+/**
+ * @param {Record[]} records
+ * @param {Function} keyAlgo
+ * @returns {Record[][]}
+ */
+export const group = (records, keyAlgo) => {
+	const lists = records.reduce((lists, record) => {
+		const key = keyAlgo(record);
+		lists[key] = lists[key] || [];
+		lists[key].push(record);
+		return lists;
+	}, {});
+	return Object.values(lists);
+};
+
+/**
+ * @param {BirdRecord[]} records
+ * @returns {AggregateRecord[]}
+ */
+export const clean = (records) =>
+	group(records, ({ date, location }) => location + date.toISOString())
+		.map((records) => {
+			records = [...records].sort(sortPropDesc('numberIndex'));
+			return {
+				...records[0],
+				...(records.length > 1 ? { records } : {})
+			};
+		})
+		.sort(sortPropAsc('date'));
 
 // export const getOutliers = (
 //   list,

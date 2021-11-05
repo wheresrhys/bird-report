@@ -1,22 +1,21 @@
 <script context="module">
-  import Bird from '../components/Bird.svelte'
-  export function load({ page }) {
-    return {
-      props: {
-        bird: page.params.bird
-      }
-    }
-  }
+	import Bird from '../components/Bird.svelte';
+	export function load({ page }) {
+		return {
+			props: {
+				bird: page.params.bird
+			}
+		};
+	}
+</script>
 
-</script>
 <script>
-  export let bird
+	export let bird;
 </script>
+
 <svelte:head>
 	<title>{bird}</title>
 </svelte:head>
 
-
-
 <h2>{bird}</h2>
-<Bird bird={bird} />
+<Bird {bird} />
