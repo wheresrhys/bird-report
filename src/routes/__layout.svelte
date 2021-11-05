@@ -3,12 +3,9 @@
 </svelte:head>
 
 <script>
-  import { Navbar, NavItem, NavLink } from 'sveltestrap';
-  import { Form, FormGroup, Input } from 'sveltestrap';
+  import { Navbar, NavItem, NavLink, Form, FormGroup, Input } from 'sveltestrap';
   import { loadRecords }  from '../lib/data-loader'
-
-  export let speciesList = [];
-  export let allRecords = [];
+  import { speciesList, allRecords } from '../lib/stores.js'
 
   /**
    * @param {import('../lib/data-loader').BirdRecord[]} records
@@ -24,8 +21,8 @@
       reader.addEventListener('load', () => {
        const records = loadRecords( new Uint8Array(/** @type {ArrayBuffer} */(reader.result)))
 
-       speciesList = getSpeciesList(records);
-       allRecords = records
+       $speciesList = getSpeciesList(records);
+       $allRecords = records
       });
       reader.readAsArrayBuffer(/** @type {HTMLInputElement} */(ev.currentTarget).files[0]);
   }
@@ -40,7 +37,7 @@
   /></FormGroup>
 </Form>
 <Navbar>
-  {#each speciesList as species}
+  {#each $speciesList as species}
     <NavItem><NavLink href={`/${species}`}>{species}</NavLink></NavItem>
   {/each}
 </Navbar>
