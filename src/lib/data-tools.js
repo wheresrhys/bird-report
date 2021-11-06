@@ -1,4 +1,4 @@
-// import { standardDeviation, mean } from 'simple-statistics'
+import { standardDeviation, mean } from 'simple-statistics';
 
 // export const earliestFirst = sortPropAsc('date')
 
@@ -64,25 +64,29 @@ export const clean = (records) =>
 		})
 		.sort(sortPropAsc('date'));
 
-// export const getOutliers = (
-//   list,
-//   prop,
-//   { tolerance = 2, minResults = 1, highLow = 'high' } = {},
-// ) => {
-//   if (!list.length) {
-//     return []
-//   }
-//   const numbers = list.map((obj) => obj[prop])
-//   const m = mean(numbers)
-//   const sd = standardDeviation(numbers)
-//   const comparator = highLow === 'high'
-// 		  ? (val) => val >= m + tolerance * sd
-// 		  : (val) => val <= m - tolerance * sd
-//   const sorter = highLow === 'high' ? sortPropDesc('numberIndex') : sortPropAsc('numberIndex')
-//   return list
-//     .filter((obj, i) => comparator(obj[prop]) || i < minResults)
-//     .sort(sorter)
-// }
+export const getOutliers = (
+	list,
+	prop,
+	{ tolerance = 2, minResults = 1, highLow = 'high' } = {}
+) => {
+	if (!list.length) {
+		return [];
+	}
+	const numbers = list.map((obj) => obj[prop]);
+	const m = mean(numbers);
+	const sd = standardDeviation(numbers);
+	const comparator =
+		highLow === 'high'
+			? (val) => val >= m + tolerance * sd
+			: (val) => val <= m - tolerance * sd;
+	const sorter =
+		highLow === 'high'
+			? sortPropDesc('numberIndex')
+			: sortPropAsc('numberIndex');
+	return list
+		.filter((obj, i) => comparator(obj[prop]) || i < minResults)
+		.sort(sorter);
+};
 
 // export const findEarlyRecords = (records) => {
 //   records = [...records].sort(earliestFirst)

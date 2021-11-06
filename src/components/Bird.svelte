@@ -1,8 +1,8 @@
 <script>
-	import { TabContent, TabPane } from 'sveltestrap';
+	import { TabContent } from 'sveltestrap';
+	import WholeYear from './tabs/WholeYear.svelte';
 	import { allRecords } from '../lib/stores.js';
 	import { clean } from '../lib/data-tools.js';
-	import Entry from './Entry.svelte';
 
 	/** @type {string} */
 	export let bird;
@@ -28,9 +28,7 @@
 <div>{bird}</div>
 <div>Trends graph</div>
 <TabContent>
-	<TabPane tabId="whole-year" tab="Whole year" active>
-		<Entry {records} />
-	</TabPane>
+	<WholeYear {records} />
 </TabContent>
 <!--     <Trends {...birdData} />
 
