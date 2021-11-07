@@ -4,17 +4,41 @@
 	import Record from './Record.svelte';
 	import { group, getOutliers, sortPropDesc } from '../../lib/data-tools';
 
-	/** @type {import('../../lib/data-tools').Record[]} */
+	/** @typedef {import('../../lib/data-tools').Record} Record */
+	/** @typedef {import('../../lib/data-tools').AggregateRecord} AggregateRecord */
+
+	/** @type {Record[]} */
 	export let records;
 	export let preStats = [];
 	export let postStats = [];
 
+	/**
+	 * @param {Record[]} records
+	 * @returns {number}
+	 */
 	const getNumberOfSites = (records) => {
 		const sites = new Set();
 		records.forEach(({ location }) => sites.add(location));
 		return [...sites].length;
 	};
 
+	/**
+	 * @param {Record[]} records
+	 * @returns {number}
+	 */
+	const countRecords = (records) => records.length;
+
+	/**
+	 * @param {Record[]} records
+	 * @returns {number}
+	 */
+	const countBirds = (records) =>
+		records.reduce((sum, { numberIndex }) => sum + numberIndex, 0);
+
+	/**
+	 * @param {Record[]} records
+	 * @returns {AggregateRecord}
+	 */
 	const aggregate = (records) => {
 		records = [...records].sort(sortPropDesc('numberIndex'));
 		const maxNumberIndex = records[0].numberIndex;
@@ -33,7 +57,10 @@
 			records: getOutliers(records, 'numberIndex')
 		};
 	};
-
+	/**
+	 * @param {function} func
+	 * @returns {(records: Record[]) => AggregateRecord}
+	 */
 	const aggregateByDay = (func) => (records) => {
 		records = group(records, ({ date }) => date.toISOString())
 			.map((records) => ({
@@ -55,10 +82,7 @@
 	let stats = [...preStats];
 
 	if (records.length) {
-		console.log('yay');
-		const maxCitywideDayCount = aggregateByDay((records) =>
-			records.reduce((sum, { numberIndex }) => sum + numberIndex, 0)
-		)(records);
+		const maxCitywideDayCount = aggregateByDay(countBirds)(records);
 
 		const numberOfSites = getNumberOfSites(records);
 		const highSingleSiteCounts = getOutliers(records, 'numberIndex');
@@ -68,7 +92,7 @@
 			stats.push({
 				heading: 'Max citywide sites in day',
 				component: Record,
-				content: aggregateByDay((records) => records.length)(records),
+				content: aggregateByDay(countRecords)(records),
 				viewMoreHeading: 'View other high counts'
 			});
 		}
@@ -114,6 +138,6 @@
 
 <style>
 	th {
-		minwidth: 100px;
+		min-width: 100px;
 	}
 </style>

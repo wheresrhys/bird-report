@@ -64,6 +64,15 @@ export const clean = (records) =>
 		})
 		.sort(sortPropAsc('date'));
 
+/**
+ * @param {Record[]} list
+ * @param {string} prop
+ * @param {Object} [options]
+ * @param {number} [options.tolerance]
+ * @param {number} [options.minResults]
+ * @param {string} [options.highLow]
+ * @returns {Record[]}
+ */
 export const getOutliers = (
 	list,
 	prop,
@@ -75,16 +84,19 @@ export const getOutliers = (
 	const numbers = list.map((obj) => obj[prop]);
 	const m = mean(numbers);
 	const sd = standardDeviation(numbers);
-	const comparator =
-		highLow === 'high'
-			? (val) => val >= m + tolerance * sd
-			: (val) => val <= m - tolerance * sd;
 	const sorter =
 		highLow === 'high'
 			? sortPropDesc('numberIndex')
 			: sortPropAsc('numberIndex');
 	return list
-		.filter((obj, i) => comparator(obj[prop]) || i < minResults)
+		.filter((obj, i) => {
+			if (i < minResults) return true;
+			if (highLow === 'high') {
+				return obj[prop] >= m + tolerance * sd;
+			} else {
+				return obj[prop] <= m - tolerance * sd;
+			}
+		})
 		.sort(sorter);
 };
 
