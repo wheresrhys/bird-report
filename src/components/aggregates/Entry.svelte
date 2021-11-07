@@ -2,7 +2,6 @@
 	import { Table } from 'sveltestrap';
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
-	import Record from './Record.svelte';
 	import { group, getOutliers, sortPropDesc } from '../../lib/data-tools';
 
 	/** @typedef {import('../../lib/data-tools').Record} Record */
@@ -67,7 +66,8 @@
 			.map((records) => ({
 				records,
 				date: records[0].date,
-				numberIndex: func(records)
+				numberIndex: func(records),
+				aggregationType: 'same day'
 			}))
 			.sort(sortPropDesc('numberIndex'));
 
@@ -92,20 +92,20 @@
 		if (numberOfSites > 1) {
 			stats.push({
 				heading: 'Max citywide sites in day',
-				component: Record,
+				component: NotableRecords,
 				content: {
-					...aggregateByDay(countRecords)(records),
-					viewMoreHeading: 'View other high counts'
+					records: aggregateByDay(countRecords)(records).records,
+					viewMoreHeading: 'Other high counts'
 				}
 			});
 		}
 		if (maxCitywideDayCount.numberIndex > 1) {
 			stats.push({
 				heading: 'Max citywide day count',
-				component: Record,
+				component: NotableRecords,
 				content: {
-					...maxCitywideDayCount,
-					viewMoreHeading: 'View other high counts'
+					records: maxCitywideDayCount.records,
+					viewMoreHeading: 'Other high counts'
 				}
 			});
 		}
@@ -116,7 +116,7 @@
 				component: NotableRecords,
 				content: {
 					records: highSingleSiteCounts,
-					viewMoreHeading: 'View other high counts'
+					viewMoreHeading: 'Other high counts'
 				}
 			});
 		}

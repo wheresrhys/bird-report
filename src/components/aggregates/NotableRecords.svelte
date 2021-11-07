@@ -13,7 +13,8 @@
 </script>
 
 <Record {...topRecord} />
-<Records records={otherNotableRecords} {viewMoreHeading} />
+{#if otherNotableRecords.length}
+	<Records records={otherNotableRecords} {viewMoreHeading} />{/if}
 
 <!--
 

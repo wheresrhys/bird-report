@@ -1,16 +1,24 @@
 <script>
 	import Record from './Record.svelte';
+	import { Collapse } from 'sveltestrap';
 	/** @type {import('../../lib/data-tools').Record[]} */
 	export let records;
+	export let isOpen = false;
 	/** @type {string} */
-	export let viewMoreHeading = 'Expand similar records';
+	export let viewMoreHeading = 'View detail';
+	/** @type {string[]} */
+	export let parentAggregationTypes = [];
 </script>
 
-<h3>{viewMoreHeading}</h3>
-<ul>
-	{#each records as record}
-		<li><Record {...record} /></li>{/each}
-</ul>
+<button on:click={() => (isOpen = !isOpen)} class="link">
+	{viewMoreHeading}
+</button>
+<Collapse {isOpen}>
+	<ul>
+		{#each records as record}
+			<li><Record {...record} {parentAggregationTypes} /></li>{/each}
+	</ul>
+</Collapse>
 
 <!--
 
@@ -52,3 +60,13 @@ export function DailyRecords ({initiallyOpen = false,heading, records}) {
       </>
     )
 } -->
+<style>
+	.link {
+		outline: none;
+		border: none;
+		padding: none;
+		text-decoration: underline;
+		color: blue;
+		background: none;
+	}
+</style>

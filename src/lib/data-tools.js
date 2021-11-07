@@ -59,7 +59,8 @@ export const clean = (records) =>
 			records = [...records].sort(sortPropDesc('numberIndex'));
 			return {
 				...records[0],
-				...(records.length > 1 ? { records } : {})
+				...(records.length > 1 ? { records } : {}),
+				aggregationType: 'same location'
 			};
 		})
 		.sort(sortPropAsc('date'));
