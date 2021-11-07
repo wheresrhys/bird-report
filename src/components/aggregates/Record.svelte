@@ -1,8 +1,11 @@
 <script>
+	// import Records from './Records.svelte';
 	export let numberIndex;
 	export let viceCounty;
 	export let location;
 	export let date;
+	// export let records = [];
+	// export let viewMoreHeading;
 </script>
 
 <div>
@@ -10,11 +13,13 @@
 		{numberIndex}:
 	</b>
 	<div>
-		<b>{viceCounty}</b>
 		<div>
 			{#if location}
-				{location}{/if}
+				{location}, {viceCounty}{/if}
 			{date.toDateString()}
 		</div>
 	</div>
+	<!-- 	{#if records.length}
+		 <Records records={records} viewMoreHeading={viewMoreHeading} />
+	{/if} -->
 </div>

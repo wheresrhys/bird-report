@@ -1,5 +1,6 @@
 <script>
 	import { Table } from 'sveltestrap';
+	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
 	import Record from './Record.svelte';
 	import { group, getOutliers, sortPropDesc } from '../../lib/data-tools';
@@ -92,26 +93,31 @@
 			stats.push({
 				heading: 'Max citywide sites in day',
 				component: Record,
-				content: aggregateByDay(countRecords)(records),
-				viewMoreHeading: 'View other high counts'
+				content: {
+					...aggregateByDay(countRecords)(records),
+					viewMoreHeading: 'View other high counts'
+				}
 			});
 		}
 		if (maxCitywideDayCount.numberIndex > 1) {
 			stats.push({
 				heading: 'Max citywide day count',
-				content: maxCitywideDayCount,
 				component: Record,
-				viewMoreHeading: 'View other high counts'
+				content: {
+					...maxCitywideDayCount,
+					viewMoreHeading: 'View other high counts'
+				}
 			});
 		}
 
 		if (highSingleSiteCounts[0].numberIndex > 1) {
 			stats.push({
 				heading: 'High single site counts',
-				content: `{<>
-            <Record {...highSingleSiteCounts[0]} />
-            <Records records={highSingleSiteCounts.slice(1)} heading="View other high counts"/>
-           </>}`
+				component: NotableRecords,
+				content: {
+					records: highSingleSiteCounts,
+					viewMoreHeading: 'View other high counts'
+				}
 			});
 		}
 	}
@@ -134,7 +140,7 @@
 	</tbody>
 </Table>
 
-<Records {records} heading="View all records" />
+<Records {records} viewMoreHeading="View all records" />
 
 <style>
 	th {

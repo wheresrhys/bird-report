@@ -1,16 +1,19 @@
 <script>
 	import Record from './Record.svelte';
-	/** @type {import('../../lib/data-tools').Record[]} */
+	import Records from './Records.svelte';
+	/** @typedef {import('../../lib/data-tools').Record} Record */
+	/** @type {Record[]} */
 	export let records;
 	/** @type {string} */
-	export let viewMoreHeading = 'Expand similar records';
+	export let viewMoreHeading;
+
+	let topRecord = records[0];
+
+	let otherNotableRecords = records.slice(1);
 </script>
 
-<h3>{viewMoreHeading}</h3>
-<ul>
-	{#each records as record}
-		<li><Record {...record} /></li>{/each}
-</ul>
+<Record {...topRecord} />
+<Records records={otherNotableRecords} {viewMoreHeading} />
 
 <!--
 
