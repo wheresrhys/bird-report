@@ -101,6 +101,75 @@ export const getOutliers = (
 		.sort(sorter);
 };
 
+/**
+ * @param {Record[]} records
+ * @returns {number}
+ */
+export const getNumberOfSites = (records) => {
+	const sites = new Set();
+	records.forEach(({ location }) => sites.add(location));
+	return [...sites].length;
+};
+
+/**
+ * @param {Record[]} records
+ * @returns {number}
+ */
+export const countRecords = (records) => records.length;
+
+/**
+ * @param {Record[]} records
+ * @returns {number}
+ */
+export const countBirds = (records) =>
+	records.reduce((sum, { numberIndex }) => sum + numberIndex, 0);
+
+/**
+ * @param {Record[]} records
+ * @returns {AggregateRecord}
+ */
+export const aggregate = (records) => {
+	records = [...records].sort(sortPropDesc('numberIndex'));
+	const maxNumberIndex = records[0].numberIndex;
+	const occasions = records.filter(
+		({ numberIndex }) => numberIndex === maxNumberIndex
+	);
+
+	return {
+		...records[0],
+		...(occasions.length > 1
+			? {
+					dates: occasions.map(({ date }) => date),
+					locations: occasions.map(({ location }) => location)
+			  }
+			: {}),
+		records: getOutliers(records, 'numberIndex')
+	};
+};
+/**
+ * @param {Record[]} records
+ * @param {function} func
+ * @returns {AggregateRecord}
+ */
+export const aggregateByDay = (records, func) => {
+	records = group(records, ({ date }) => date.toISOString())
+		.map((records) => ({
+			records,
+			date: records[0].date,
+			numberIndex: func(records),
+			aggregationType: 'same day'
+		}))
+		.sort(sortPropDesc('numberIndex'));
+
+	if (!records.length) {
+		return {
+			numberIndex: 0,
+			records: []
+		};
+	}
+	return aggregate(records);
+};
+
 // export const findEarlyRecords = (records) => {
 //   records = [...records].sort(earliestFirst)
 //   return {
