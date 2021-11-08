@@ -7,7 +7,6 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @typedef {import('../../lib/data-tools').AggregateRecord} AggregateRecord */
 
-
 	// TODO: expect a svelte component in the component property
 	/**
 	 * @typedef {Object} Stat
@@ -72,10 +71,11 @@
 		};
 	};
 	/**
+	 * @param {Record[]} records
 	 * @param {function} func
-	 * @returns {(records: Record[]) => AggregateRecord}
+	 * @returns {AggregateRecord}
 	 */
-	const aggregateByDay = (func) => (records) => {
+	const aggregateByDay = (records, func) => {
 		records = group(records, ({ date }) => date.toISOString())
 			.map((records) => ({
 				records,
@@ -97,7 +97,7 @@
 	$: if (records.length) {
 		stats = [...preStats];
 		let numberOfSites = getNumberOfSites(records);
-		let maxCitywideDayCount = aggregateByDay(countBirds)(records);
+		let highCitywideDayCounts = aggregateByDay(records, countBirds);
 		let highSingleSiteCounts = getOutliers(records, 'numberIndex');
 
 		stats = [...stats, { heading: 'Number of sites', content: numberOfSites }];
@@ -106,22 +106,20 @@
 				...stats,
 				{
 					heading: 'Max citywide sites in day',
-					component: NotableRecords,
 					content: {
-						records: aggregateByDay(countRecords)(records).records,
+						records: aggregateByDay(records, countRecords).records,
 						viewMoreHeading: 'Other high counts'
 					}
 				}
 			];
 		}
-		if (maxCitywideDayCount.numberIndex > 1) {
+		if (highCitywideDayCounts.numberIndex > 1) {
 			stats = [
 				...stats,
 				{
 					heading: 'Max citywide day count',
-					component: NotableRecords,
 					content: {
-						records: maxCitywideDayCount.records,
+						records: highCitywideDayCounts.records,
 						viewMoreHeading: 'Other high counts'
 					}
 				}
@@ -133,7 +131,6 @@
 				...stats,
 				{
 					heading: 'High single site counts',
-					component: NotableRecords,
 					content: {
 						records: highSingleSiteCounts,
 						viewMoreHeading: 'Other high counts'
@@ -150,12 +147,13 @@
 		{#each stats as stat}
 			<tr>
 				<th>{stat.heading}</th>
-				<td
-					>{#if stat.component}<svelte:component
-							this={stat.component}
-							{...stat.content}
-						/>{:else}{stat.content}{/if}</td
-				>
+				<td>
+					{#if stat.content.records}
+						<NotableRecords {...stat.content} />
+					{:else}
+						{stat.content}
+					{/if}
+				</td>
 			</tr>
 		{/each}
 	</tbody>
