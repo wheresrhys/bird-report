@@ -32,7 +32,7 @@
 
 			$speciesList = getSpeciesList(records);
 			$allRecords = records;
-			$year = records[0].date.getFullYear()
+			$year = records[0].date.getFullYear();
 		});
 		reader.readAsArrayBuffer(
 			/** @type {HTMLInputElement} */ (ev.currentTarget).files[0]

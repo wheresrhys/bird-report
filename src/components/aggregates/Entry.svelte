@@ -7,11 +7,23 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @typedef {import('../../lib/data-tools').AggregateRecord} AggregateRecord */
 
+
+	// TODO: expect a svelte component in the component property
+	/**
+	 * @typedef {Object} Stat
+	 * @property {string} heading
+	 * @property {Object} [component]
+	 * @property {Object} content
+	 */
+
 	/** @type {Record[]} */
 	export let records;
+	/** @type {Stat[]} */
 	export let preStats = [];
+	/** @type {Stat[]} */
 	export let postStats = [];
 
+	/** @type {Stat[]} */
 	let stats = [];
 
 	/**
