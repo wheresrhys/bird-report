@@ -27,7 +27,7 @@
 	{#if !parentAggregationTypes.includes('same day')}on <time
 			>{date.toDateString()}</time
 		>{/if}
-	{#if records.length}
+	{#if records && records.length}
 		<Records
 			{records}
 			{viewMoreHeading}
