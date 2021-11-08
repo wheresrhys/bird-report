@@ -12,6 +12,8 @@
 	export let preStats = [];
 	export let postStats = [];
 
+	let stats = [];
+
 	/**
 	 * @param {Record[]} records
 	 * @returns {number}
@@ -80,48 +82,55 @@
 		return aggregate(records);
 	};
 
-	let stats = [...preStats];
+	$: if (records.length) {
+		stats = [...preStats];
+		let numberOfSites = getNumberOfSites(records);
+		let maxCitywideDayCount = aggregateByDay(countBirds)(records);
+		let highSingleSiteCounts = getOutliers(records, 'numberIndex');
 
-	if (records.length) {
-		const maxCitywideDayCount = aggregateByDay(countBirds)(records);
-
-		const numberOfSites = getNumberOfSites(records);
-		const highSingleSiteCounts = getOutliers(records, 'numberIndex');
-
-		stats.push({ heading: 'Number of sites', content: numberOfSites });
+		stats = [...stats, { heading: 'Number of sites', content: numberOfSites }];
 		if (numberOfSites > 1) {
-			stats.push({
-				heading: 'Max citywide sites in day',
-				component: NotableRecords,
-				content: {
-					records: aggregateByDay(countRecords)(records).records,
-					viewMoreHeading: 'Other high counts'
+			stats = [
+				...stats,
+				{
+					heading: 'Max citywide sites in day',
+					component: NotableRecords,
+					content: {
+						records: aggregateByDay(countRecords)(records).records,
+						viewMoreHeading: 'Other high counts'
+					}
 				}
-			});
+			];
 		}
 		if (maxCitywideDayCount.numberIndex > 1) {
-			stats.push({
-				heading: 'Max citywide day count',
-				component: NotableRecords,
-				content: {
-					records: maxCitywideDayCount.records,
-					viewMoreHeading: 'Other high counts'
+			stats = [
+				...stats,
+				{
+					heading: 'Max citywide day count',
+					component: NotableRecords,
+					content: {
+						records: maxCitywideDayCount.records,
+						viewMoreHeading: 'Other high counts'
+					}
 				}
-			});
+			];
 		}
 
 		if (highSingleSiteCounts[0].numberIndex > 1) {
-			stats.push({
-				heading: 'High single site counts',
-				component: NotableRecords,
-				content: {
-					records: highSingleSiteCounts,
-					viewMoreHeading: 'Other high counts'
+			stats = [
+				...stats,
+				{
+					heading: 'High single site counts',
+					component: NotableRecords,
+					content: {
+						records: highSingleSiteCounts,
+						viewMoreHeading: 'Other high counts'
+					}
 				}
-			});
+			];
 		}
+		stats = [...stats, ...postStats];
 	}
-	$: stats.push(...postStats);
 </script>
 
 <Table>

@@ -1,3 +1,9 @@
+# TODO
+
+- Show year at top of file. Maybe colour predictably according to the year
+- better high counts - how many days/places had more than N
+- compare years
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);

@@ -7,9 +7,9 @@
 	/** @type {string} */
 	export let viewMoreHeading;
 
-	let topRecord = records[0];
+	$: topRecord = records[0];
 
-	let otherNotableRecords = records.slice(1);
+	$: otherNotableRecords = records.slice(1);
 </script>
 
 <Record {...topRecord} />

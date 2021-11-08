@@ -13,11 +13,8 @@
 	//   autumnPassage: -1
 	// })
 
-	let rawRecords;
 	$: rawRecords = $allRecords.filter(({ species }) => species === bird);
-	let recordCount;
 	$: recordCount = rawRecords.length;
-	let records;
 	$: records = clean(rawRecords);
 	// const breedingSites = getBreedingSites(records, distribution)
 
