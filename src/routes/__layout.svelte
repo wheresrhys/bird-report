@@ -7,11 +7,13 @@
 		FormGroup,
 		Input,
 		Container,
-		Row
+		Row,
+		Spinner
 	} from 'sveltestrap';
 	import { loadRecords } from '../lib/data-loader';
 	import { speciesList, allRecords, year } from '../lib/stores.js';
 	import { Styles } from 'sveltestrap';
+	let showSpinner = false;
 	/**
 	 * @param {import('../lib/data-loader').BirdRecord[]} records
 	 * @returns {string[]}
@@ -24,6 +26,7 @@
 	 * @param {CustomEvent} ev
 	 */
 	const handleFileLoad = (ev) => {
+		$: showSpinner = true;
 		const reader = new FileReader();
 		reader.addEventListener('load', () => {
 			const records = loadRecords(
@@ -33,6 +36,7 @@
 			$speciesList = getSpeciesList(records);
 			$allRecords = records;
 			$year = records[0].date.getFullYear();
+			$: showSpinner = false;
 		});
 		reader.readAsArrayBuffer(
 			/** @type {HTMLInputElement} */ (ev.currentTarget).files[0]
@@ -45,7 +49,9 @@
 </svelte:head>
 <Container>
 	<Row>
-		<h1>London bird report helper {$year}</h1>
+		<h1>
+			London bird report helper{#if $year}{$year}{/if}
+		</h1>
 		<Form
 			><FormGroup>
 				<Input
@@ -58,13 +64,27 @@
 		</Form>
 	</Row>
 	<Row>
+		{#if showSpinner}
+			<div class="spinner">
+				<Spinner color="primary" />
+			</div>
+		{/if}
 		<Nav>
 			{#each $speciesList as species}
 				<NavItem><NavLink href={`/${species}`}>{species}</NavLink></NavItem>
 			{/each}
 		</Nav>
 	</Row><Row>
-		<slot />
+		{#if $speciesList.length}
+			<slot />
+		{/if}
 	</Row>
 </Container>
 <Styles />
+
+<style>
+	.spinner {
+		display: flex;
+		justify-content: center;
+	}
+</style>
