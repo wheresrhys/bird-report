@@ -3,6 +3,7 @@
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
 	import {
+		clean,
 		getNumberOfSites,
 		countRecords,
 		countBirds,
@@ -24,7 +25,8 @@
 	 */
 
 	/** @type {Record[]} */
-	export let records;
+	export let rawRecords;
+
 	/** @type {Stat[]} */
 	export let preStats = [];
 	/** @type {Stat[]} */
@@ -33,13 +35,19 @@
 	/** @type {Stat[]} */
 	let stats = [];
 
+	$: records = clean(rawRecords);
+
 	$: if (records.length) {
 		stats = [...preStats];
 		let numberOfSites = getNumberOfSites(records);
 		let highCitywideDayCounts = aggregateByDay(records, countBirds);
 		let highSingleSiteCounts = getOutliers(records, 'numberIndex');
 
-		stats = [...stats, { heading: 'Number of sites', content: numberOfSites }];
+		stats = [
+			...stats,
+			{ heading: 'Number of records', content: records.length },
+			{ heading: 'Number of sites', content: numberOfSites }
+		];
 		if (numberOfSites > 1) {
 			stats = [
 				...stats,

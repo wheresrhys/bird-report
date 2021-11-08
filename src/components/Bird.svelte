@@ -2,7 +2,6 @@
 	import { TabContent } from 'sveltestrap';
 	import WholeYear from './tabs/WholeYear.svelte';
 	import { allRecords } from '../lib/stores.js';
-	import { clean } from '../lib/data-tools.js';
 
 	/** @type {string} */
 	export let bird;
@@ -14,18 +13,17 @@
 	// })
 
 	$: rawRecords = $allRecords.filter(({ species }) => species === bird);
-	$: recordCount = rawRecords.length;
-	$: records = clean(rawRecords);
+
 	// const breedingSites = getBreedingSites(records, distribution)
 
 	// const birdData = {records, distribution}
 </script>
 
-<h2>{bird} - {recordCount} records</h2>
+<h2>{bird}</h2>
 <div>{bird}</div>
 <div>Trends graph</div>
 <TabContent>
-	<WholeYear {records} />
+	<WholeYear {rawRecords} />
 </TabContent>
 <!--     <Trends {...birdData} />
 
