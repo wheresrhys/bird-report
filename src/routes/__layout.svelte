@@ -10,7 +10,7 @@
 		Row
 	} from 'sveltestrap';
 	import { loadRecords } from '../lib/data-loader';
-	import { speciesList, allRecords } from '../lib/stores.js';
+	import { speciesList, allRecords, year } from '../lib/stores.js';
 	import { Styles } from 'sveltestrap';
 	/**
 	 * @param {import('../lib/data-loader').BirdRecord[]} records
@@ -32,6 +32,7 @@
 
 			$speciesList = getSpeciesList(records);
 			$allRecords = records;
+			$year = records[0].date.getFullYear()
 		});
 		reader.readAsArrayBuffer(
 			/** @type {HTMLInputElement} */ (ev.currentTarget).files[0]
@@ -44,7 +45,7 @@
 </svelte:head>
 <Container>
 	<Row>
-		<h1>London bird report helper</h1>
+		<h1>London bird report helper {$year}</h1>
 		<Form
 			><FormGroup>
 				<Input
