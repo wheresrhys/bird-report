@@ -39,7 +39,11 @@
 			{#each months as month, index}
 				{#if month.hasRecords}
 					<AccordionItem header={month.name}>
-						<Entry rawRecords={month.rawRecords} groupByDay={true} viewMoreHeading="View all {month.name} records" />
+						<Entry
+							rawRecords={month.rawRecords}
+							groupByDay={true}
+							viewMoreHeading="View all {month.name} records"
+						/>
 					</AccordionItem>
 				{:else}
 					<div class="accordion-item accordion-item--empty">
@@ -57,7 +61,7 @@
 
 <style>
 	.accordion-item--empty {
-		opacity:  0.5;
+		opacity: 0.5;
 	}
 	.accordion-item--empty .accordion-header .accordion-button::after {
 		display: none;

@@ -29,7 +29,7 @@
 	export let rawRecords;
 
 	export let groupByDay = false;
-	export let viewMoreHeading="View all records";
+	export let viewMoreHeading = 'View all records';
 
 	/** @type {Stat[]} */
 	export let preStats = [];

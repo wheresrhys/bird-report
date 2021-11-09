@@ -1,5 +1,6 @@
 <script>
 	import { TabContent } from 'sveltestrap';
+	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
 	import Months from './tabs/Months.svelte';
 	import { allRecords } from '../lib/stores.js';
@@ -22,7 +23,7 @@
 
 <h2>{bird}</h2>
 <div>{bird}</div>
-<div>Trends graph</div>
+<TrendChart {rawRecords} />
 <TabContent>
 	<WholeYear {rawRecords} />
 	<Months {rawRecords} />

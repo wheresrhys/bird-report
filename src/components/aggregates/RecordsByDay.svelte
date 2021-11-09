@@ -17,20 +17,22 @@
 	{viewMoreHeading}
 </button>
 <Collapse {isOpen}>
-<Table>
-	<tbody>
-		{#each days as records}
-			<tr
-				><th>{records[0].date.getDate()}</th>
-				<td
-					><ul>
-						{#each records as record}<li><Record {...record} parentAggregationTypes={['same day']}/></li>{/each}
-					</ul></td
-				></tr
-			>
-		{/each}
-	</tbody>
-</Table>
+	<Table>
+		<tbody>
+			{#each days as records}
+				<tr
+					><th>{records[0].date.getDate()}</th>
+					<td
+						><ul>
+							{#each records as record}<li>
+									<Record {...record} parentAggregationTypes={['same day']} />
+								</li>{/each}
+						</ul></td
+					></tr
+				>
+			{/each}
+		</tbody>
+	</Table>
 </Collapse>
 
 <style>
