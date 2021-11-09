@@ -26,7 +26,7 @@
 	 * @param {CustomEvent} ev
 	 */
 	const handleFileLoad = (ev) => {
-		$: showSpinner = true;
+		showSpinner = true;
 		const reader = new FileReader();
 		reader.addEventListener('load', () => {
 			const records = loadRecords(
@@ -36,7 +36,7 @@
 			$speciesList = getSpeciesList(records);
 			$allRecords = records;
 			$year = records[0].date.getFullYear();
-			$: showSpinner = false;
+			showSpinner = false;
 		});
 		reader.readAsArrayBuffer(
 			/** @type {HTMLInputElement} */ (ev.currentTarget).files[0]

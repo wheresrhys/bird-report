@@ -4,7 +4,8 @@ import { standardDeviation, mean } from 'simple-statistics';
 
 // export const latestFirst = (...args) => -1 * earliestFirst(...args)
 
-// export const getMonthsOfRecords = (records, ...months) => records.filter(({ date }) => months.includes(new Date(date).getMonth() + 1))
+export const getMonthsOfRecords = (records, ...months) =>
+	records.filter(({ date }) => months.includes(new Date(date).getMonth() + 1));
 
 /**
  * @typedef {import('./data-loader.js').BirdRecord} BirdRecord

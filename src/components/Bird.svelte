@@ -1,6 +1,7 @@
 <script>
 	import { TabContent } from 'sveltestrap';
 	import WholeYear from './tabs/WholeYear.svelte';
+	import Months from './tabs/Months.svelte';
 	import { allRecords } from '../lib/stores.js';
 
 	/** @type {string} */
@@ -24,13 +25,10 @@
 <div>Trends graph</div>
 <TabContent>
 	<WholeYear {rawRecords} />
+	<Months {rawRecords} />
 </TabContent>
 <!--     <Trends {...birdData} />
 
-      <Tab eventKey="months" title="Individual months">
-        <Months {...birdData} />
-        {' '}
-      </Tab>
       <Tab eventKey="inner-london" title="Inner London" >
         <Records records={records.filter(({viceCounty}) => viceCounty === 'IL')} initiallyOpen={true} />
       </Tab>
