@@ -1,9 +1,9 @@
 <script>
 	import * as Pancake from '@sveltejs/pancake';
-  import Line from "svelte-chartjs/src/Line.svelte"
+	import Line from 'svelte-chartjs/src/Line.svelte';
 	import moment from 'moment';
 
-  import { group, clean } from '../../lib/data-tools';
+	import { group, clean } from '../../lib/data-tools';
 
 	export let rawRecords = [];
 
@@ -27,7 +27,6 @@
 						)
 						.reduce((total, value) => total + value, 0)
 				)
-
 			};
 		}
 	);
@@ -54,35 +53,37 @@
 		};
 	});
 
-  $: yMax=Math.max(...data.map(({y}) =>y)) + 10
+	$: yMax = Math.max(...data.map(({ y }) => y)) + 10;
 
-  $:chartJsData =  {
-      labels: data.map(({dayOfMonth, month}, i) => dayOfMonth === 1 ? month : ''),
-        // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: 'Total',
-          fill: false,    tension: 0.1,
-    borderColor: 'rgb(255, 99, 132)',data: data.map(({y}) => y)} ]
-    }
+	$: chartJsData = {
+		labels: data.map(({ dayOfMonth, month }, i) =>
+			dayOfMonth === 1 ? month : ''
+		),
+		// labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+		datasets: [
+			{
+				label: 'Total',
+				fill: false,
+				tension: 0.1,
+				borderColor: 'rgb(255, 99, 132)',
+				data: data.map(({ y }) => y)
+			}
+		]
+	};
 
-  const scales = {
-    x: {
-                ticks: {
-                    // Include a dollar sign in the ticks
-                    callback: function(value, index, values) {
-                        return '$' + value;
-                    }
-                }
-            }
-  }
+	const scales = {
+		x: {
+			ticks: {
+				// Include a dollar sign in the ticks
+				callback: function (value, index, values) {
+					return '$' + value;
+				}
+			}
+		}
+	};
 </script>
 
-<Line
-  data={chartJsData}
-  width={100}
-  height={50}
-  scales={scales}
-/>
+<Line data={chartJsData} width={100} height={50} {scales} />
 
 <!-- options={{ maintainAspectRatio: false }} -->
 
