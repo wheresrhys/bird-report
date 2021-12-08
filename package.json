@@ -28,7 +28,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"chartjs": "^0.3.24",
+		"chart.js": "^3.6.2",
 		"chartjs-adapter-moment": "^1.0.0",
 		"husky": "^7.0.4",
 		"lint-staged": "^11.2.6",
