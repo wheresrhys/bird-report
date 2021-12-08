@@ -1,6 +1,6 @@
 <script>
 	import { TabContent } from 'sveltestrap';
-	import TrendChart from './UI/TrendChart2.svelte';
+	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
 	import Months from './tabs/Months.svelte';
 	import { allRecords } from '../lib/stores.js';
