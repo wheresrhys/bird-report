@@ -1,7 +1,8 @@
 <script>
 	import Record from './Record.svelte';
 	import { Collapse } from 'sveltestrap';
-	/** @type {import('../../lib/data-tools').Record[]} */
+	/** @typedef {import('../../lib/data-tools').Record} Record */
+	/** @type {Record[]} */
 	export let records;
 	export let isOpen = false;
 	/** @type {string} */

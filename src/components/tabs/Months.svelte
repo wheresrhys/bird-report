@@ -30,7 +30,6 @@
 			hasRecords: !!records.length
 		};
 	});
-	$: console.log(months);
 </script>
 
 <TabPane tabId="months" tab="Individual months">

@@ -3,6 +3,7 @@
 	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
 	import Months from './tabs/Months.svelte';
+  import InnerLondon from './tabs/InnerLondon.svelte';
 	import { allRecords } from '../lib/stores.js';
 
 	/** @type {string} */
@@ -27,12 +28,10 @@
 <TabContent>
 	<WholeYear {rawRecords} />
 	<Months {rawRecords} />
+  <InnerLondon {rawRecords} />
 </TabContent>
-<!--     <Trends {...birdData} />
+<!--
 
-      <Tab eventKey="inner-london" title="Inner London" >
-        <Records records={records.filter(({viceCounty}) => viceCounty === 'IL')} initiallyOpen={true} />
-      </Tab>
       <Tab eventKey="winter" title="Winter" disabled={!distribution.winter}>
         {distribution.winter ? (
             <FirstWinter {...birdData} />
