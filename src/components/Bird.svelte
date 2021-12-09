@@ -3,7 +3,9 @@
 	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
 	import Months from './tabs/Months.svelte';
-  import InnerLondon from './tabs/InnerLondon.svelte';
+	import InnerLondon from './tabs/InnerLondon.svelte';
+	import Winter from './tabs/Winter.svelte';
+	import Settings from './tabs/Settings.svelte';
 	import { allRecords } from '../lib/stores.js';
 
 	/** @type {string} */
@@ -28,16 +30,12 @@
 <TabContent>
 	<WholeYear {rawRecords} />
 	<Months {rawRecords} />
-  <InnerLondon {rawRecords} />
-</TabContent>
-<!--
+	<InnerLondon {rawRecords} />
+	<Winter {rawRecords} />
+	<Settings {bird} />
+	<!--
 
-      <Tab eventKey="winter" title="Winter" disabled={!distribution.winter}>
-        {distribution.winter ? (
-            <FirstWinter {...birdData} />
-            <SecondWinter {...birdData} />
-) : null}
-      </Tab>
+
       <Tab eventKey="spring" title="Spring passage" disabled={!distribution.springPassage}>
         {distribution.springPassage ? <Spring {...birdData} breedingSites={breedingSites} /> : null}
       </Tab>
@@ -50,8 +48,7 @@
       <Tab eventKey="search" title="Search" >
         <Search records={rawRecords}/>
       </Tab>
-      <Tab eventKey="settings" title="Settings" >
-        <SettingsForm species={bird} distribution={distribution} setDistribution={setDistribution}/>
-      </Tab>
+
     </TabContent>
  -->
+</TabContent>
