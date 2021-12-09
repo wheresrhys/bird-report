@@ -2,12 +2,13 @@
 	import Record from './Record.svelte';
 	import { group } from '../../lib/data-tools';
 	import { Collapse, Table } from 'sveltestrap';
-	/** @type {import('../../lib/data-tools').Record[]} */
+	/** @typedef {import('../../lib/data-tools').Record} Record */
+	/** @type {Record[]} */
 	export let records;
 	export let isOpen = false;
 	/** @type {string} */
 	export let viewMoreHeading = 'View detail';
-	/** @type {string[]} */
+	/** @type {Record[][]} */
 	$: days = group(records, ({ date }) => date.getDate()).sort((rs1, rs2) => {
 		return rs1[0].date > rs2[0].date ? 1 : rs1[0].date < rs2[0].date ? -1 : 0;
 	});

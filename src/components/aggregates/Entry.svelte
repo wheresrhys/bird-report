@@ -8,11 +8,8 @@
 		getNumberOfSites,
 		countRecords,
 		countBirds,
-		aggregate,
 		aggregateByDay,
-		group,
-		getOutliers,
-		sortPropDesc
+		getOutliers
 	} from '../../lib/data-tools';
 
 	/** @typedef {import('../../lib/data-tools').Record} Record */

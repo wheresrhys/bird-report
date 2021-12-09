@@ -36,7 +36,7 @@
 <TabPane tabId="months" tab="Individual months">
 	<section>
 		<Accordion>
-			{#each months as month, index}
+			{#each months as month}
 				{#if month.hasRecords}
 					<AccordionItem header={month.name}>
 						<Entry

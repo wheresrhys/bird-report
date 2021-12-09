@@ -1,12 +1,5 @@
 import { standardDeviation, mean } from 'simple-statistics';
 
-// export const earliestFirst = sortPropAsc('date')
-
-// export const latestFirst = (...args) => -1 * earliestFirst(...args)
-
-export const getMonthsOfRecords = (records, ...months) =>
-	records.filter(({ date }) => months.includes(new Date(date).getMonth() + 1));
-
 /**
  * @typedef {import('./data-loader.js').BirdRecord} BirdRecord
  */
@@ -18,6 +11,10 @@ export const getMonthsOfRecords = (records, ...months) =>
  */
 
 /** @typedef {(AggregateRecord | BirdRecord) } Record */
+
+// export const earliestFirst = sortPropAsc('date')
+
+// export const latestFirst = (...args) => -1 * earliestFirst(...args)
 
 /**
  * @param {string} prop
@@ -34,6 +31,14 @@ export const sortPropDesc = (prop) => {
 	const asc = sortPropAsc(prop);
 	return (a, b) => -1 * asc(a, b);
 };
+
+/**
+ * @param {Record[]} records
+ * @param {number[]} months
+ * @returns {Record[]}
+ */
+export const getMonthsOfRecords = (records, ...months) =>
+	records.filter(({ date }) => months.includes(new Date(date).getMonth() + 1));
 
 /**
  * @param {Record[]} records

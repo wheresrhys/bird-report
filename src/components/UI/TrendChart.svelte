@@ -1,54 +1,79 @@
 <script>
 	import { onMount, afterUpdate, onDestroy } from 'svelte';
-  import { Chart, registerables  } from 'chart.js';
-  import moment from 'moment';
-  import 'chartjs-adapter-moment';
+	import { Chart, registerables } from 'chart.js';
+	import moment from 'moment';
+	import 'chartjs-adapter-moment';
 
 	import { group, clean } from '../../lib/data-tools';
-  import {year} from '../../lib/stores'
+	import { year } from '../../lib/stores';
+
+	/** @typedef {import('../../lib/data-tools').Record} Record */
+
+	/** @type {Record[]} */
 	export let rawRecords = [];
 
 	Chart.register(...registerables);
 
-	$: cleanRecords = clean(rawRecords);
+	/**
+	 * @typedef DaySummary
+	 * @property {number} dayOfYear
+	 * @property {string} date
+	 * @property {number} locations
+	 * @property {number} total
+	 */
 
-  console.log(year)
-	$: days = group(cleanRecords, ({ date }) => date.toISOString()).map(
-		(records, i) => {
-			const locations = group(records, ({ location }) => location);
-
-			return {
-				date: records[0].date.toISOString(),
-				dayOfYear: moment(records[0].date).dayOfYear(),
-				locations: locations.length,
-				total: Math.round(
-					locations
-						.map((records) =>
-							Math.max(...records.map(({ numberIndex }) => numberIndex))
-						)
-						.reduce((total, value) => total + value, 0)
-				)
-			};
-		}
-	);
-
-	$: data = [...Array(365)].map((_, day) => {
-		const realRecord = days.find(({ dayOfYear }) => dayOfYear === day + 1);
-		if (realRecord) return realRecord;
+	/**
+	 * @param {Record[]} records
+	 * @return {DaySummary}
+	 */
+	function createDaySummary(records) {
+		const locations = group(records, ({ location }) => location);
 
 		return {
-      dayOfYear: day + 1,
-      date: moment().year($year).dayOfYear(day + 1).startOf('day'),
-			axisLabel: moment()
+			date: records[0].date.toISOString(),
+			dayOfYear: moment(records[0].date).dayOfYear(),
+			locations: locations.length,
+			total: Math.round(
+				locations
+					.map((records) =>
+						Math.max(...records.map(({ numberIndex }) => numberIndex))
+					)
+					.reduce((total, value) => total + value, 0)
+			)
+		};
+	}
+
+	/**
+	 * @param {number} day
+	 * @returns {DaySummary}
+	 */
+	function createZeroDay(day) {
+		return {
+			dayOfYear: day + 1,
+			date: moment()
+				.year($year)
 				.dayOfYear(day + 1)
-				.format('MMM-D'),
+				.startOf('day'),
 			locations: 0,
 			total: 0
 		};
-	});
+	}
 
-	$: yMax = Math.max(...data.map(({ y }) => y)) + 10;
+	/** @type {Record[]} */
+	$: cleanRecords = clean(rawRecords);
 
+	/** @type {DaySummary[]} */
+	$: days = group(cleanRecords, ({ date }) => date.toDateString()).map(
+		createDaySummary
+	);
+
+	/** @type {DaySummary[]} */
+	$: daysIncludingZeroes = [...Array(365)].map(
+		(_, day) =>
+			days.find(({ dayOfYear }) => dayOfYear === day + 1) || createZeroDay(day)
+	);
+
+	/** @type { import("@types/chart.js").ChartOptionsData }  */
 	$: chartJsData = {
 		datasets: [
 			{
@@ -56,40 +81,45 @@
 				fill: false,
 				tension: 0.2,
 				borderColor: '#8884d8',
-				data: data.map(({ locations, date }) => ({x: date, y: locations}))
+				data: daysIncludingZeroes.map(({ locations, date }) => ({
+					x: date,
+					y: locations
+				}))
 			},
 			{
 				label: 'total',
 				fill: false,
 				tension: 0.2,
 				borderColor: '#82ca9d',
-        data: data.map(({ total, date }) => ({x: date, y: total}))
+				data: daysIncludingZeroes.map(({ total, date }) => ({
+					x: date,
+					y: total
+				}))
 			}
-		],
-
+		]
 	};
-
+	/** @type { import("@types/chart.js").ChartOptions }  */
 	const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    spanGaps: false,
-    pointHitRadius: 4,
-    pointRadius: 1,
-    scales: {
-      x: {
-        min: moment().year($year).dayOfYear(1).startOf('day'),
-        max: moment().year($year).dayOfYear(365).startOf('day'),
-        type: 'time',
-        gridLines: {
-          display:true
-        },
-        time: {
-          unit: 'month'
-        },
-        distribution: 'linear'
-      }
-    }
-  };
+		responsive: true,
+		maintainAspectRatio: false,
+		spanGaps: false,
+		pointHitRadius: 4,
+		pointRadius: 1,
+		scales: {
+			x: {
+				min: moment().year($year).dayOfYear(1).startOf('day'),
+				max: moment().year($year).dayOfYear(365).startOf('day'),
+				type: 'time',
+				gridLines: {
+					display: true
+				},
+				time: {
+					unit: 'month'
+				},
+				distribution: 'linear'
+			}
+		}
+	};
 	let chart = null;
 	let chartRef;
 	onMount(() => {
@@ -101,10 +131,7 @@
 	});
 	afterUpdate(() => {
 		if (!chart) return;
-
 		chart.data = chartJsData;
-		chart.type = 'line';
-		chart.options = options;
 		chart.update();
 	});
 
@@ -112,13 +139,14 @@
 		chart = null;
 	});
 </script>
-<div  class="trend-chart">
-<canvas bind:this={chartRef} />
+
+<div class="trend-chart">
+	<canvas bind:this={chartRef} />
 </div>
 
 <style>
-  .trend-chart {
-    height: 200px;
-    position:  relative;
-  }
+	.trend-chart {
+		height: 200px;
+		position: relative;
+	}
 </style>
