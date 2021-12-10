@@ -12,6 +12,9 @@ const defaultSettings = {
 	[AUTUMN]: -1
 };
 
+/**
+ * @param {string} bird
+ */
 function createStore(bird) {
 	const storedSettings = browser && localStorage.getItem(bird);
 
@@ -28,6 +31,9 @@ function createStore(bird) {
 	return settings;
 }
 
+/**
+ * @param {string} bird
+ */
 export function getSettingsStore(bird) {
 	return stores[bird] || createStore(bird);
 }

@@ -8,6 +8,7 @@
 	import { year } from '../../lib/stores';
 
 	/** @typedef {import('../../lib/data-tools').Record} Record */
+	/** @typedef {import('moment').Moment} Moment */
 
 	/** @type {Record[]} */
 	export let rawRecords = [];
@@ -17,7 +18,7 @@
 	/**
 	 * @typedef DaySummary
 	 * @property {number} dayOfYear
-	 * @property {string} date
+	 * @property {string | Moment} date
 	 * @property {number} locations
 	 * @property {number} total
 	 */
@@ -73,7 +74,7 @@
 			days.find(({ dayOfYear }) => dayOfYear === day + 1) || createZeroDay(day)
 	);
 
-	/** @type { import("@types/chart.js").ChartOptionsData }  */
+	/** @type { import("chart.js").ChartData }  */
 	$: chartJsData = {
 		datasets: [
 			{
@@ -98,25 +99,20 @@
 			}
 		]
 	};
-	/** @type { import("@types/chart.js").ChartOptions }  */
+	/** @type { import("chart.js").ChartOptions }  */
 	const options = {
 		responsive: true,
 		maintainAspectRatio: false,
-		spanGaps: false,
 		pointHitRadius: 4,
 		pointRadius: 1,
 		scales: {
 			x: {
-				min: moment().year($year).dayOfYear(1).startOf('day'),
-				max: moment().year($year).dayOfYear(365).startOf('day'),
+				min: Number(moment().year($year).dayOfYear(1).startOf('day')),
+				max: Number(moment().year($year).dayOfYear(365).startOf('day')),
 				type: 'time',
-				gridLines: {
-					display: true
-				},
 				time: {
 					unit: 'month'
-				},
-				distribution: 'linear'
+				}
 			}
 		}
 	};

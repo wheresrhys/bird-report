@@ -7,15 +7,12 @@
 	import Winter from './tabs/Winter.svelte';
 	import Settings from './tabs/Settings.svelte';
 	import { allRecords } from '../lib/stores.js';
+	import { getSettingsStore } from '../lib/settings';
 
 	/** @type {string} */
 	export let bird;
-	//     const [distribution, setDistribution] = useLocalStorage(bird, {
-	//   winter: -1,
-	//   springPassage: -1,
-	//   breeding: -1,
-	//   autumnPassage: -1
-	// })
+
+	$: settings = getSettingsStore(bird)
 
 	$: rawRecords = $allRecords.filter(({ species }) => species === bird);
 
@@ -31,7 +28,7 @@
 	<WholeYear {rawRecords} />
 	<Months {rawRecords} />
 	<InnerLondon {rawRecords} />
-	<Winter {rawRecords} />
+	<Winter {rawRecords} settings={$settings}/>
 	<Settings {bird} />
 	<!--
 

@@ -1,7 +1,7 @@
 <script>
 	import { TabPane } from 'sveltestrap';
 	import { getSettingsStore } from '../../lib/settings';
-	import { Form, FormGroup, FormText, Input, Label } from 'sveltestrap';
+	import { Form, FormGroup, Input, Label } from 'sveltestrap';
 
 	import {
 		WINTER,
@@ -36,8 +36,12 @@
 
 	export let bird;
 
+  /**
+   * @param {CustomEvent} ev
+   */
 	function updateSettings(ev) {
-		$settings = { ...$settings, [ev.target.id]: Number(ev.target.value) };
+    const target = /** @type {HTMLInputElement} */(ev.target);
+		$settings = { ...$settings, [target.id]: Number(target.value) };
 	}
 
 	$: settings = getSettingsStore(bird);
