@@ -33,9 +33,7 @@
 	<!--
 
 
-      <Tab eventKey="spring" title="Spring passage" disabled={!distribution.springPassage}>
-        {distribution.springPassage ? <Spring {...birdData} breedingSites={breedingSites} /> : null}
-      </Tab>
+
       <Tab eventKey="breeding" title="Breeding" disabled={!distribution.breeding}>
         {distribution.breeding ? <Breeding {...birdData} breedingSites={breedingSites}/> : null}
       </Tab>
