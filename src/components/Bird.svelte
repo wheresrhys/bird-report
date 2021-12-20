@@ -5,6 +5,9 @@
 	import Months from './tabs/Months.svelte';
 	import InnerLondon from './tabs/InnerLondon.svelte';
 	import Winter from './tabs/Winter.svelte';
+
+
+	import Breeding from './tabs/Breeding.svelte';
 	import Settings from './tabs/Settings.svelte';
 	import { allRecords } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/settings';
@@ -29,6 +32,7 @@
 	<Months {rawRecords} />
 	<InnerLondon {rawRecords} />
 	<Winter {rawRecords} settings={$settings}/>
+	<Breeding {rawRecords} settings={$settings}/>
 	<Settings {bird} />
 	<!--
 

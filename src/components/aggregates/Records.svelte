@@ -4,16 +4,18 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @type {Record[]} */
 	export let records;
-	export let isOpen = false;
+	export let isCollapsible = true;
+	export let isOpen = !isCollapsible;
 	/** @type {string} */
 	export let viewMoreHeading = 'View detail';
 	/** @type {string[]} */
 	export let parentAggregationTypes = [];
 </script>
-
-<button on:click={() => (isOpen = !isOpen)} class="link">
-	{viewMoreHeading}
-</button>
+{#if isCollapsible}
+	<button on:click={() => (isOpen = !isOpen)} class="link">
+		{viewMoreHeading}
+	</button>
+{/if}
 <Collapse {isOpen}>
 	<ul>
 		{#each records as record}

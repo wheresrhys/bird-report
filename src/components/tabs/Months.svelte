@@ -53,7 +53,7 @@
 						</h2>
 					</div>
 				{/if}
-			{/each}}
+			{/each}
 		</Accordion>
 	</section>
 </TabPane>
