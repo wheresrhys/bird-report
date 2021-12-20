@@ -12,9 +12,6 @@ import { standardDeviation, mean } from 'simple-statistics';
 
 /** @typedef {(AggregateRecord | BirdRecord) } Record */
 
-// export const earliestFirst = sortPropAsc('date')
-
-// export const latestFirst = (...args) => -1 * earliestFirst(...args)
 
 /**
  * @param {string} prop
@@ -31,6 +28,11 @@ export const sortPropDesc = (prop) => {
 	const asc = sortPropAsc(prop);
 	return (a, b) => -1 * asc(a, b);
 };
+
+export const earliestFirst = sortPropAsc('date')
+
+export const latestFirst = (...args) => -1 * earliestFirst(...args)
+
 
 /**
  * @param {Record[]} records
@@ -195,10 +197,7 @@ export  const getBreedingSites = (records, settings) => {
 
 export const findEarlyRecords = (records) => {
   records = [...records].sort(earliestFirst)
-  return {
-    ...records[0],
-    records: records.slice(0, 5)// getOutliers(records, 'date', { highLow: 'low' }),
-  }
+  return records.slice(0, 5)// getOutliers(records, 'date', { highLow: 'low' }),
 }
 
 export const findLateRecords = (records) => {

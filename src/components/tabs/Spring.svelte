@@ -2,7 +2,7 @@
 	import { TabPane } from 'sveltestrap';
   import Season from '../aggregates/Season.svelte'
   import Record from '../aggregates/Records.svelte'
-  import {SPRING} from '../../lib/constants'
+  import {SPRING, WINTER} from '../../lib/constants'
   import {getBreedingSites, throughput, getMonthsOfRecords, findLateRecords, findEarlyRecords, clean} from '../../lib/data-tools'
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
 
@@ -10,13 +10,17 @@
 	export let rawRecords;
   export let settings;
 
-  const getEarlies = ({records, distribution}) => {
-    if (distribution.winter) return null
+  const getPreStats = (records) => {
+    if (settings[WINTER] >= 1) return []
+
     const earlies = findEarlyRecords(records)
-    return {
+    return [{
       heading: 'Earliest',
-       // content: <Record {...earlies} viewMoreHeading="View other early records" />
-    }
+      content: {
+        records: earlies,
+        viewMoreHeading: 'Other early records'
+      }
+    }]
   }
 
 
@@ -56,9 +60,10 @@
     }
     return passageMonths
   }
-
-  $: breedingSites = getBreedingSites(rawRecords, settings).map(({location}) => location)
+  $: records = clean(rawRecords)
+  $: breedingSites = getBreedingSites(records, settings).map(({location}) => location)
   $: passageMonths = getPassageMonths(settings)
+  $: preStats = getPreStats(records)
 
   $: records = clean(getMonthsOfRecords(rawRecords, ...passageMonths))
 
@@ -67,21 +72,15 @@
 
 <TabPane tabId="spring" tab="Spring passage" disabled={settings[SPRING] < 1}>
   {#if settings[SPRING] >= 1}
-    Hold
 
 
       <Season
     heading="Spring passage"
     months={passageMonths}
     {rawRecords}
-
+    {preStats}
   />
-   <!--  preStats={
-      [getEarlies({
-        records,
-        distribution,
-      })]
-    }
+   <!--
     postStats={
       [estimateThroughput({records, distribution}), getLates({
         records,
