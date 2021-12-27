@@ -5,6 +5,15 @@ import { WINTER, SPRING, BREEDING, AUTUMN } from './constants';
 
 const stores = {};
 
+/**
+ * @typedef {Object} Settings
+ * @property {number} winter
+ * @property {number} springPassage
+ * @property {number} breeding
+ * @property {number} autumnPassage
+ */
+
+/** @type {Settings} */
 const defaultSettings = {
 	[WINTER]: -1,
 	[SPRING]: -1,
@@ -14,6 +23,7 @@ const defaultSettings = {
 
 /**
  * @param {string} bird
+ * @returns {Settings}
  */
 function createStore(bird) {
 	const storedSettings = browser && localStorage.getItem(bird);
