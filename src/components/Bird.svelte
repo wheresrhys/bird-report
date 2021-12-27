@@ -14,7 +14,7 @@
 	/** @type {string} */
 	export let bird;
 
-	$: settings = getSettingsStore(bird)
+	$: settings = getSettingsStore(bird);
 
 	$: rawRecords = $allRecords.filter(({ species }) => species === bird);
 
@@ -30,9 +30,9 @@
 	<WholeYear {rawRecords} />
 	<Months {rawRecords} />
 	<InnerLondon {rawRecords} />
-	<Winter {rawRecords} settings={$settings}/>
-	<Spring {rawRecords} settings={$settings}/>
-	<Breeding {rawRecords} settings={$settings}/>
+	<Winter {rawRecords} settings={$settings} />
+	<Spring {rawRecords} settings={$settings} />
+	<Breeding {rawRecords} settings={$settings} />
 	<Settings {bird} />
 	<!--
 

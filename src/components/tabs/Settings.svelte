@@ -36,11 +36,11 @@
 
 	export let bird;
 
-  /**
-   * @param {CustomEvent} ev
-   */
+	/**
+	 * @param {CustomEvent} ev
+	 */
 	function updateSettings(ev) {
-    const target = /** @type {HTMLInputElement} */(ev.target);
+		const target = /** @type {HTMLInputElement} */ (ev.target);
 		$settings = { ...$settings, [target.id]: Number(target.value) };
 	}
 

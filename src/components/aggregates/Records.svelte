@@ -11,6 +11,7 @@
 	/** @type {string[]} */
 	export let parentAggregationTypes = [];
 </script>
+
 {#if isCollapsible}
 	<button on:click={() => (isOpen = !isOpen)} class="link">
 		{viewMoreHeading}
