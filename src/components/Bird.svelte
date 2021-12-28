@@ -7,6 +7,7 @@
 	import Winter from './tabs/Winter.svelte';
 	import Spring from './tabs/Spring.svelte';
 	import Breeding from './tabs/Breeding.svelte';
+	import Autumn from './tabs/Autumn.svelte';
 	import Settings from './tabs/Settings.svelte';
 	import { allRecords } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/settings';
@@ -36,6 +37,7 @@
 	<Winter {records} settings={$settings} />
 	<Spring {records} settings={$settings} />
 	<Breeding {records} settings={$settings} />
+	<Autumn {records} settings={$settings} />
 	<Settings {bird} />
 	<!--
 

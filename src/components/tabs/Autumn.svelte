@@ -1,7 +1,7 @@
 <script>
 	import { TabPane } from 'sveltestrap';
 	import Season from '../aggregates/Season.svelte';
-	import { SPRING, WINTER, BREEDING } from '../../lib/constants';
+	import { AUTUMN, WINTER, BREEDING } from '../../lib/constants';
 	import {
 		getBreedingSites,
 		getMonthsOfRecords,
@@ -24,16 +24,17 @@
 
 	/**
 	 * @param {Record[]} records
+	 * @param {string[]} breedingSites
 	 * @return {Stat[]}
 	 */
-	const getPreStats = (records) => {
-		if (settings[WINTER] >= 1) return [];
+	const getPreStats = (records, breedingSites) => {
+		if (settings[BREEDING] > 2) return [];
 
 		return [
 			{
-				heading: 'Earliest',
+				heading: settings[BREEDING] > 0 ? 'Earliest non breeding' : 'Earliest',
 				content: {
-					records: findEarlyRecords(records),
+					records: findEarlyRecords(records.filter(({ location }) => !breedingSites.includes(location))),
 					viewMoreHeading: 'Other early records'
 				}
 			}
@@ -42,20 +43,19 @@
 
 	/**
 	 * @param {Record[]} records
-	 * @param {string[]} breedingSites
 	 * @return {Stat[]}
 	 */
-	const getPostStats = (records, breedingSites) => {
+	const getPostStats = (records) => {
 		const stats = [];
 		if (!(settings[BREEDING] > 2 || settings[WINTER] > 2)) {
 			stats.push(...throughput(records));
 		}
-		if (settings[BREEDING] <= 2) {
+		if (settings[WINTER] <= 0) {
 			stats.push({
-				heading: settings[BREEDING] > 0 ? 'Latest non breeding' : 'Latest',
+				heading: 'Latest',
 				content: {
 					records: findLateRecords(
-						records.filter(({ location }) => !breedingSites.includes(location))
+						records
 					),
 					viewMoreHeading: 'Other late records'
 				}
@@ -69,12 +69,13 @@
 	 * @return {number[]}
 	 */
 	const getPassageMonths = (settings) => {
-		const passageMonths = [4, 5];
-		if (!settings[BREEDING]) {
-			passageMonths.push(6);
+
+		const passageMonths = [7, 8, 9, 10];
+		if (settings[BREEDING] < 3) {
+			passageMonths.unshift(6);
 		}
-		if (!settings[WINTER]) {
-			passageMonths.unshift(2, 3);
+		if (settings[WINTER] < 2) {
+			passageMonths.push(11, 12);
 		}
 		return passageMonths;
 	};
@@ -84,20 +85,20 @@
 	);
 	$: passageMonths = getPassageMonths(settings);
 	$: relevantRecords = getMonthsOfRecords(records, ...passageMonths);
-	$: preStats = getPreStats(relevantRecords);
-	$: postStats = getPostStats(relevantRecords, breedingSites);
+	$: preStats = getPreStats(relevantRecords, breedingSites);
+	$: postStats = getPostStats(relevantRecords);
 </script>
 
-<TabPane tabId="spring" tab="Spring passage" disabled={settings[SPRING] < 1}>
-	{#if settings[SPRING] >= 1}
+<TabPane tabId="autumn" tab="Autumn passage" disabled={settings[AUTUMN] < 1}>
+	{#if settings[AUTUMN] >= 1}
 		<Season
-			heading="Spring passage"
+			heading="Autumn passage"
 			months={passageMonths}
 			records={relevantRecords}
 			{preStats}
 			{postStats}
 		/>
 	{:else}
-		Not a spring passage migrant
+		Not a autumn passage migrant
 	{/if}
 </TabPane>
