@@ -12,17 +12,10 @@
 	} from '../../lib/data-tools';
 
 	/** @typedef {import('../../lib/data-tools').Record} Record */
-
-	// TODO: expect a svelte component in the component property
-	/**
-	 * @typedef {Object} Stat
-	 * @property {string} heading
-	 * @property {Object} [component]
-	 * @property {Object} content
-	 */
+	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 
 	/** @type {Record[]} */
-	export let records;
+	export let records = [];
 
 	export let groupByDay = false;
 	export let viewMoreHeading = 'View all records';

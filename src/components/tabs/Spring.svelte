@@ -4,17 +4,21 @@
 	import { SPRING, WINTER } from '../../lib/constants';
 	import {
 		getBreedingSites,
-		throughput,
 		getMonthsOfRecords,
+	} from '../../lib/data-tools';
+
+	import {
+		throughput,
 		findLateRecords,
 		findEarlyRecords
-	} from '../../lib/data-tools';
+	} from '../../lib/migration';
+
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
+	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 	/** @typedef {import('../../lib/settings').Settings} Settings*/
-	/** @typedef {import('../aggregates/Entry.svelte').Stat} Stat*/
 
 	/** @type {Record[]} */
-	export let records;
+	export let records = [];
 	/** @type {Settings} */
 	export let settings;
 
@@ -43,21 +47,9 @@
 	 */
 	const getPostStats = (records, breedingSites) => {
 		const stats = [];
-		//       if (!(settings.breeding > 2 || settings.winter > 2)) {
-		//          stats.push({
-		//           heading: 'Estimated total throughput',
-		//           content: <ul>
-		// //   {Object.entries(throughput(records)).map(([name, value]) => (
-		// //     <li>
-		// //       <b>{name}</b>
-		// //       :
-		// //       {' '}
-		// //       {value}
-		// //     </li>
-		// // ))}
-		// // </ul>
-		//         })
-		//       }
+		if (!(settings.breeding > 2 || settings.winter > 2)) {
+			stats.push(...throughput(records));
+		}
 		if (settings.breeding <= 2) {
 			stats.push({
 				heading: settings.breeding > 0 ? 'Latest non breeding' : 'Latest',

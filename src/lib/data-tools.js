@@ -5,6 +5,13 @@ import { standardDeviation, mean } from 'simple-statistics';
  */
 
 /**
+ * @typedef {Object} Stat
+ * @property {string} heading
+ * @property {Object} [component]
+ * @property {Object} content
+ */
+
+/**
  * @typedef {Object} AggregateRecord
  * @implements {BirdRecord}
  * @property {Record[]} [records]
@@ -28,13 +35,8 @@ export const sortPropDesc = (prop) => {
 	return (a, b) => -1 * asc(a, b);
 };
 
-export const earliestFirst = sortPropAsc('date');
-
-export const latestFirst = (...args) => -1 * earliestFirst(...args);
 
 /**
- * @param {Record[]} records
- * @param {number[]} months
  * @returns {Record[]}
  */
 export const getMonthsOfRecords = (records, ...months) =>
@@ -208,90 +210,4 @@ export const getBreedingSites = (records, settings) => {
 				: null
 		)
 		.filter((records) => !!records);
-};
-
-/**
- * @param {Record[]} records
- * @returns {Record[]}
- */
-export const findEarlyRecords = (records) => {
-	records = [...records].sort(earliestFirst);
-	return records.slice(0, 5); // getOutliers(records, 'date', { highLow: 'low' }),
-};
-
-/**
- * @param {Record[]} records
- * @returns {Record[]}
- */
-export const findLateRecords = (records) => {
-	records = [...records].sort(latestFirst);
-	return {
-		...records[0],
-		records: records.slice(0, 5) // getOutliers(records, 'date'),
-	};
-};
-
-export const throughput = (records) => {
-	records = [...records].sort(earliestFirst);
-	return {
-		'Upper bound': Math.round(
-			records.reduce((total, { numberIndex }) => total + numberIndex, 0)
-		),
-		'Lower bound': Math.round(
-			group(records, ({ location }) => location)
-				.map((records) =>
-					Math.max(...records.map(({ numberIndex }) => numberIndex))
-				)
-				.reduce((total, value) => total + value, 0)
-		),
-		'Assuming each bird stays 2 days': Math.round(
-			group(records, ({ location }) => location)
-				.flatMap((records) =>
-					records.map((record, i) => {
-						if (i % 2 === 1) {
-							return {
-								...record,
-								numberIndex: Math.max(
-									0,
-									record.numberIndex - records[i - 1].numberIndex
-								)
-							};
-						}
-						return record;
-					})
-				)
-				.reduce((total, { numberIndex }) => total + numberIndex, 0)
-		),
-		'Assuming each bird stays 3 days': Math.round(
-			group(records, ({ location }) => location)
-				.flatMap((records) =>
-					records.map((record, i) => {
-						if (i % 3 === 1) {
-							return {
-								...record,
-								numberIndex: Math.max(
-									0,
-									record.numberIndex - records[i - 1].numberIndex
-								)
-							};
-						}
-						if (i % 3 === 2) {
-							return {
-								...record,
-								numberIndex: Math.max(
-									0,
-									record.numberIndex -
-										Math.max(
-											records[i - 1].numberIndex,
-											records[i - 2].numberIndex
-										)
-								)
-							};
-						}
-						return record;
-					})
-				)
-				.reduce((total, { numberIndex }) => total + numberIndex, 0)
-		)
-	};
 };

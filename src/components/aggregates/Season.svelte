@@ -2,10 +2,10 @@
 	import Entry from './Entry.svelte';
 	import { getMonthsOfRecords } from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
-	/** @typedef {import('./Entry.svelte').Stat} Stat*/
+	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 
 	/** @type {Record[]} */
-	export let records;
+	export let records = [];
 
 	/** @type {number[]} */
 	export let months;
@@ -51,7 +51,6 @@
 	</h2>
 
 	<Entry
-		heading="Summary"
 		records={getMonthsOfRecords(records, ...months)}
 		{preStats}
 		{postStats}

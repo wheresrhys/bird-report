@@ -23,7 +23,6 @@ const defaultSettings = {
 
 /**
  * @param {string} bird
- * @returns {Settings}
  */
 function createStore(bird) {
 	const storedSettings = browser && localStorage.getItem(bird);
