@@ -19,14 +19,14 @@
 	];
 
 	/** @type {import('../../lib/data-tools').Record[]} */
-	export let rawRecords = [];
+	export let records = [];
 
 	$: months = MONTH_NAMES.map((name, index) => {
-		const records = getMonthsOfRecords(rawRecords, index + 1);
+		const relevantRecords = getMonthsOfRecords(records, index + 1);
 		return {
 			name,
 			index,
-			rawRecords: records,
+			records: relevantRecords,
 			hasRecords: !!records.length
 		};
 	});
@@ -39,7 +39,7 @@
 				{#if month.hasRecords}
 					<AccordionItem header={month.name}>
 						<Entry
-							rawRecords={month.rawRecords}
+							records={month.records}
 							groupByDay={true}
 							viewMoreHeading="View all {month.name} records"
 						/>

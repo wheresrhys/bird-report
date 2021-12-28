@@ -2,14 +2,16 @@
 	import { TabPane, Accordion, AccordionItem } from 'sveltestrap';
 	import Records from '../aggregates/Records.svelte';
 	import { BREEDING } from '../../lib/constants';
-	import { clean, getBreedingSites } from '../../lib/data-tools';
+	import { getBreedingSites } from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
+	/** @typedef {import('../../lib/settings').Settings} Settings*/
 
 	/** @type {Record[]} */
-	export let rawRecords;
+	export let records;
+	/** @type {Settings} */
 	export let settings;
 
-	$: breedingSites = getBreedingSites(clean(rawRecords), settings);
+	$: breedingSites = getBreedingSites(records, settings);
 </script>
 
 <TabPane tabId="breeding" tab="Breeding" disabled={settings[BREEDING] < 1}>

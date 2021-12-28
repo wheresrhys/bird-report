@@ -1,22 +1,27 @@
 <script>
 	import { TabPane } from 'sveltestrap';
 	import Season from '../aggregates/Season.svelte';
-	import Record from '../aggregates/Records.svelte';
 	import { SPRING, WINTER } from '../../lib/constants';
 	import {
 		getBreedingSites,
 		throughput,
 		getMonthsOfRecords,
 		findLateRecords,
-		findEarlyRecords,
-		clean
+		findEarlyRecords
 	} from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
+	/** @typedef {import('../../lib/settings').Settings} Settings*/
+	/** @typedef {import('../aggregates/Entry.svelte').Stat} Stat*/
 
 	/** @type {Record[]} */
-	export let rawRecords;
+	export let records;
+	/** @type {Settings} */
 	export let settings;
 
+	/**
+	 * @param {Record[]} records
+	 * @return {Stat[]}
+	 */
 	const getPreStats = (records) => {
 		if (settings[WINTER] >= 1) return [];
 
@@ -31,6 +36,11 @@
 		];
 	};
 
+	/**
+	 * @param {Record[]} records
+	 * @param {string[]} breedingSites
+	 * @return {Stat[]}
+	 */
 	const getPostStats = (records, breedingSites) => {
 		const stats = [];
 		//       if (!(settings.breeding > 2 || settings.winter > 2)) {
@@ -62,7 +72,10 @@
 
 		return stats;
 	};
-
+	/**
+	 * @param {Settings} settings
+	 * @return {number[]}
+	 */
 	const getPassageMonths = (settings) => {
 		const passageMonths = [4, 5];
 		if (!settings.breeding) {
@@ -73,13 +86,14 @@
 		}
 		return passageMonths;
 	};
-	$: records = clean(rawRecords);
+
 	$: breedingSites = getBreedingSites(records, settings).map(
 		({ location }) => location
 	);
 	$: passageMonths = getPassageMonths(settings);
-	$: preStats = getPreStats(records);
-	$: postStats = getPostStats(records, breedingSites);
+	$: relevantRecords = getMonthsOfRecords(records, ...passageMonths);
+	$: preStats = getPreStats(relevantRecords);
+	$: postStats = getPostStats(relevantRecords, breedingSites);
 </script>
 
 <TabPane tabId="spring" tab="Spring passage" disabled={settings[SPRING] < 1}>
@@ -87,7 +101,7 @@
 		<Season
 			heading="Spring passage"
 			months={passageMonths}
-			rawRecords={getMonthsOfRecords(rawRecords, ...passageMonths)}
+			records={relevantRecords}
 			{preStats}
 			{postStats}
 		/>

@@ -1,16 +1,26 @@
 <script>
 	import Entry from './Entry.svelte';
-	import { Accordion, AccordionItem } from 'sveltestrap';
 	import { getMonthsOfRecords } from '../../lib/data-tools';
+	/** @typedef {import('../../lib/data-tools').Record} Record */
+	/** @typedef {import('./Entry.svelte').Stat} Stat*/
 
-	export let rawRecords;
+	/** @type {Record[]} */
+	export let records;
+
+	/** @type {number[]} */
 	export let months;
-	export let heading;
-	export let preStats;
-	export let postStats;
 
+	/** @type {string} */
+	export let heading;
+
+	/** @type {Stat[]} */
+	export let preStats = [];
+
+	/** @type {Stat[]} */
+	export let postStats = [];
+
+	/** @type {string[]} */
 	const MONTH_NAMES = [
-		null,
 		'January',
 		'February',
 		'March',
@@ -25,8 +35,14 @@
 		'December'
 	];
 
+	/**
+	 * @param {number[]} months
+	 * @returns {string}
+	 */
 	const monthsToNames = (months) =>
-		`${MONTH_NAMES[months[0]]} to ${MONTH_NAMES[months[months.length - 1]]}`;
+		`${MONTH_NAMES[months[0] - 1]} to ${
+			MONTH_NAMES[months[months.length - 1] - 1]
+		}`;
 </script>
 
 <section>
@@ -36,7 +52,7 @@
 
 	<Entry
 		heading="Summary"
-		rawRecords={getMonthsOfRecords(rawRecords, ...months)}
+		records={getMonthsOfRecords(records, ...months)}
 		{preStats}
 		{postStats}
 	/>

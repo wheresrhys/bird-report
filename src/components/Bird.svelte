@@ -10,6 +10,7 @@
 	import Settings from './tabs/Settings.svelte';
 	import { allRecords } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/settings';
+	import { clean } from '../lib/data-tools';
 
 	/** @type {string} */
 	export let bird;
@@ -17,6 +18,8 @@
 	$: settings = getSettingsStore(bird);
 
 	$: rawRecords = $allRecords.filter(({ species }) => species === bird);
+
+	$: records = clean(rawRecords);
 
 	// const breedingSites = getBreedingSites(records, distribution)
 
@@ -27,12 +30,12 @@
 <div>{bird}</div>
 <TrendChart {rawRecords} />
 <TabContent>
-	<WholeYear {rawRecords} />
-	<Months {rawRecords} />
-	<InnerLondon {rawRecords} />
-	<Winter {rawRecords} settings={$settings} />
-	<Spring {rawRecords} settings={$settings} />
-	<Breeding {rawRecords} settings={$settings} />
+	<WholeYear {records} />
+	<Months {records} />
+	<InnerLondon {records} />
+	<Winter {records} settings={$settings} />
+	<Spring {records} settings={$settings} />
+	<Breeding {records} settings={$settings} />
 	<Settings {bird} />
 	<!--
 

@@ -152,6 +152,7 @@ export const aggregate = (records) => {
 		records: getOutliers(records, 'numberIndex')
 	};
 };
+
 /**
  * @param {Record[]} records
  * @param {function} func
@@ -176,6 +177,19 @@ export const aggregateByDay = (records, func) => {
 	return aggregate(records);
 };
 
+/** @typedef {import('./settings').Settings} Settings*/
+
+/**
+ * @typedef {Object} Site
+ * @property {string} location
+ * @property {Record[]} records
+ */
+
+/**
+ * @param {Record[]} records
+ * @param {Settings} settings
+ * @returns {Site[]}
+ */
 export const getBreedingSites = (records, settings) => {
 	if (settings.breeding < 1) {
 		return [];
@@ -196,11 +210,19 @@ export const getBreedingSites = (records, settings) => {
 		.filter((records) => !!records);
 };
 
+/**
+ * @param {Record[]} records
+ * @returns {Record[]}
+ */
 export const findEarlyRecords = (records) => {
 	records = [...records].sort(earliestFirst);
 	return records.slice(0, 5); // getOutliers(records, 'date', { highLow: 'low' }),
 };
 
+/**
+ * @param {Record[]} records
+ * @returns {Record[]}
+ */
 export const findLateRecords = (records) => {
 	records = [...records].sort(latestFirst);
 	return {

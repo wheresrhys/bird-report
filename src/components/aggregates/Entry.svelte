@@ -4,7 +4,6 @@
 	import Records from './Records.svelte';
 	import RecordsByDay from './RecordsByDay.svelte';
 	import {
-		clean,
 		getNumberOfSites,
 		countRecords,
 		countBirds,
@@ -23,7 +22,7 @@
 	 */
 
 	/** @type {Record[]} */
-	export let rawRecords;
+	export let records;
 
 	export let groupByDay = false;
 	export let viewMoreHeading = 'View all records';
@@ -35,8 +34,6 @@
 
 	/** @type {Stat[]} */
 	let stats = [];
-
-	$: records = clean(rawRecords);
 
 	$: if (records.length) {
 		stats = [...preStats];
