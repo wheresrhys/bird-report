@@ -3,25 +3,31 @@
 
 	import Records from '../aggregates/Records.svelte';
 	import { TabPane, Form, FormGroup, Input, Label } from 'sveltestrap';
-	import elasticlunr from 'elasticlunr'
-
+	import * as JsSearch from 'js-search';
 
 	export let bird;
 	export let rawRecords;
-	$: index = elasticlunr()
+
+	/**
+	 * @typedef {Object} IndexableRecord
+	 * @implements {Record}
+	 */
+
+	$: search = new JsSearch.Search('id');
   $: {
   	/**
   	 * @param {Record} doc
   	 * @param {number} id
+  	 * @return {IndexableRecord}
   	 */
-  	function indexRecord (doc, id) {
-			index.addDoc({...doc, id})
+  	function addId (doc, id) {
+			return {...doc, id}
   	}
-		index.addField('notes');
-	  index.addField('location');
-	  index.setRef('id');
 
-		rawRecords.forEach(indexRecord)
+  	search.addIndex('notes');
+		search.addIndex('location');
+
+		search.addDocuments(rawRecords.map(addId))
   }
 
 	$: results = []
@@ -29,12 +35,10 @@
 	/**
 	 * @param {CustomEvent} ev
 	 */
-	const search = ev => {
+	const runQuery = ev => {
 		const target = /** @type {HTMLInputElement} */ (ev.target);
-		const searchResults = index.search(target.value).map(({ref}) => Number(ref))
-		results = (searchResults.map(/** @type {(i: number) => Record} */(i => rawRecords[i])))
+		results = search.search(target.value)
 	}
-
 
 </script>
 
@@ -49,10 +53,11 @@
 	      name="search"
 	      id="search"
 	      placeholder="Search for whole words"
-	      on:change={search}
+	      on:change={runQuery}
 	    />
 	  </FormGroup>
 	  <Records records={results} isCollapsible={false}/>
 
 	</Form>
 </TabPane>
+
