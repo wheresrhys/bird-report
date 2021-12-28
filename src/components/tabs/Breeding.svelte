@@ -8,7 +8,7 @@
 	/** @type {Settings} */
 	export let settings;
 	/** @type {Site[]} */
-	export let breedingData
+	export let breedingData;
 </script>
 
 <TabPane tabId="breeding" tab="Breeding" disabled={settings[BREEDING] < 1}>

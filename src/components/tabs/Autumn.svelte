@@ -2,9 +2,7 @@
 	import { TabPane } from 'sveltestrap';
 	import Season from '../aggregates/Season.svelte';
 	import { AUTUMN, WINTER, BREEDING } from '../../lib/constants';
-	import {
-		getMonthsOfRecords,
-	} from '../../lib/data-tools';
+	import { getMonthsOfRecords } from '../../lib/data-tools';
 
 	import {
 		throughput,
@@ -21,7 +19,7 @@
 	/** @type {Settings} */
 	export let settings;
 	/** @type {string[]} */
-	export let breedingSites
+	export let breedingSites;
 	/**
 	 * @param {Record[]} records
 	 * @param {string[]} breedingSites
@@ -34,7 +32,9 @@
 			{
 				heading: settings[BREEDING] > 0 ? 'Earliest non breeding' : 'Earliest',
 				content: {
-					records: findEarlyRecords(records.filter(({ location }) => !breedingSites.includes(location))),
+					records: findEarlyRecords(
+						records.filter(({ location }) => !breedingSites.includes(location))
+					),
 					viewMoreHeading: 'Other early records'
 				}
 			}
@@ -54,9 +54,7 @@
 			stats.push({
 				heading: 'Latest',
 				content: {
-					records: findLateRecords(
-						records
-					),
+					records: findLateRecords(records),
 					viewMoreHeading: 'Other late records'
 				}
 			});
@@ -69,7 +67,6 @@
 	 * @return {number[]}
 	 */
 	const getPassageMonths = (settings) => {
-
 		const passageMonths = [7, 8, 9, 10];
 		if (settings[BREEDING] < 3) {
 			passageMonths.unshift(6);
@@ -79,7 +76,6 @@
 		}
 		return passageMonths;
 	};
-
 
 	$: passageMonths = getPassageMonths(settings);
 	$: relevantRecords = getMonthsOfRecords(records, ...passageMonths);

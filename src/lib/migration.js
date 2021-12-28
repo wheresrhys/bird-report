@@ -1,8 +1,7 @@
-import {group, sortPropAsc} from './data-tools'
+import { group, sortPropAsc } from './data-tools';
 
 /** @typedef {import('./data-tools').Record} Record*/
 /** @typedef {import('./data-tools').Stat} Stat*/
-
 
 const memoizedEarliestFirst = sortPropAsc('date');
 

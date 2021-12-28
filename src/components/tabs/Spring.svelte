@@ -2,9 +2,7 @@
 	import { TabPane } from 'sveltestrap';
 	import Season from '../aggregates/Season.svelte';
 	import { SPRING, WINTER, BREEDING } from '../../lib/constants';
-	import {
-		getMonthsOfRecords,
-	} from '../../lib/data-tools';
+	import { getMonthsOfRecords } from '../../lib/data-tools';
 
 	import {
 		throughput,
@@ -21,7 +19,7 @@
 	/** @type {Settings} */
 	export let settings;
 	/** @type {string[]} */
-	export let breedingSites
+	export let breedingSites;
 
 	/**
 	 * @param {Record[]} records
@@ -79,7 +77,6 @@
 		}
 		return passageMonths;
 	};
-
 
 	$: passageMonths = getPassageMonths(settings);
 	$: relevantRecords = getMonthsOfRecords(records, ...passageMonths);
