@@ -11,8 +11,7 @@
 	import Settings from './tabs/Settings.svelte';
 	import { allRecords } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/settings';
-	import { clean } from '../lib/data-tools';
-
+	import { clean , getBreedingSites} from '../lib/data-tools';
 	/** @type {string} */
 	export let bird;
 
@@ -22,9 +21,11 @@
 
 	$: records = clean(rawRecords);
 
-	// const breedingSites = getBreedingSites(records, distribution)
+	$: breedingData = getBreedingSites(records, settings)
 
-	// const birdData = {records, distribution}
+	$: breedingSites = breedingData.map(
+		({ location }) => location
+	);
 </script>
 
 <h2>{bird}</h2>
@@ -35,9 +36,9 @@
 	<Months {records} />
 	<InnerLondon {records} />
 	<Winter {records} settings={$settings} />
-	<Spring {records} settings={$settings} />
-	<Breeding {records} settings={$settings} />
-	<Autumn {records} settings={$settings} />
+	<Spring {records} settings={$settings} {breedingSites} />
+	<Breeding settings={$settings} {breedingData} />
+	<Autumn {records} settings={$settings} {breedingSites} />
 	<Settings {bird} />
 	<!--
 

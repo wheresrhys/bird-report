@@ -3,7 +3,6 @@
 	import Season from '../aggregates/Season.svelte';
 	import { SPRING, WINTER, BREEDING } from '../../lib/constants';
 	import {
-		getBreedingSites,
 		getMonthsOfRecords,
 	} from '../../lib/data-tools';
 
@@ -21,6 +20,8 @@
 	export let records = [];
 	/** @type {Settings} */
 	export let settings;
+	/** @type {string[]} */
+	export let breedingSites
 
 	/**
 	 * @param {Record[]} records
@@ -79,9 +80,7 @@
 		return passageMonths;
 	};
 
-	$: breedingSites = getBreedingSites(records, settings).map(
-		({ location }) => location
-	);
+
 	$: passageMonths = getPassageMonths(settings);
 	$: relevantRecords = getMonthsOfRecords(records, ...passageMonths);
 	$: preStats = getPreStats(relevantRecords);

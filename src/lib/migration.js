@@ -1,4 +1,4 @@
-import {group, sortPropAsc, sortPropDesc} from './data-tools'
+import {group, sortPropAsc} from './data-tools'
 
 /** @typedef {import('./data-tools').Record} Record*/
 /** @typedef {import('./data-tools').Stat} Stat*/
@@ -11,14 +11,14 @@ const memoizedEarliestFirst = sortPropAsc('date');
  * @param {Record} b
  * @returns {number}
  */
-export const earliestFirst = (a, b) => memoizedEarliestFirst(a, b);
+const earliestFirst = (a, b) => memoizedEarliestFirst(a, b);
 
 /**
  * @param {Record} a
  * @param {Record} b
  * @returns {number}
  */
-export const latestFirst = (a, b) => -1 * earliestFirst(a, b);
+const latestFirst = (a, b) => -1 * earliestFirst(a, b);
 
 /**
  * @param {Record[]} records

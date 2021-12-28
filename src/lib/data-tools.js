@@ -35,8 +35,9 @@ export const sortPropDesc = (prop) => {
 	return (a, b) => -1 * asc(a, b);
 };
 
-
 /**
+ * @param {Record[]} records
+ * @param {number[]} months
  * @returns {Record[]}
  */
 export const getMonthsOfRecords = (records, ...months) =>
