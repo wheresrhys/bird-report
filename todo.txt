@@ -1,5 +1,4 @@
 todo.txt
-- BUG - birds are sharing same settings when navigating (though not writing to wrong ones)
 - peak passage + differentiate early trickles from the main flow
     + would help to have a graph over time
 - estimated throughput (upper + lower bounds, + different methodologies - calculate on demand... with slider)
@@ -11,4 +10,4 @@ todo.txt
 - how many sites recorded >X birds on a single day?
 - Each season's setting should be on that tab
 - Each month's records should have daily totals and counts
-- show settings form (or subset of it) on each season's page
+- months are openable even when no data

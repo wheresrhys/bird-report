@@ -100,7 +100,6 @@
 		]
 	};
 
-
 	/** @typedef { import("chart.js").ChartOptions} ChartOptions */
 	/** @typedef { import("chart.js").LineControllerDatasetOptions} LineControllerDatasetOptions */
 

@@ -34,10 +34,10 @@
 	<WholeYear {records} />
 	<Months {records} />
 	<InnerLondon {records} />
-	<Winter {records} settings={$settings} />
-	<Spring {records} settings={$settings} {breedingSites} />
-	<Breeding settings={$settings} {breedingData} />
-	<Autumn {records} settings={$settings} {breedingSites} />
+	<Winter {records} settings={$settings} {bird} />
+	<Spring {records} settings={$settings} {breedingSites} {bird} />
+	<Breeding settings={$settings} {breedingData} {bird} />
+	<Autumn {records} settings={$settings} {breedingSites} {bird} />
 	<Search {bird} {rawRecords} />
 	<Settings {bird} />
 	<!--

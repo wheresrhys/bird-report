@@ -1,8 +1,9 @@
 <script>
-	import { TabPane } from 'sveltestrap';
 	import Season from '../aggregates/Season.svelte';
 	import { SPRING, WINTER, BREEDING } from '../../lib/constants';
 	import { getMonthsOfRecords } from '../../lib/data-tools';
+
+	import ContentOrSettings from '../UI/ContentOrSettings.svelte';
 
 	import {
 		throughput,
@@ -20,7 +21,7 @@
 	export let settings;
 	/** @type {string[]} */
 	export let breedingSites;
-
+	export let bird;
 	/**
 	 * @param {Record[]} records
 	 * @return {Stat[]}
@@ -84,16 +85,12 @@
 	$: postStats = getPostStats(relevantRecords, breedingSites);
 </script>
 
-<TabPane tabId="spring" tab="Spring passage" disabled={settings[SPRING] < 1}>
-	{#if settings[SPRING] >= 1}
-		<Season
-			heading="Spring passage"
-			months={passageMonths}
-			records={relevantRecords}
-			{preStats}
-			{postStats}
-		/>
-	{:else}
-		Not a spring passage migrant
-	{/if}
-</TabPane>
+<ContentOrSettings {settings} {bird} season={SPRING}>
+	<Season
+		heading="Spring passage"
+		months={passageMonths}
+		records={relevantRecords}
+		{preStats}
+		{postStats}
+	/>
+</ContentOrSettings>

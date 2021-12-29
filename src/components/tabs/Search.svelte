@@ -9,7 +9,6 @@
 	export let bird;
 	export let rawRecords;
 
-
 	/**
 	 * @typedef {Object} IndexableRecord
 	 * @implements {Record}
@@ -24,8 +23,6 @@
 	function addId(doc, id) {
 		return { ...doc, id };
 	}
-
-
 
 	let search;
 	let searchQuery;
