@@ -5,7 +5,9 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @type {Record[]} */
 	export let records;
-	export let isOpen = false;
+	export let isCollapsible = true;
+	export let isOpen = !isCollapsible;
+	export let dateFormat = 'day'
 	/** @type {string} */
 	export let viewMoreHeading = 'View detail';
 	/** @type {Record[][]} */
@@ -13,16 +15,17 @@
 		return rs1[0].date > rs2[0].date ? 1 : rs1[0].date < rs2[0].date ? -1 : 0;
 	});
 </script>
-
+{#if isCollapsible}
 <button on:click={() => (isOpen = !isOpen)} class="link">
 	{viewMoreHeading}
 </button>
+{/if}
 <Collapse {isOpen}>
 	<Table>
 		<tbody>
 			{#each days as records}
 				<tr
-					><th>{records[0].date.getDate()}</th>
+					><th>{dateFormat === 'day' ? records[0].date.getDate() : records[0].date.toISOString().split('T')[0]}</th>
 					<td
 						><ul>
 							{#each records as record}<li>

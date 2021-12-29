@@ -54,5 +54,6 @@
 		records={getMonthsOfRecords(records, ...months)}
 		{preStats}
 		{postStats}
+		groupByMonth={true}
 	/>
 </section>

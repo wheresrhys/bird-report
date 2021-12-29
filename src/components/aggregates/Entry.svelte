@@ -2,6 +2,7 @@
 	import { Table } from 'sveltestrap';
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
+	import Months from '../UI/Months.svelte';
 	import RecordsByDay from './RecordsByDay.svelte';
 	import {
 		getNumberOfSites,
@@ -18,6 +19,7 @@
 	export let records = [];
 
 	export let groupByDay = false;
+	export let groupByMonth = false;
 	export let viewMoreHeading = 'View all records';
 
 	/** @type {Stat[]} */
@@ -97,8 +99,10 @@
 	</tbody>
 </Table>
 
-{#if groupByDay}
-	<RecordsByDay {records} {viewMoreHeading} />
+{#if groupByMonth}
+	<Months {records} fullFat={false}/>
+{:else if groupByDay}
+	<RecordsByDay {records} {viewMoreHeading}/>
 {:else}
 	<Records {records} {viewMoreHeading} />
 {/if}
