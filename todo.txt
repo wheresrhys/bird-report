@@ -1,0 +1,14 @@
+todo.txt
+- BUG - birds are sharing same settings when navigating (though not writing to wrong ones)
+- peak passage + differentiate early trickles from the main flow
+    + would help to have a graph over time
+- estimated throughput (upper + lower bounds, + different methodologies - calculate on demand... with slider)
+    + ((b > 2 || w > 2) ? {} : {totalThrough: sum(records, ...passageMonths)}),
+- Machine learning counts by gender
+- Build in the viz, allow a slider
+- sliders on the graph to pick passage beginning and end dates
+- in breeding season need _ALL_ records
+- how many sites recorded >X birds on a single day?
+- Each season's setting should be on that tab
+- Each month's records should have daily totals and counts
+- show settings form (or subset of it) on each season's page

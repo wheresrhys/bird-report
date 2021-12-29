@@ -99,7 +99,12 @@
 			}
 		]
 	};
-	/** @type { import("chart.js").ChartOptions }  */
+
+
+	/** @typedef { import("chart.js").ChartOptions} ChartOptions */
+	/** @typedef { import("chart.js").LineControllerDatasetOptions} LineControllerDatasetOptions */
+
+	/** @type { ChartOptions}  */
 	const options = {
 		responsive: true,
 		maintainAspectRatio: false,

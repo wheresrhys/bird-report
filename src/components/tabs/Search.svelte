@@ -9,6 +9,13 @@
 	export let bird;
 	export let rawRecords;
 
+
+	/**
+	 * @typedef {Object} IndexableRecord
+	 * @implements {Record}
+	 * @property {number} id
+	 */
+
 	/**
 	 * @param {Record} doc
 	 * @param {number} id
@@ -18,10 +25,7 @@
 		return { ...doc, id };
 	}
 
-	/**
-	 * @typedef {Object} IndexableRecord
-	 * @implements {Record}
-	 */
+
 
 	let search;
 	let searchQuery;
@@ -44,7 +48,7 @@
 	});
 
 	/**
-	 * @param {CustomEvent} ev
+	 * @param {KeyboardEvent} ev
 	 */
 	const runQuery = (ev) => {
 		const target = /** @type {HTMLInputElement} */ (ev.target);
