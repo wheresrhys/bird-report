@@ -43,15 +43,15 @@ export const findLateRecords = (records) => {
  */
 export const throughput = (records) => {
 	records = [...records].sort(earliestFirst);
-	return [
+	return {heading: 'Throughput', stats: [
 		{
-			heading: 'Throughput upper bound',
+			heading: 'Upper bound',
 			content: Math.round(
 				records.reduce((total, { numberIndex }) => total + numberIndex, 0)
 			)
 		},
 		{
-			heading: 'Throughput lower bound',
+			heading: 'Lower bound',
 			content: Math.round(
 				group(records, ({ location }) => location)
 					.map((records) =>
@@ -61,7 +61,7 @@ export const throughput = (records) => {
 			)
 		},
 		{
-			heading: 'Throughput assuming each bird stays 2 days',
+			heading: 'Assuming each bird stays 2 days',
 			content: Math.round(
 				group(records, ({ location }) => location)
 					.flatMap((records) =>
@@ -82,7 +82,7 @@ export const throughput = (records) => {
 			)
 		},
 		{
-			heading: 'Throughput assuming each bird stays 3 days',
+			heading: 'Assuming each bird stays 3 days',
 			content: Math.round(
 				group(records, ({ location }) => location)
 					.flatMap((records) =>
@@ -115,5 +115,5 @@ export const throughput = (records) => {
 					.reduce((total, { numberIndex }) => total + numberIndex, 0)
 			)
 		}
-	];
+	]};
 };

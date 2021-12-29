@@ -7,4 +7,3 @@ todo.txt
 - Build in the viz, allow a slider
 - sliders on the graph to pick passage beginning and end dates
 - how many sites recorded >X birds on a single day?
-- Each month's records should have daily totals and counts

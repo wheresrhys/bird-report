@@ -48,7 +48,7 @@
 	const getPostStats = (records, breedingSites) => {
 		const stats = [];
 		if (!(settings[BREEDING] > 2 || settings[WINTER] > 2)) {
-			stats.push(...throughput(records));
+			stats.push(throughput(records));
 		}
 		if (settings[BREEDING] <= 2) {
 			stats.push({

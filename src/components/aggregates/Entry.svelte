@@ -88,7 +88,12 @@
 			<tr>
 				<th>{stat.heading}</th>
 				<td>
-					{#if stat.content.records}
+
+					{#if stat.stats}
+						{#each stat.stats as stat}
+							<b>{stat.heading}:</b> {stat.content}<br />
+						{/each}
+					{:else if stat.content.records}
 						<NotableRecords {...stat.content} />
 					{:else}
 						{stat.content}
