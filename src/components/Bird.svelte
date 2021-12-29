@@ -13,6 +13,7 @@
 	import { allRecords } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/settings';
 	import { clean, getBreedingSites } from '../lib/data-tools';
+
 	/** @type {string} */
 	export let bird;
 
@@ -36,7 +37,7 @@
 	<InnerLondon {records} />
 	<Winter {records} settings={$settings} {bird} />
 	<Spring {records} settings={$settings} {breedingSites} {bird} />
-	<Breeding settings={$settings} {breedingData} {bird} />
+	<Breeding settings={$settings} {breedingData} {breedingSites} {bird} {records} />
 	<Autumn {records} settings={$settings} {breedingSites} {bird} />
 	<Search {bird} {rawRecords} />
 	<Settings {bird} />

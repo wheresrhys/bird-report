@@ -6,7 +6,5 @@ todo.txt
 - Machine learning counts by gender
 - Build in the viz, allow a slider
 - sliders on the graph to pick passage beginning and end dates
-- in breeding season need _ALL_ records
 - how many sites recorded >X birds on a single day?
-- Each season's setting should be on that tab
 - Each month's records should have daily totals and counts

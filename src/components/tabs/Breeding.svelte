@@ -3,6 +3,7 @@
 	import Records from '../aggregates/Records.svelte';
 	import ContentOrSettings from '../UI/ContentOrSettings.svelte';
 	import { BREEDING } from '../../lib/constants';
+	import { getMonthsOfRecords } from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Site} Site */
 	/** @typedef {import('../../lib/settings').Settings} Settings */
 
@@ -10,20 +11,31 @@
 	export let settings;
 	/** @type {Site[]} */
 	export let breedingData;
+	export let breedingSites;
 	export let bird;
+	export let records;
+
+	$: otherRecords = getMonthsOfRecords(records.filter(({location}) => !breedingSites.includes(location)), 4, 5, 6, 7);
 </script>
 
 <ContentOrSettings {settings} {bird} season={BREEDING}>
+	<h3>Breeding</h3>
+	<p>Sites with repeated records in May or June are grouped for ease of assessing breeding status. For birds that are widespread breeders this grouping is unlikely to be particularly useful.</p>
 	<Accordion>
 		{#each breedingData as site}
 			<AccordionItem header={site.location}>
 				<Records
 					records={site.records}
-					isOpen={true}
 					isCollapsible={false}
 					parentAggregationTypes={['same location']}
 				/>
 			</AccordionItem>
 		{/each}
+		<AccordionItem header="Miscellaneous sightings in season">
+				<Records
+					records={otherRecords}
+					isCollapsible={false}
+				/>
+			</AccordionItem>
 	</Accordion>
 </ContentOrSettings>
