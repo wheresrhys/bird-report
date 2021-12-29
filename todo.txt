@@ -10,4 +10,3 @@ todo.txt
 - how many sites recorded >X birds on a single day?
 - Each season's setting should be on that tab
 - Each month's records should have daily totals and counts
-- months are openable even when no data

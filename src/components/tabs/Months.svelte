@@ -27,7 +27,7 @@
 			name,
 			index,
 			records: relevantRecords,
-			hasRecords: !!records.length
+			hasRecords: !!relevantRecords.length
 		};
 	});
 </script>
