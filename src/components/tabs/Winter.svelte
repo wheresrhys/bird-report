@@ -3,7 +3,7 @@
 	import { WINTER, BREEDING } from '../../lib/constants';
 	import ContentOrSettings from '../UI/ContentOrSettings.svelte';
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
-	/** @typedef {import('../../lib/settings').Settings} Settings*/
+	/** @typedef {import('../../lib/bird-settings').Settings} Settings*/
 
 	/** @type {Record[]} */
 	export let records;

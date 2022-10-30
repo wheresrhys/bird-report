@@ -1,6 +1,6 @@
 <script>
 	import { TabPane } from 'sveltestrap';
-	import { getSettingsStore } from '../../lib/settings';
+	import { getSettingsStore } from '../../lib/bird-settings';
 	import SettingsForm from '../UI/SettingsForm.svelte';
 
 	export let bird;

@@ -1,6 +1,5 @@
 <script>
-	import { TabPane } from 'sveltestrap';
-	import { getSettingsStore } from '../../lib/settings';
+	import { getSettingsStore } from '../../lib/bird-settings';
 	import { Form, FormGroup, Input, Label } from 'sveltestrap';
 
 	import {

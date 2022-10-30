@@ -5,7 +5,7 @@
 	import { BREEDING } from '../../lib/constants';
 	import { getMonthsOfRecords } from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Site} Site */
-	/** @typedef {import('../../lib/settings').Settings} Settings */
+	/** @typedef {import('../../lib/bird-settings').Settings} Settings */
 
 	/** @type {Settings} */
 	export let settings;
@@ -19,8 +19,9 @@
 </script>
 
 <ContentOrSettings {settings} {bird} season={BREEDING}>
-	<h3>Breeding</h3>
-	<p>Sites with repeated records in May or June are grouped for ease of assessing breeding status. For birds that are widespread breeders this grouping is unlikely to be particularly useful.</p>
+	<h3>Breeding (Experimental)</h3>
+	<p>Sites with repeated records in May or June are grouped for ease of assessing breeding status. For birds that are widespread breeders this grouping is unlikely to be particularly useful. Even for localised breeders it's best to also check the records for the spring and summer months.</p>
+
 	<Accordion>
 		{#each breedingData as site}
 			<AccordionItem header={site.location}>
