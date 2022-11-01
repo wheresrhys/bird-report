@@ -1,11 +1,12 @@
 <script>
 	import { county } from '../../lib/stores';
-	import { Form, FormGroup, Input, Label } from 'sveltestrap';
+	import { Form, FormGroup, Input } from 'sveltestrap';
 
 	import {
 		COUNTIES
 	} from '../../lib/constants';
 
+	$county = 'ALL';
 
 	/**
 	 * @param {CustomEvent} ev
@@ -30,12 +31,30 @@
 				<option value={key}>{value}</option>
 			{/each}
 		</Input>
+		{#if $county !== 'ALL'}
+		<span class="county-warning">
+			Warning! - only showing records for one county
+		</span>
+		{/if}
 	</FormGroup>
+
 </Form>
 
 <style>
 	:global(.county-selector) {
 		display: inline-block;
 		margin-left: 20px;
+	}
+
+	:global(.county-selector .form-select) {
+		display: inline-block;
+		width:  auto;
+	}
+
+	:global(.county-warning) {
+		display: inline;
+		margin-left: 10px;
+		color:  red;
+		font-weight:  bold;
 	}
 </style>

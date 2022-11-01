@@ -6,7 +6,6 @@
 	export let records = [];
 	/** @type {string} */
 	export let viewMoreHeading;
-	$: console.log(records);
 	$: topRecord = records[0];
 
 	$: otherNotableRecords = records.slice(1);

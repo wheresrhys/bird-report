@@ -17,9 +17,7 @@
 	/** @type {string} */
 	export let bird;
 
-
 	$: settings = getSettingsStore(bird);
-
 	$: rawRecords = $allRecords
 		.filter(({ species, viceCounty }) => {
 			if (species !== bird) return false

@@ -1,5 +1,6 @@
 <script context="module">
 	import Bird from '../components/Bird.svelte';
+
 	/**
 	 * @param {Object} context
 	 * @param {Object} context.page
@@ -10,8 +11,7 @@
 	export function load({ page }) {
 		return {
 			props: {
-				bird: page.params.bird,
-				initialCounty: 'ALL'
+				bird: page.params.bird
 			}
 		};
 	}
