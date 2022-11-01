@@ -4,7 +4,7 @@
 	"scripts": {
 		"prepare": "husky install",
 		"start": "svelte-kit dev",
-		"build": "svelte-kit build",
+		"build": "vite build",
 		"preview": "svelte-kit preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
@@ -26,10 +26,12 @@
 		"svelte-check": "^2.2.6",
 		"svelte-preprocess": "^4.9.4",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3"
+		"typescript": "^4.4.3",
+		"vite": "^3.2.2"
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-static": "next",
 		"@types/elasticlunr": "^0.9.4",
 		"chart.js": "^3.6.2",
 		"chartjs-adapter-moment": "^1.0.0",
@@ -40,5 +42,8 @@
 		"simple-statistics": "^7.7.0",
 		"sveltestrap": "^5.6.3",
 		"xlsx": "^0.17.3"
+	},
+	"volta": {
+		"node": "16.18.0"
 	}
 }
