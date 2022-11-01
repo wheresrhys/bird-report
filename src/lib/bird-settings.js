@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import { browser } from '$app/env';
 
 import { WINTER, SPRING, BREEDING, AUTUMN } from './constants';
 
@@ -25,7 +24,7 @@ const defaultSettings = {
  * @param {string} bird
  */
 function createStore(bird) {
-	const storedSettings = browser && localStorage.getItem(bird);
+	const storedSettings = process.browser && localStorage.getItem(bird);
 
 	const settings = writable(
 		storedSettings ? JSON.parse(storedSettings) : defaultSettings
