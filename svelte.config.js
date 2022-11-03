@@ -9,6 +9,11 @@ const config = {
 
 	kit: {
 		adapter: adapter({ pages: 'build', fallback: 'index.html' }),
+		// vite: {
+  //     ssr: {
+  //       noExternal: ['@popperjs/core']
+  //     }
+  //   }
 	}
 };
 

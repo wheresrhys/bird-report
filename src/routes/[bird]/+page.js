@@ -1,14 +1,11 @@
-import Bird from '../../components/Bird.svelte';
-
 /**
  * @param {Object} context
- * @param {Object} context.page
- * @param {Object} context.page.params
- * @param {string} context.page.params.bird
+ * @param {Object} context.params
+ * @param {string} context.params.bird
  * @returns {{props: {bird: string}}}
  */
-export function load({ page }) {
+export function load({ params }) {
 	return {
-		bird: page.params.bird
+		bird: params.bird
 	};
 }

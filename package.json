@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"prepare": "husky install",
+		"predeploy": "npx http-server build",
 		"start": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -12,7 +13,7 @@
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "next",
+		"@sveltejs/kit": "^1.0.0-next.532",
 		"@types/chart.js": "^2.9.34",
 		"@types/js-search": "^1.4.0",
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
@@ -40,7 +41,7 @@
 		"lint-staged": "^11.2.6",
 		"moment": "^2.29.1",
 		"simple-statistics": "^7.7.0",
-		"sveltestrap": "^5.6.3",
+		"sveltestrap": "bestguy/sveltestrap#replacePopper",
 		"xlsx": "^0.17.3"
 	},
 	"volta": {
