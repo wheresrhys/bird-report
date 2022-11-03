@@ -71,7 +71,7 @@
 		{/if}
 		<Nav>
 			{#each $speciesList as species}
-				<NavItem><NavLink href={`/${species}`}>{species}</NavLink></NavItem>
+				<NavItem><NavLink href={`${species}`}>{species}</NavLink></NavItem>
 			{/each}
 		</Nav>
 	</Row><Row>
