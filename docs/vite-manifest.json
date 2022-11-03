@@ -1,11 +1,11 @@
 {
   "node_modules/@sveltejs/kit/src/runtime/client/start.js": {
-    "file": "internal/immutable/start-288d643c.js",
+    "file": "internal/immutable/start-723b7ff3.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/client/start.js",
     "isEntry": true,
     "imports": [
       "_index-86f578b8.js",
-      "_singletons-ad58b141.js"
+      "_singletons-b79573ce.js"
     ],
     "dynamicImports": [
       ".svelte-kit/generated/nodes/0.js",
@@ -27,12 +27,12 @@
     ]
   },
   "node_modules/@sveltejs/kit/src/runtime/components/error.svelte": {
-    "file": "internal/immutable/components/error.svelte-ba666a41.js",
+    "file": "internal/immutable/components/error.svelte-c60efcc3.js",
     "src": "node_modules/@sveltejs/kit/src/runtime/components/error.svelte",
     "isEntry": true,
     "imports": [
       "_index-86f578b8.js",
-      "_singletons-ad58b141.js"
+      "_singletons-b79573ce.js"
     ]
   },
   "src/routes/+page.svelte": {
@@ -64,8 +64,8 @@
       "__page-6c6b9268.js"
     ]
   },
-  "_singletons-ad58b141.js": {
-    "file": "internal/immutable/chunks/singletons-ad58b141.js",
+  "_singletons-b79573ce.js": {
+    "file": "internal/immutable/chunks/singletons-b79573ce.js",
     "imports": [
       "_index-74c60e8b.js"
     ]
@@ -101,7 +101,7 @@
     ]
   },
   ".svelte-kit/generated/nodes/1.js": {
-    "file": "internal/immutable/chunks/1-ec65b64e.js",
+    "file": "internal/immutable/chunks/1-b5dcb500.js",
     "src": ".svelte-kit/generated/nodes/1.js",
     "isDynamicEntry": true,
     "imports": [
@@ -125,13 +125,13 @@
       "src/routes/[bird]/+page.svelte"
     ]
   },
-  "src/routes/[bird]/+page.css": {
-    "file": "internal/immutable/assets/_page-ea2093dc.css",
-    "src": "src/routes/[bird]/+page.css"
-  },
   "stores.css": {
     "file": "internal/immutable/assets/stores-60614438.css",
     "src": "stores.css"
+  },
+  "src/routes/[bird]/+page.css": {
+    "file": "internal/immutable/assets/_page-ea2093dc.css",
+    "src": "src/routes/[bird]/+page.css"
   },
   "src/routes/+layout.css": {
     "file": "internal/immutable/assets/_layout-99c848c8.css",

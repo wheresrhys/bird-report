@@ -9,7 +9,7 @@ const config = {
 
 	kit: {
 		paths: {
-			base: dev ? '' : '/your-repo-name',
+			base: dev ? '' : '/bird-report',
 		},
 		adapter: adapter({ pages: 'docs', fallback: 'index.html' }),
 		appDir: 'internal',
