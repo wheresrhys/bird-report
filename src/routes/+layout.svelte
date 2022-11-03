@@ -50,7 +50,7 @@
 <Container>
 	<Row>
 		<h1>
-			London bird report helper{#if $year} {$year}{/if}
+			London bird report helper{#if $year}&nbsp;{$year}{/if}
 		</h1>
 		<Form
 			><FormGroup>

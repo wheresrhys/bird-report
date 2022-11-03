@@ -13,7 +13,7 @@
 
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
 	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
-	/** @typedef {import('../../lib/settings').Settings} Settings*/
+	/** @typedef {import('../../lib/bird-settings').Settings} Settings*/
 
 	/** @type {Record[]} */
 	export let records = [];

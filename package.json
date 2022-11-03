@@ -3,16 +3,17 @@
 	"version": "0.0.1",
 	"scripts": {
 		"prepare": "husky install",
-		"start": "svelte-kit dev",
-		"build": "svelte-kit build",
-		"preview": "svelte-kit preview",
+		"predeploy": "npx http-server docs",
+		"start": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --ignore-path .gitignore --write --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
 		"format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "next",
+		"@sveltejs/kit": "^1.0.0-next.532",
 		"@types/chart.js": "^2.9.34",
 		"@types/js-search": "^1.4.0",
 		"@typescript-eslint/eslint-plugin": "^4.31.1",
@@ -22,14 +23,16 @@
 		"eslint-plugin-svelte3": "^3.2.1",
 		"prettier": "^2.4.1",
 		"prettier-plugin-svelte": "^2.4.0",
-		"svelte": "^3.42.6",
+		"svelte": "^3.52.0",
 		"svelte-check": "^2.2.6",
 		"svelte-preprocess": "^4.9.4",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3"
+		"typescript": "^4.4.3",
+		"vite": "^3.2.2"
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-static": "next",
 		"@types/elasticlunr": "^0.9.4",
 		"chart.js": "^3.6.2",
 		"chartjs-adapter-moment": "^1.0.0",
@@ -38,7 +41,10 @@
 		"lint-staged": "^11.2.6",
 		"moment": "^2.29.1",
 		"simple-statistics": "^7.7.0",
-		"sveltestrap": "^5.6.3",
+		"sveltestrap": "bestguy/sveltestrap#replacePopper",
 		"xlsx": "^0.17.3"
+	},
+	"volta": {
+		"node": "16.18.0"
 	}
 }

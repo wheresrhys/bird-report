@@ -34,6 +34,7 @@
 
 		search.addIndex('notes');
 		search.addIndex('location');
+		search.addIndex('observer');
 
 		search.addDocuments(rawRecords.map(addId));
 	}
