@@ -1,6 +1,6 @@
 import preprocess from 'svelte-preprocess';
 import adapter from '@sveltejs/adapter-static'
-
+const dev = process.env.NODE_ENV === 'development';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
@@ -8,12 +8,11 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter({ pages: 'build', fallback: 'index.html' }),
-		// vite: {
-  //     ssr: {
-  //       noExternal: ['@popperjs/core']
-  //     }
-  //   }
+		paths: {
+			base: dev ? '' : '/your-repo-name',
+		},
+		adapter: adapter({ pages: 'docs', fallback: 'index.html' }),
+		appDir: 'internal',
 	}
 };
 

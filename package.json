@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"prepare": "husky install",
-		"predeploy": "npx http-server build",
+		"predeploy": "npx http-server docs",
 		"start": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
