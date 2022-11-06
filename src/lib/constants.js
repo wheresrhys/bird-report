@@ -15,5 +15,6 @@ export const COUNTIES = {
 	MX: 'Middlesex',
 	EX: 'Essex',
 	SY: 'Surrey',
-	KT: 'Kent'
+	KT: 'Kent',
+	BU: 'Buckinghamshire'
 }
