@@ -99,15 +99,16 @@ export const getOutliers = (
 			? sortPropDesc('numberIndex')
 			: sortPropAsc('numberIndex');
 	return list
+		.sort(sorter)
 		.filter((obj, i) => {
 			if (i < minResults) return true;
 			if (highLow === 'high') {
-				return obj[prop] >= m + tolerance * sd;
+				return obj[prop] >= m + (tolerance * sd);
 			} else {
-				return obj[prop] <= m - tolerance * sd;
+				return obj[prop] <= m - (tolerance * sd);
 			}
 		})
-		.sort(sorter);
+		;
 };
 
 /**

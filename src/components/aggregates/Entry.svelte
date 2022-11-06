@@ -11,7 +11,7 @@
 		aggregateByDay,
 		getOutliers
 	} from '../../lib/data-tools';
-
+	import { county } from '../../lib/stores.js';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 
@@ -29,12 +29,14 @@
 
 	/** @type {Stat[]} */
 	let stats = [];
+	let tolerance = 2;
 
+	$: tolerance = $county === 'ALL' ? 2 : 1;
 	$: if (records.length) {
 		stats = [...preStats];
 		let numberOfSites = getNumberOfSites(records);
-		let highCitywideDayCounts = aggregateByDay(records, countBirds);
-		let highSingleSiteCounts = getOutliers(records, 'numberIndex');
+		let highCitywideDayCounts = aggregateByDay(records, countBirds, {tolerance});
+		let highSingleSiteCounts = getOutliers(records, 'numberIndex', {tolerance});
 
 		stats = [
 			...stats,
