@@ -10,3 +10,4 @@ todo.txt
 
 
 - SENTENCE BUILDER
+- When no results shows whole region BUGGGGG!!!!!!

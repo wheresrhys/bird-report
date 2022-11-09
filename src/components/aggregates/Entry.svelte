@@ -3,6 +3,7 @@
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
 	import Months from '../UI/Months.svelte';
+	import Sites from '../UI/Sites.svelte';
 	import RecordsByDay from './RecordsByDay.svelte';
 	import {
 		getNumberOfSites,
@@ -20,6 +21,7 @@
 
 	export let groupByDay = false;
 	export let groupByMonth = false;
+	export let groupBySite = false;
 	export let viewMoreHeading = 'View all records';
 
 	/** @type {Stat[]} */
@@ -113,6 +115,7 @@
 {:else}
 	<Records {records} {viewMoreHeading} />
 {/if}
+<Sites {records} {viewMoreHeading} />
 
 <style>
 	th {
