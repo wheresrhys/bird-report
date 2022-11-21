@@ -14,7 +14,7 @@
 <Accordion>
 	{#each sites as site}
 		<AccordionItem header={site[0].location}>
-			<RecordsByDay records={site} isCollapsible={false}/>
+			<RecordsByDay records={site} isCollapsible={false} dateFormat="month-day"/>
 		</AccordionItem>
 	{/each}
 </Accordion>

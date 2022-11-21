@@ -33,7 +33,7 @@
 		</Input>
 		{#if $county !== 'ALL'}
 		<span class="county-warning">
-			Warning! - only showing records for one county
+			Warning! - not showing all records
 		</span>
 		{/if}
 	</FormGroup>

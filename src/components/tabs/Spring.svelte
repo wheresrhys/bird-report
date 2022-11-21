@@ -28,16 +28,17 @@
 	 */
 	const getPreStats = (records) => {
 		if (settings[WINTER] >= 1) return [];
+		const earlyRecords = findEarlyRecords(records)
 
-		return [
+		return earlyRecords.length? [
 			{
 				heading: 'Earliest',
 				content: {
-					records: findEarlyRecords(records),
+					records: earlyRecords,
 					viewMoreHeading: 'Other early records'
 				}
 			}
-		];
+		]: [];
 	};
 
 	/**
@@ -51,15 +52,18 @@
 			stats.push(throughput(records));
 		}
 		if (settings[BREEDING] <= 2) {
+			const lateRecords = findLateRecords(
+						records.filter(({ location }) => !breedingSites.includes(location))
+					);
+			if (lateRecords.length) {
 			stats.push({
 				heading: settings[BREEDING] > 0 ? 'Latest non breeding' : 'Latest',
 				content: {
-					records: findLateRecords(
-						records.filter(({ location }) => !breedingSites.includes(location))
-					),
+					records: lateRecords,
 					viewMoreHeading: 'Other late records'
 				}
 			});
+		}
 		}
 
 		return stats;

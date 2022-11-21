@@ -4,3 +4,4 @@ export const speciesList = writable([]);
 export const allRecords = writable([]);
 export const year = writable();
 export const county = writable('ALL');
+export const threshold = writable();

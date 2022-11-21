@@ -199,17 +199,21 @@ export const getBreedingSites = (records, settings) => {
 		return [];
 	}
 
-	const breedingMonths = [5, 6];
+	const breedingMonths = [4, 5, 6, 7];
 	records = getMonthsOfRecords(records, ...breedingMonths);
 
 	return group(records, ({ location }) => location)
-		.map((records) =>
-			records.length > 2
-				? {
-						records,
-						location: records[0].location
-				  }
-				: null
-		)
-		.filter((records) => !!records);
+		.map((records) => {
+			if (!!(settings.breeding < 3 && records.length)
+				|| records.length > 2
+				|| /territories|nominal|breeding|juv|singing/.test(records[0].notes)) {
+				return {
+					records,
+					location: records[0].location
+			  }
+			}
+			return null
+		})
+		.filter((records) => !!records)
+		.sort(sortPropAsc('location'));
 };

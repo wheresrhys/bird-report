@@ -16,6 +16,7 @@
 			: aggregationType === 'same location'
 			? 'multiple records >'
 			: undefined;
+
 </script>
 
 <div>

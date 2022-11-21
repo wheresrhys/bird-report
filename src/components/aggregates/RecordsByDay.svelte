@@ -14,6 +14,7 @@
 	$: days = group(records, ({ date }) => date.getDate()).sort((rs1, rs2) => {
 		return rs1[0].date > rs2[0].date ? 1 : rs1[0].date < rs2[0].date ? -1 : 0;
 	});
+
 </script>
 {#if isCollapsible}
 <button on:click={() => (isOpen = !isOpen)} class="link">

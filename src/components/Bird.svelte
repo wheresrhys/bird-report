@@ -2,6 +2,7 @@
 	import { TabContent } from 'sveltestrap';
 	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
+	import Sites from './tabs/Sites.svelte';
 	import Months from './tabs/Months.svelte';
 	import Winter from './tabs/Winter.svelte';
 	import Spring from './tabs/Spring.svelte';
@@ -9,34 +10,38 @@
 	import Autumn from './tabs/Autumn.svelte';
 	import Search from './tabs/Search.svelte';
 	import Settings from './tabs/Settings.svelte';
-	import { allRecords, county } from '../lib/stores.js';
+	import { allRecords, county, threshold } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/bird-settings';
 	import { COUNTIES } from '../lib/constants';
 	import { clean, getBreedingSites } from '../lib/data-tools';
 	import CountySelector from './UI/CountySelector.svelte';
+	import ThresholdSelector from './UI/ThresholdSelector.svelte';
 	/** @type {string} */
 	export let bird;
 
 	$: settings = getSettingsStore(bird);
 	$: rawRecords = $allRecords
-		.filter(({ species, viceCounty }) => {
+		.filter(({ species, viceCounty, numberIndex, location }) => {
 			if (species !== bird) return false
+			if ($threshold && numberIndex < $threshold) return false;
 			if ($county === 'ALL') return true
 			return viceCounty === $county
+			// return viceCounty = "KT"
 		})
-
 	$: records = clean(rawRecords);
 
-	$: breedingData = getBreedingSites(records, settings);
+	$: breedingData = getBreedingSites(records, $settings);
+
 
 	$: breedingSites = breedingData.map(({ location }) => location);
 </script>
 
-<h2>{bird} <CountySelector /></h2>
+<h2>{bird} <CountySelector /><ThresholdSelector /></h2>
 
 <TrendChart {rawRecords} />
 <TabContent>
 	<WholeYear {records} />
+	<Sites {records} />
 	<Months {records} />
 	<Winter {records} settings={$settings} {bird} />
 	<Spring {records} settings={$settings} {breedingSites} {bird} />
@@ -44,10 +49,4 @@
 	<Autumn {records} settings={$settings} {breedingSites} {bird} />
 	<Search {bird} {rawRecords} />
 	<Settings {bird} />
-	<!--
-
-
-
-        <Search records={rawRecords}/>
- -->
 </TabContent>

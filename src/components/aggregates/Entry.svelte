@@ -3,7 +3,6 @@
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
 	import Months from '../UI/Months.svelte';
-	import Sites from '../UI/Sites.svelte';
 	import RecordsByDay from './RecordsByDay.svelte';
 	import {
 		getNumberOfSites,
@@ -115,7 +114,6 @@
 {:else}
 	<Records {records} {viewMoreHeading} />
 {/if}
-<Sites {records} {viewMoreHeading} />
 
 <style>
 	th {

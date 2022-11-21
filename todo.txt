@@ -11,3 +11,18 @@ todo.txt
 
 - SENTENCE BUILDER
 - When no results shows whole region BUGGGGG!!!!!!
+- Breeding
+	- pull out records mentioning breeding, juvenile, territories, notional
+	- filter by min number, low pass
+
+
+
+	west ham
+	ashtead
+	beddington
+	home park
+	arbrook
+	Esher
+	molesey
+	the ledges
+	west end common

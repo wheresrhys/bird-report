@@ -29,18 +29,19 @@
 	 */
 	const getPreStats = (records, breedingSites) => {
 		if (settings[BREEDING] > 2) return [];
+		const earlyRecords = findEarlyRecords(
+						records.filter(({ location }) => !breedingSites.includes(location))
+					)
 
-		return [
+		return earlyRecords.length ? [
 			{
 				heading: settings[BREEDING] > 0 ? 'Earliest non breeding' : 'Earliest',
 				content: {
-					records: findEarlyRecords(
-						records.filter(({ location }) => !breedingSites.includes(location))
-					),
+					records: earlyRecords,
 					viewMoreHeading: 'Other early records'
 				}
 			}
-		];
+		] : [];
 	};
 
 	/**
@@ -52,14 +53,19 @@
 		if (!(settings[BREEDING] > 2 || settings[WINTER] > 2)) {
 			stats.push(throughput(records));
 		}
+
+
 		if (settings[WINTER] <= 0) {
+			const lateRecords = findLateRecords(records);
+			if (lateRecords.length) {
 			stats.push({
 				heading: 'Latest',
 				content: {
-					records: findLateRecords(records),
+					records: lateRecords,
 					viewMoreHeading: 'Other late records'
 				}
 			});
+		}
 		}
 
 		return stats;

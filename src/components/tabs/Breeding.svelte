@@ -14,8 +14,7 @@
 	export let breedingSites;
 	export let bird;
 	export let records;
-
-	$: otherRecords = getMonthsOfRecords(records.filter(({location}) => !breedingSites.includes(location)), 4, 5, 6, 7);
+	// $: otherRecords = settings.breeding < 3 ? [] : getMonthsOfRecords(records.filter(({location}) => !breedingSites.includes(location)), 4, 5, 6, 7);
 </script>
 
 <ContentOrSettings {settings} {bird} season={BREEDING}>
@@ -32,11 +31,11 @@
 				/>
 			</AccordionItem>
 		{/each}
-		<AccordionItem header="Miscellaneous sightings in season">
+		<!-- <AccordionItem header="Miscellaneous sightings in season">
 				<Records
 					records={otherRecords}
 					isCollapsible={false}
 				/>
-			</AccordionItem>
+			</AccordionItem> -->
 	</Accordion>
 </ContentOrSettings>
