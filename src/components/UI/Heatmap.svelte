@@ -13,21 +13,28 @@
 		if (!result) {
 			return 0
 		}
-		console.log(result[1])
 		return result[1] ? parseInt(result[1]) : 1;
 	}
 
 const getSexes = record => {
 	if (!record.records) {
+		if (record.location === "Queen Mother Reservoir") {
+			console.log(record)
+		}
 		let maleCount = 0
 		let femaleCount = 0
-		let unknownCount = record.numberIndex
+		let unknownCount = Math.round(record.numberIndex)
 		if (record.notes) {
 			maleCount = countMale(record)
 			femaleCount = countFemale(record)
+			if (maleCount + femaleCount > unknownCount) {
+				maleCount = femaleCount = 0;
+			}
 			unknownCount = Math.max(Math.round(record.numberIndex - (maleCount + femaleCount)), 0)
 		}
-		return {maleCount, femaleCount, unknownCount: Math.floor(unknownCount), notes: record.notes}
+		const result = {maleCount, femaleCount, unknownCount: Math.floor(unknownCount), notes: record.notes}
+
+		return result;
 	} else {
 		const details = record.records
 			.map(getSexes)
@@ -43,8 +50,8 @@ const getSexes = record => {
 }
 
 	// only allow numbers max 2 digits long bekause otherwise get into peopel saying something is e.g. 200m away
-	const maleRX = /(?:\b|^|\()(?:(\d{1,2})\s*)?((adult|ad\.)\s+)?(m\.?|male)(\b|$)/i
-	const femaleRX = /(?:\b|^|\()(?:(\d{1,2})\s*)?((adult|ad\.)\s+)?(f\.?|fem|female)(\b|$)/i
+	const maleRX = /(?:\b|^|\()(?:(\d{1,2})\s*)?((adult|ad\.)\s+)?(m\.?|males?)(\b|$)/i
+	const femaleRX = /(?:\b|^|\()(?:(\d{1,2})\s*)?((adult|ad\.)\s+)?(f\.?|fems?|females?)(\b|$)/i
 	const countMale = record => getNumberOrOne(maleRX, record.notes)
 	const countFemale = record => getNumberOrOne(femaleRX, record.notes)
 	const generateHeatmap = records => records.map((record, i) => {

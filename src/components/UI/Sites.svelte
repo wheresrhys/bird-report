@@ -10,7 +10,7 @@
 	export let fullFat = false;
 	export let includeHeatmap = false;
 
-	$: sites = group(records.sort(sortPropAsc('date')), ({location}) => location);
+	$: sites = group(records.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location);
 </script>
 <h2>View by site</h2>
 <Accordion>
