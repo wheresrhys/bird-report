@@ -26,7 +26,7 @@
 		<tbody>
 			{#each days as records}
 				<tr
-					><th>{dateFormat === 'day' ? records[0].date.getDate() : records[0].date.toISOString().split('T')[0]}</th>
+					><th>{dateFormat === 'day' ? records[0].date.getDate() : records[0].date.toLocaleDateString().split(',')[0]}</th>
 					<td
 						><ul>
 							{#each records as record}<li>

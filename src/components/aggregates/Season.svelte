@@ -1,5 +1,6 @@
 <script>
 	import Entry from './Entry.svelte';
+	import Sites from '../UI/Sites.svelte'
 	import { getMonthsOfRecords } from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
@@ -43,6 +44,8 @@
 		`${MONTH_NAMES[months[0] - 1]} to ${
 			MONTH_NAMES[months[months.length - 1] - 1]
 		}`;
+
+	$: relevantRecords = getMonthsOfRecords(records, ...months)
 </script>
 
 <section>
@@ -51,9 +54,10 @@
 	</h2>
 
 	<Entry
-		records={getMonthsOfRecords(records, ...months)}
+		records={relevantRecords}
 		{preStats}
 		{postStats}
 		groupByMonth={true}
 	/>
+	<Sites records={records} includeHeatmap={true}/>
 </section>

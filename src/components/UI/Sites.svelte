@@ -3,17 +3,25 @@
 	import Entry from '../aggregates/Entry.svelte';
 	import RecordsByDay from '../aggregates/RecordsByDay.svelte';
 	import { group, sortPropAsc } from '../../lib/data-tools';
+	import Heatmap from './Heatmap.svelte'
 
 	/** @type {import('../../lib/data-tools').Record[]} */
 	export let records = [];
 	export let fullFat = false;
+	export let includeHeatmap = false;
 
-	$: sites = group(records.sort(sortPropAsc('location')), ({location}) => location);
+	$: sites = group(records.sort(sortPropAsc('date')), ({location}) => location);
 </script>
 <h2>View by site</h2>
 <Accordion>
 	{#each sites as site}
-		<AccordionItem header={site[0].location}>
+		<AccordionItem>
+			<div slot="header">
+				{site[0].location}{#if includeHeatmap}
+				<Heatmap records={site} />
+			{/if}
+		</div>
+
 			<RecordsByDay records={site} isCollapsible={false} dateFormat="month-day"/>
 		</AccordionItem>
 	{/each}

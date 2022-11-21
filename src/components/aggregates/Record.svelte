@@ -26,7 +26,7 @@
 	{#if location && !parentAggregationTypes.includes('same location')}
 		{location} ({viceCounty}){/if}
 	{#if !parentAggregationTypes.includes('same day')}on <time
-			>{date.toDateString()}</time
+			>{date.toLocaleDateString()}</time
 		>{/if}
 	{#if records && records.length}
 		<Records

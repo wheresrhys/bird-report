@@ -1,5 +1,5 @@
 import { standardDeviation, mean } from 'simple-statistics';
-
+import moment from 'moment';
 /**
  * @typedef {import('./data-loader.js').BirdRecord} BirdRecord
  */
@@ -62,8 +62,9 @@ export const group = (records, keyAlgo) => {
  * @param {BirdRecord[]} records
  * @returns {AggregateRecord[]}
  */
-export const clean = (records) =>
-	group(records, ({ date, location }) => location + date.toISOString())
+export const clean = (records) => {
+	records = records.map(record => ({...record, date: moment(record.date).startOf('day').toDate()}))
+	return group(records, ({ date, location }) => location + date.toISOString())
 		.map((records) => {
 			records = [...records].sort(sortPropDesc('numberIndex'));
 			return {
@@ -73,6 +74,7 @@ export const clean = (records) =>
 			};
 		})
 		.sort(sortPropAsc('date'));
+}
 
 /**
  * @param {Record[]} list
