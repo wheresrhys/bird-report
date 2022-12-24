@@ -2,7 +2,6 @@
 	import { TabContent } from 'sveltestrap';
 	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
-	import Sites from './tabs/Sites.svelte';
 	import Months from './tabs/Months.svelte';
 	import Winter from './tabs/Winter.svelte';
 	import Spring from './tabs/Spring.svelte';
@@ -41,7 +40,6 @@
 <TrendChart {rawRecords} />
 <TabContent>
 	<WholeYear {records} />
-	<Sites {records} />
 	<Months {records} />
 	<Winter {records} settings={$settings} {bird} />
 	<Spring {records} settings={$settings} {breedingSites} {bird} />

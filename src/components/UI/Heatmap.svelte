@@ -1,7 +1,4 @@
 <script>
-	import { Accordion, AccordionItem } from 'sveltestrap';
-	import Entry from '../aggregates/Entry.svelte';
-	import RecordsByDay from '../aggregates/RecordsByDay.svelte';
 	import { group, sortPropAsc } from '../../lib/data-tools';
  	import moment from 'moment';
 	/** @type {import('../../lib/data-tools').Record[]} */
@@ -34,6 +31,9 @@ const getSexes = record => {
 		}
 		const result = {maleCount, femaleCount, unknownCount: Math.floor(unknownCount), notes: record.notes}
 
+		if (/territories|nominal|breeding|juv|singing/.test(record.notes)) {
+			result.isBreedingRecord = true
+		}
 		return result;
 	} else {
 		const details = record.records
@@ -45,6 +45,7 @@ const getSexes = record => {
 		}
 		result.unknownCount = Math.max(Math.round(record.numberIndex - (result.maleCount + result.femaleCount)), 0)
 		result.notes = details.map(({notes}) => notes).filter(notes => !!notes).map(notes => `- ${notes}`).join('\n')
+		result.isBreedingRecord = details.reduce((agg, {isBreedingRecord}) => agg || isBreedingRecord, false)
 		return result
 	}
 }
@@ -70,8 +71,8 @@ const getSexes = record => {
 </script>
 
 <div class={`heatmap ${firstDay}`}>
-	{#each heatmap as {maleCount, femaleCount, unknownCount, spacers, isSaturday, date}}
-		<div class="heatmap__day">
+	{#each heatmap as {isBreedingRecord, maleCount, femaleCount, unknownCount, spacers, isSaturday, date}}
+		<div class="heatmap__day" class:is-breeding={isBreedingRecord}>
 			<span class="date">{moment(date).format('D/M')}</span>
 			{#each [...Array(maleCount)] as record}<span class="heatmap__record male"></span>{/each}
 			{#each [...Array(femaleCount)] as record}<span class="heatmap__record female"></span>{/each}
@@ -128,6 +129,10 @@ const getSexes = record => {
 
 		.heatmap__day {
 			border-right: 1px solid black;
+		}
+
+		.heatmap__day.is-breeding {
+			background: rgba(255, 0, 0, 0.4) !important;
 		}
 
 		.heatmap__record {

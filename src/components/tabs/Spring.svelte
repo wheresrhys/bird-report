@@ -96,5 +96,6 @@
 		records={relevantRecords}
 		{preStats}
 		{postStats}
+		isWidespread={settings.spring === 4}
 	/>
 </ContentOrSettings>

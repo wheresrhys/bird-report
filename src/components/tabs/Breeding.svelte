@@ -2,6 +2,7 @@
 	import { Accordion, AccordionItem } from 'sveltestrap';
 	import Records from '../aggregates/Records.svelte';
 	import ContentOrSettings from '../UI/ContentOrSettings.svelte';
+	import Heatmap from '../UI/Heatmap.svelte';
 	import { BREEDING } from '../../lib/constants';
 	import { getMonthsOfRecords } from '../../lib/data-tools';
 	/** @typedef {import('../../lib/data-tools').Site} Site */
@@ -23,7 +24,14 @@
 
 	<Accordion>
 		{#each breedingData as site}
-			<AccordionItem header={site.location}>
+			<AccordionItem>
+				<div slot="header">
+					{site.location} ({site.viceCounty})
+					<!-- {#if settings.breeding !== 4} -->
+					<Heatmap records={site.records} />
+					<!-- {/if} -->
+			</div>
+			<!-- {#if settings.breeding === 4}<Heatmap records={site.records} />{/if} -->
 				<Records
 					records={site.records}
 					isCollapsible={false}

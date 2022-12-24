@@ -98,5 +98,6 @@
 		records={relevantRecords}
 		{preStats}
 		{postStats}
+		isWidespread={settings.autumn === 4}
 	/>
 </ContentOrSettings>

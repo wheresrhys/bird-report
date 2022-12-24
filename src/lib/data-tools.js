@@ -211,7 +211,8 @@ export const getBreedingSites = (records, settings) => {
 				|| /territories|nominal|breeding|juv|singing/.test(records[0].notes)) {
 				return {
 					records,
-					location: records[0].location
+					location: records[0].location,
+					viceCounty: records[0].viceCounty
 			  }
 			}
 			return null

@@ -10,6 +10,7 @@
 
 	/** @type {number[]} */
 	export let months;
+	export let isWidespread;
 
 	/** @type {string} */
 	export let heading;
@@ -59,5 +60,5 @@
 		{postStats}
 		groupByMonth={true}
 	/>
-	<Sites records={records} includeHeatmap={true}/>
+	<Sites records={relevantRecords} includeHeatmap={true} {isWidespread}/>
 </section>

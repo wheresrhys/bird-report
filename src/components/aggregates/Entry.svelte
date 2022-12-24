@@ -106,15 +106,6 @@
 		{/each}
 	</tbody>
 </Table>
-
-{#if groupByMonth}
-	<Months {records} fullFat={false}/>
-{:else if groupByDay}
-	<RecordsByDay {records} {viewMoreHeading}/>
-{:else}
-	<Records {records} {viewMoreHeading} />
-{/if}
-
 <style>
 	th {
 		min-width: 100px;
