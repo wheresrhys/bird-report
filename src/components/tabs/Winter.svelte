@@ -1,4 +1,5 @@
 <script>
+	import { TabContent, TabPane } from 'sveltestrap';
 	import Season from '../aggregates/Season.svelte';
 	import { WINTER, BREEDING } from '../../lib/constants';
 	import ContentOrSettings from '../UI/ContentOrSettings.svelte';
@@ -17,6 +18,12 @@
 </script>
 
 <ContentOrSettings {settings} {bird} season={WINTER}>
-	<Season heading="First winter" months={firstWinterMonths} {records} />
-	<Season heading="Second winter" months={[11, 12]} {records} />
+	<TabContent>
+		<TabPane tabId="first-winter" tab="First winter" active>
+	<Season heading="First winter" months={firstWinterMonths} {records} isWidespread={settings.winter === 4}/>
+</TabPane>
+	<TabPane tabId="second-winter" tab="Second winter">
+	<Season heading="Second winter" months={[11, 12]} {records} isWidespread={settings.winter === 4}/>
+	</TabPane>
+	</TabContent>
 </ContentOrSettings>

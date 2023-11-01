@@ -2,6 +2,7 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 
 	import Records from '../aggregates/Records.svelte';
+	import Sites from '../UI/Sites.svelte';
 	import { beforeUpdate } from 'svelte';
 	import { TabPane, Form, FormGroup, Input, Label } from 'sveltestrap';
 	import * as JsSearch from 'js-search';
@@ -69,6 +70,7 @@
 				bind:value={searchQuery}
 			/>
 		</FormGroup>
+		<Sites records={results} includeHeatmap={true} isWidespread={false}/>
 		<Records records={results} isCollapsible={false} />
 	</Form>
 </TabPane>

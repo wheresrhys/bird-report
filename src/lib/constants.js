@@ -10,11 +10,11 @@ export const BREEDING = 'breeding';
 export const AUTUMN = 'autumnPassage';
 export const COUNTIES = {
 	ALL: 'All London',
-	IL: 'Inner London',
-	HR: "Hertforshire",
-	MX: 'Middlesex',
 	EX: 'Essex',
-	SY: 'Surrey',
+	HR: "Hertfordshire",
+	MX: 'Middlesex',
+	BU: 'Buckinghamshire',
 	KT: 'Kent',
-	BU: 'Buckinghamshire'
+	SY: 'Surrey',
+	IL: 'Inner London',
 }

@@ -10,3 +10,18 @@ todo.txt
 
 
 - SENTENCE BUILDER
+- When no results shows whole region BUGGGGG!!!!!!
+- Breeding
+	- pull out records mentioning breeding, juvenile, territories, notional
+	- filter by min number, low pass
+- Monthy hetamap
+- An uber configurable page to compliment
+ - choose start and end date, species etc, whehter to group by site, date etc, threshold. That way keep all other views simple
+- per site entry for widespread birds
+
+
+
+Bugs
+- Stonechat 2021 inner longdon... what's up with regent's park
+- When winter not set, spring gets fucked up
+- search from within tabs

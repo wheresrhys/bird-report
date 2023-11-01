@@ -20,6 +20,7 @@
 
 	export let groupByDay = false;
 	export let groupByMonth = false;
+	export let groupBySite = false;
 	export let viewMoreHeading = 'View all records';
 
 	/** @type {Stat[]} */
@@ -105,15 +106,6 @@
 		{/each}
 	</tbody>
 </Table>
-
-{#if groupByMonth}
-	<Months {records} fullFat={false}/>
-{:else if groupByDay}
-	<RecordsByDay {records} {viewMoreHeading}/>
-{:else}
-	<Records {records} {viewMoreHeading} />
-{/if}
-
 <style>
 	th {
 		min-width: 100px;
