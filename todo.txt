@@ -9,6 +9,7 @@ todo.txt
 - how many sites recorded >X birds on a single day?
 
 
+- Whole year shodul show table of spring & autumn counts and significant dates
 - SENTENCE BUILDER
 - When no results shows whole region BUGGGGG!!!!!!
 - Breeding
@@ -25,3 +26,5 @@ Bugs
 - Stonechat 2021 inner longdon... what's up with regent's park
 - When winter not set, spring gets fucked up
 - search from within tabs
+- when no records does not clear previous view (e.g. spotted flycatcher 2022 bucks)
+- Spotted flycatcher july records are fucked up

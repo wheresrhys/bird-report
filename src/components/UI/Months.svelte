@@ -47,7 +47,7 @@
 						groupByDay={true}
 						viewMoreHeading="View all {month.name} records"
 					/>
-					<RecordsByDay {records} viewMoreHeading="View all {month.name} records"/>
+					<RecordsByDay records={month.records} viewMoreHeading="View all {month.name} records"/>
 				{:else}
 					<RecordsByDay records={month.records} isCollapsible={false}/>
 				{/if}
