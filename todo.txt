@@ -22,6 +22,8 @@ todo.txt
 
 
 
+- Automate All IL records
+
 Bugs
 - Stonechat 2021 inner longdon... what's up with regent's park
 - When winter not set, spring gets fucked up

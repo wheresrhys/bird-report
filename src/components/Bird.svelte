@@ -9,6 +9,7 @@
 	import Autumn from './tabs/Autumn.svelte';
 	import Search from './tabs/Search.svelte';
 	import Settings from './tabs/Settings.svelte';
+	import TextBlocks from './tabs/TextBlocks.svelte';
 	import { allRecords, county, threshold } from '../lib/stores.js';
 	import { getSettingsStore } from '../lib/bird-settings';
 	import { COUNTIES } from '../lib/constants';
@@ -47,4 +48,5 @@
 	<Autumn {records} settings={$settings} {breedingSites} {bird} />
 	<Search {bird} {rawRecords} />
 	<Settings {bird} />
+	<TextBlocks {records} />
 </TabContent>
