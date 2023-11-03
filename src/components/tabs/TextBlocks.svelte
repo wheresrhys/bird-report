@@ -114,8 +114,6 @@
 
 	 <p><em>Records of the same number at the same site on consecutive dates will need tidying</em></p>
 
-	 <p><em>Editorial rules such as converting Reservoir to Res. are not applied either</em></p>
-
 	<ul>
 	{#each allCounties as {countyCode, countyText, countySites}}
 		<li><b>{countyText}: </b>{#each countySites as site}
