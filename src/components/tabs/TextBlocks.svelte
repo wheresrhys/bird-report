@@ -1,11 +1,11 @@
 <script>
-	import { TabPane } from '@sveltestrap/sveltestrap';
+	import { TabPane, Input } from '@sveltestrap/sveltestrap';
 	import { group, sortPropAsc } from '../../lib/data-tools';
 	import { COUNTIES } from '../../lib/constants';
 	import moment from 'moment';
 	/** @type {import('../../lib/data-tools').Record[]} */
 	export let records;
-
+	let superConcise = false
 	const numberMap = {
 		1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten'
 	}
@@ -92,6 +92,18 @@
 
 	}
 
+	let countySummaries;
+	function generateCountySummaries () {
+		countySummaries = allCounties.map(({countyCode, countyText, countySites }) => {
+
+			return {
+					countyCode,
+					countyText,
+					countySummary: superConcise ? ['blah'] : countySites.map(summariseSite).join('')
+				};
+		})
+	}
+
 
 	$: allCounties = Object.entries(COUNTIES)
 			.filter(([county]) => records.length < 300 ? county !== 'ALL' : county === 'IL')
@@ -104,8 +116,13 @@
 				return {
 					countyCode,
 					countyText,
-					countySites: group(countyRecords.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location)};
+					countySites: group(countyRecords.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location)
+				};
 			})
+
+
+
+	$: generateCountySummaries()
 
 </script>
 
@@ -113,18 +130,26 @@
 	 <p><em>To avoid this page crashing, birds with greater than 300 records only generate these text blocks for inner london. If you want to see it output for a different county, apply the county filter at the top of the page first</em></p>
 
 	 <p><em>Records of the same number at the same site on consecutive dates will need tidying</em></p>
+	 <Input
+  disabled={false}
+  invalid={false}
+  plaintext={false}
+  reverse={false}
+  type="switch"
+  valid={false}
+  label="Summarize sites"
+  name="superConcise"
+	id="superConcise"
+  on:change={generateCountySummaries}
+  value={superConcise} />
 
 	<ul>
-	{#each allCounties as {countyCode, countyText, countySites}}
-		<li><b>{countyText}: </b>{#each countySites as site}
-		{summariseSite(site)}
-	{/each}</li>
+	{#each allCounties as {countyCode, countyText, countyData}}
+		<li><b>{countyText}: </b>
+				{#each countyData as item}
+					{item}
+				{/each}
+		</li>
 	{/each}
 	<ul>
 </TabPane>
-
-
-
-<!--  Bloomsbury, one on Sep 12th. Burgess Park; singles on May 5th, 12th, 22nd, Aug 31st and Sep 5th. Hyde Park/Kensington Gdns; one on Sep 13th, two on 15th and one on Oct 1st. Regent’s Park; singles on May 5th, Aug 27th and Sep 9th. Southwark Park, one on May 9th.
-
- -->
