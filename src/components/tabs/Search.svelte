@@ -4,7 +4,7 @@
 	import Records from '../aggregates/Records.svelte';
 	import Sites from '../UI/Sites.svelte';
 	import { beforeUpdate } from 'svelte';
-	import { TabPane, Form, FormGroup, Input, Label } from 'sveltestrap';
+	import { TabPane, Form, FormGroup, Input, Label } from '@sveltestrap/sveltestrap';
 	import * as JsSearch from 'js-search';
 
 	export let bird;

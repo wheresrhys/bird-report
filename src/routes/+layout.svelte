@@ -9,10 +9,10 @@
 		Container,
 		Row,
 		Spinner
-	} from 'sveltestrap';
+	} from '@sveltestrap/sveltestrap';
 	import { loadRecords } from '../lib/data-loader';
 	import { speciesList, allRecords, year } from '../lib/stores.js';
-	import { Styles } from 'sveltestrap';
+	import { Styles } from '@sveltestrap/sveltestrap';
 	let showSpinner = false;
 	/**
 	 * @param {import('../lib/data-loader').BirdRecord[]} records

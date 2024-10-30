@@ -1,5 +1,5 @@
 <script>
-	import { TabPane } from 'sveltestrap';
+	import { TabPane } from '@sveltestrap/sveltestrap';
 	import Entry from '../aggregates/Entry.svelte';
 	import Sites from '../UI/Sites.svelte'
 	/** @type {import('../../lib/data-tools').Record[]} */

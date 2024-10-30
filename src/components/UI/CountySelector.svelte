@@ -1,6 +1,6 @@
 <script>
 	import { county } from '../../lib/stores';
-	import { Form, FormGroup, Input } from 'sveltestrap';
+	import { Form, FormGroup, Input } from '@sveltestrap/sveltestrap';
 
 	import {
 		COUNTIES

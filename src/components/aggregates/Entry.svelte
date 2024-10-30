@@ -1,5 +1,5 @@
 <script>
-	import { Table } from 'sveltestrap';
+	import { Table } from '@sveltestrap/sveltestrap';
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
 	import Months from '../UI/Months.svelte';

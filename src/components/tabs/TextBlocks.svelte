@@ -1,5 +1,5 @@
 <script>
-	import { TabPane } from 'sveltestrap';
+	import { TabPane } from '@sveltestrap/sveltestrap';
 	import { group, sortPropAsc } from '../../lib/data-tools';
 	import { COUNTIES } from '../../lib/constants';
 	import moment from 'moment';

@@ -1,5 +1,5 @@
 <script>
-	import { TabPane } from 'sveltestrap';
+	import { TabPane } from '@sveltestrap/sveltestrap';
 	import SettingsForm from './SettingsForm.svelte';
 	export let season;
 	export let bird;

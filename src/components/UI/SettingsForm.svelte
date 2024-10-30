@@ -1,6 +1,6 @@
 <script>
 	import { getSettingsStore } from '../../lib/bird-settings';
-	import { Form, FormGroup, Input, Label } from 'sveltestrap';
+	import { Form, FormGroup, Input, Label } from '@sveltestrap/sveltestrap';
 
 	import {
 		WINTER,
