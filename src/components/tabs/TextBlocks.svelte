@@ -1,6 +1,9 @@
 <script>
 	import { TabPane, Input } from '@sveltestrap/sveltestrap';
-	import { group, sortPropAsc } from '../../lib/data-tools';
+	import { group, sortPropAsc ,
+		getNumberOfSites,
+		getOutliers,getMonthsOfRecords
+	} from '../../lib/data-tools';
 	import { COUNTIES } from '../../lib/constants';
 	import moment from 'moment';
 	/** @type {import('../../lib/data-tools').Record[]} */
@@ -95,12 +98,26 @@
 
 	}
 
+	function summariseCounty (countyRecords) {
+		return group(countyRecords.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location).map(summariseSite).join('')
+	}
+
+function conciseSummariseCounty (countyRecords) {
+	const springSites = getNumberOfSites(getMonthsOfRecords(countyRecords, 2, 3, 4, 5, 6));
+	const autumnSites = getNumberOfSites(getMonthsOfRecords(countyRecords, 7, 8, 9, 10, 11));
+	const highSingleSiteCounts = getOutliers(countyRecords, 'numberIndex', {tolerance: 2});
+	const highSingleSiteCountsString = highSingleSiteCounts.map(({location, numberIndex, date}) => `${location}, ${printCount(numberIndex)} on ${moment(date).format('MMM Do')}.`).join(' ');
+	return  `Spring ${printCount(springSites)} sites, autumn ${printCount(autumnSites)} sites. ${highSingleSiteCountsString}`
+}
+
+
+
 	function generateCountySummaries (allCounties, superConcise) {
-		countySummaries = allCounties.map(({countyCode, countyText, countySites }) => {
+		countySummaries = allCounties.map(({countyCode, countyText, countyRecords }) => {
 			return {
 					countyCode,
 					countyText,
-					countySummary: superConcise ? 'blah' : countySites.map(summariseSite).join('')
+					countySummary: superConcise ? conciseSummariseCounty(countyRecords) : summariseCounty(countyRecords)
 				};
 		})
 	}
@@ -116,7 +133,7 @@
 				return {
 					countyCode,
 					countyText,
-					countySites: group(countyRecords.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location)
+					countyRecords
 				};
 			})
 
