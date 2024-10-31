@@ -5,7 +5,10 @@
 	import moment from 'moment';
 	/** @type {import('../../lib/data-tools').Record[]} */
 	export let records;
-	let superConcise = false
+
+	let superConcise = true
+	let countySummaries;
+
 	const numberMap = {
 		1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten'
 	}
@@ -92,18 +95,15 @@
 
 	}
 
-	let countySummaries;
-	function generateCountySummaries () {
+	function generateCountySummaries (allCounties, superConcise) {
 		countySummaries = allCounties.map(({countyCode, countyText, countySites }) => {
-
 			return {
 					countyCode,
 					countyText,
-					countySummary: superConcise ? ['blah'] : countySites.map(summariseSite).join('')
+					countySummary: superConcise ? 'blah' : countySites.map(summariseSite).join('')
 				};
 		})
 	}
-
 
 	$: allCounties = Object.entries(COUNTIES)
 			.filter(([county]) => records.length < 300 ? county !== 'ALL' : county === 'IL')
@@ -120,9 +120,7 @@
 				};
 			})
 
-
-
-	$: generateCountySummaries()
+	$: generateCountySummaries(allCounties, superConcise)
 
 </script>
 
@@ -140,15 +138,12 @@
   label="Summarize sites"
   name="superConcise"
 	id="superConcise"
-  on:change={generateCountySummaries}
-  value={superConcise} />
+  bind:checked={superConcise} />
 
 	<ul>
-	{#each allCounties as {countyCode, countyText, countyData}}
+	{#each countySummaries as {countyCode, countyText, countySummary}}
 		<li><b>{countyText}: </b>
-				{#each countyData as item}
-					{item}
-				{/each}
+				{countySummary}
 		</li>
 	{/each}
 	<ul>
