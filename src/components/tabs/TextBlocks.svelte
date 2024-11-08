@@ -9,7 +9,7 @@
 	/** @type {import('../../lib/data-tools').Record[]} */
 	export let records;
 
-	let superConcise = true
+	let superConcise = false
 	let countySummaries;
 
 	const numberMap = {
