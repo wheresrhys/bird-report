@@ -1,5 +1,5 @@
 <script>
-	import { Accordion, AccordionItem } from 'sveltestrap';
+	import { Accordion, AccordionItem } from '@sveltestrap/sveltestrap';
 	import RecordsByDay from '../aggregates/RecordsByDay.svelte';
 	import { group, sortPropAsc } from '../../lib/data-tools';
 	import Heatmap from './Heatmap.svelte'

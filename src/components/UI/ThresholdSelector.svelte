@@ -1,6 +1,6 @@
 <script>
 	import { threshold } from '../../lib/stores';
-	import { Form, FormGroup, Input } from 'sveltestrap';
+	import { Form, FormGroup, Input } from '@sveltestrap/sveltestrap';
 
 	$threshold = null;
 

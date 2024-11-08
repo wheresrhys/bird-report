@@ -4,23 +4,33 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta http-equiv="content-security-policy" content="">
-		<link rel="modulepreload" href="/bird-report/internal/immutable/start-9f04e0e5.js">
-		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/index-21395cc8.js">
-		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/singletons-e1aefd34.js">
-		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/index-3de074c5.js">
+		
+		<link rel="modulepreload" href="/bird-report/internal/immutable/entry/start.DHu2hlP1.js">
+		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/entry.4nM-P1ZC.js">
+		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/scheduler.Glts5lI7.js">
+		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/index.KH38Cy5l.js">
+		<link rel="modulepreload" href="/bird-report/internal/immutable/entry/app.CsF4YY4j.js">
+		<link rel="modulepreload" href="/bird-report/internal/immutable/chunks/index.CaN-Xuq9.js">
 	</head>
 	<body>
 		<div id="svelte">
-		<script type="module" data-sveltekit-hydrate="45h">
-			import { start } from "/bird-report/internal/immutable/start-9f04e0e5.js";
+			<script>
+				{
+					__sveltekit_b3lfv4 = {
+						base: "/bird-report",
+						assets: "/bird-report"
+					};
 
-			start({
-				env: {},
-				paths: {"base":"/bird-report","assets":"/bird-report"},
-				target: document.querySelector('[data-sveltekit-hydrate="45h"]').parentNode,
-				version: "1699038633433"
-			});
-		</script></div>
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("/bird-report/internal/immutable/entry/start.DHu2hlP1.js"),
+						import("/bird-report/internal/immutable/entry/app.CsF4YY4j.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
 	</body>
 </html>

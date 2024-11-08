@@ -1,10 +1,16 @@
 <script>
-	import { TabPane } from 'sveltestrap';
-	import { group, sortPropAsc } from '../../lib/data-tools';
+	import { TabPane, Input } from '@sveltestrap/sveltestrap';
+	import { group, sortPropAsc ,
+		getNumberOfSites,
+		getOutliers,getMonthsOfRecords
+	} from '../../lib/data-tools';
 	import { COUNTIES } from '../../lib/constants';
 	import moment from 'moment';
 	/** @type {import('../../lib/data-tools').Record[]} */
 	export let records;
+
+	let superConcise = false
+	let countySummaries;
 
 	const numberMap = {
 		1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten'
@@ -92,6 +98,29 @@
 
 	}
 
+	function summariseCounty (countyRecords) {
+		return group(countyRecords.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location).map(summariseSite).join('')
+	}
+
+function conciseSummariseCounty (countyRecords) {
+	const springSites = getNumberOfSites(getMonthsOfRecords(countyRecords, 2, 3, 4, 5, 6));
+	const autumnSites = getNumberOfSites(getMonthsOfRecords(countyRecords, 7, 8, 9, 10, 11));
+	const highSingleSiteCounts = getOutliers(countyRecords, 'numberIndex', {tolerance: 2});
+	const highSingleSiteCountsString = highSingleSiteCounts.map(({location, numberIndex, date}) => `${location}, ${printCount(numberIndex)} on ${moment(date).format('MMM Do')}.`).join(' ');
+	return  `Spring ${printCount(springSites)} sites, autumn ${printCount(autumnSites)} sites. ${highSingleSiteCountsString}`
+}
+
+
+
+	function generateCountySummaries (allCounties, superConcise) {
+		countySummaries = allCounties.map(({countyCode, countyText, countyRecords }) => {
+			return {
+					countyCode,
+					countyText,
+					countySummary: superConcise ? conciseSummariseCounty(countyRecords) : summariseCounty(countyRecords)
+				};
+		})
+	}
 
 	$: allCounties = Object.entries(COUNTIES)
 			.filter(([county]) => records.length < 300 ? county !== 'ALL' : county === 'IL')
@@ -104,8 +133,11 @@
 				return {
 					countyCode,
 					countyText,
-					countySites: group(countyRecords.sort(sortPropAsc('date')).sort(sortPropAsc('location')), ({location}) => location)};
+					countyRecords
+				};
 			})
+
+	$: generateCountySummaries(allCounties, superConcise)
 
 </script>
 
@@ -113,18 +145,23 @@
 	 <p><em>To avoid this page crashing, birds with greater than 300 records only generate these text blocks for inner london. If you want to see it output for a different county, apply the county filter at the top of the page first</em></p>
 
 	 <p><em>Records of the same number at the same site on consecutive dates will need tidying</em></p>
+	 <Input
+  disabled={false}
+  invalid={false}
+  plaintext={false}
+  reverse={false}
+  type="switch"
+  valid={false}
+  label="Summarize sites"
+  name="superConcise"
+	id="superConcise"
+  bind:checked={superConcise} />
 
 	<ul>
-	{#each allCounties as {countyCode, countyText, countySites}}
-		<li><b>{countyText}: </b>{#each countySites as site}
-		{summariseSite(site)}
-	{/each}</li>
+	{#each countySummaries as {countyCode, countyText, countySummary}}
+		<li><b>{countyText}: </b>
+				{countySummary}
+		</li>
 	{/each}
 	<ul>
 </TabPane>
-
-
-
-<!--  Bloomsbury, one on Sep 12th. Burgess Park; singles on May 5th, 12th, 22nd, Aug 31st and Sep 5th. Hyde Park/Kensington Gdns; one on Sep 13th, two on 15th and one on Oct 1st. Regent’s Park; singles on May 5th, Aug 27th and Sep 9th. Southwark Park, one on May 9th.
-
- -->

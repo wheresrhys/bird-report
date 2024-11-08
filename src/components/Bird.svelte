@@ -1,5 +1,5 @@
 <script>
-	import { TabContent } from 'sveltestrap';
+	import { TabContent } from '@sveltestrap/sveltestrap';
 	import TrendChart from './UI/TrendChart.svelte';
 	import WholeYear from './tabs/WholeYear.svelte';
 	import Months from './tabs/Months.svelte';

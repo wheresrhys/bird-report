@@ -1,5 +1,5 @@
 <script>
-	import { Accordion, AccordionItem } from 'sveltestrap';
+	import { Accordion, AccordionItem } from '@sveltestrap/sveltestrap';
 	import Records from '../aggregates/Records.svelte';
 	import ContentOrSettings from '../UI/ContentOrSettings.svelte';
 	import Heatmap from '../UI/Heatmap.svelte';

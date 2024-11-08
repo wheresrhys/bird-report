@@ -1,5 +1,5 @@
 <script>
-	import { TabPane } from 'sveltestrap';
+	import { TabPane } from '@sveltestrap/sveltestrap';
 	import Season from '../aggregates/Season.svelte';
 	import { AUTUMN, WINTER, BREEDING } from '../../lib/constants';
 	import { getMonthsOfRecords } from '../../lib/data-tools';

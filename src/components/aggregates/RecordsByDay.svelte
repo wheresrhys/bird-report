@@ -1,7 +1,7 @@
 <script>
 	import Record from './Record.svelte';
 	import { group } from '../../lib/data-tools';
-	import { Collapse, Table } from 'sveltestrap';
+	import { Collapse, Table } from '@sveltestrap/sveltestrap';
 	import moment from 'moment';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @type {Record[]} */

@@ -1,6 +1,6 @@
 <script>
 	import Record from './Record.svelte';
-	import { Collapse } from 'sveltestrap';
+	import { Collapse } from '@sveltestrap/sveltestrap';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @type {Record[]} */
 	export let records;

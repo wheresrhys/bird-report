@@ -1,5 +1,5 @@
 <script>
-	import { TabPane } from 'sveltestrap';
+	import { TabPane } from '@sveltestrap/sveltestrap';
 	import { getSettingsStore } from '../../lib/bird-settings';
 	import SettingsForm from '../UI/SettingsForm.svelte';
 
