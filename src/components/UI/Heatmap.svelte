@@ -1,8 +1,14 @@
 <script>
 	import { group, sortPropAsc } from '../../lib/data-tools';
  	import moment from 'moment';
-	/** @type {import('../../lib/data-tools').Record[]} */
-	export let records = [];
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('../../lib/data-tools').Record[]} [records]
+	 */
+
+	/** @type {Props} */
+	let { records = [] } = $props();
 
 	const oneDay = 1000*60*60*24;
 	const getNumberOrOne = (rx, str) => {
@@ -65,8 +71,8 @@ const getSexes = record => {
 			return {...stats, spacers: [...Array(daysUntilNextRecord)], date: record.date }
 	})
 
-	$: heatmap = generateHeatmap(records)
-	$: firstDay = moment(records[0].date).format('dddd').toLowerCase()
+	let heatmap = $derived(generateHeatmap(records))
+	let firstDay = $derived(moment(records[0].date).format('dddd').toLowerCase())
 
 </script>
 

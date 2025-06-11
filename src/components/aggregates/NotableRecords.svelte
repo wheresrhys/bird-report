@@ -2,13 +2,19 @@
 	import Record from './Record.svelte';
 	import Records from './Records.svelte';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
-	/** @type {Record[]} */
-	export let records = [];
-	/** @type {string} */
-	export let viewMoreHeading;
-	$: topRecord = records[0];
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} [records]
+	 * @property {string} viewMoreHeading
+	 */
 
-	$: otherNotableRecords = records.slice(1);
+	/** @type {Props} */
+	let { records = [], viewMoreHeading } = $props();
+	let topRecord = $derived(records[0]);
+
+	let otherNotableRecords = $derived(records.slice(1));
 </script>
 
 <Record {...topRecord} />

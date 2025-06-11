@@ -1,3 +1,4 @@
+<!-- @migration-task Error while migrating Svelte code: Can't migrate code with beforeUpdate. Please migrate by hand. -->
 <script>
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 

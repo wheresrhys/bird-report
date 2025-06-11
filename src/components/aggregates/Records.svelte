@@ -2,18 +2,30 @@
 	import Record from './Record.svelte';
 	import { Collapse } from '@sveltestrap/sveltestrap';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
-	/** @type {Record[]} */
-	export let records;
-	export let isCollapsible = true;
-	export let isOpen = !isCollapsible;
-	/** @type {string} */
-	export let viewMoreHeading = 'View detail';
-	/** @type {string[]} */
-	export let parentAggregationTypes = [];
+	
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} records
+	 * @property {boolean} [isCollapsible]
+	 * @property {any} [isOpen]
+	 * @property {string} [viewMoreHeading]
+	 * @property {string[]} [parentAggregationTypes]
+	 */
+
+	/** @type {Props} */
+	let {
+		records,
+		isCollapsible = true,
+		isOpen = $bindable(!isCollapsible),
+		viewMoreHeading = 'View detail',
+		parentAggregationTypes = []
+	} = $props();
 </script>
 
 {#if isCollapsible}
-	<button on:click={() => (isOpen = !isOpen)} class="link">
+	<button onclick={() => (isOpen = !isOpen)} class="link">
 		{viewMoreHeading}
 	</button>
 {/if}

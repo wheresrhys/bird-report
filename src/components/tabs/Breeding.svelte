@@ -8,14 +8,26 @@
 	/** @typedef {import('../../lib/data-tools').Site} Site */
 	/** @typedef {import('../../lib/bird-settings').Settings} Settings */
 
-	/** @type {Settings} */
-	export let settings;
-	/** @type {Site[]} */
-	export let breedingData;
-	export let breedingSites;
-	export let bird;
-	export let records;
-	// $: otherRecords = settings.breeding < 3 ? [] : getMonthsOfRecords(records.filter(({location}) => !breedingSites.includes(location)), 4, 5, 6, 7);
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Settings} settings
+	 * @property {Site[]} breedingData
+	 * @property {any} breedingSites
+	 * @property {any} bird
+	 * @property {any} records - $: otherRecords = settings.breeding < 3 ? [] : getMonthsOfRecords(records.filter(({location}) => !breedingSites.includes(location)), 4, 5, 6, 7);
+	 */
+
+	/** @type {Props} */
+	let {
+		settings,
+		breedingData,
+		breedingSites,
+		bird,
+		records
+	} = $props();
+	
 </script>
 
 <ContentOrSettings {settings} {bird} season={BREEDING}>
@@ -25,12 +37,14 @@
 	<Accordion>
 		{#each breedingData as site}
 			<AccordionItem>
-				<div slot="header">
-					{site.location} ({site.viceCounty})
-					<!-- {#if settings.breeding !== 4} -->
-					<Heatmap records={site.records} />
-					<!-- {/if} -->
-			</div>
+				{#snippet header()}
+								<div >
+						{site.location} ({site.viceCounty})
+						<!-- {#if settings.breeding !== 4} -->
+						<Heatmap records={site.records} />
+						<!-- {/if} -->
+				</div>
+							{/snippet}
 			<!-- {#if settings.breeding === 4}<Heatmap records={site.records} />{/if} -->
 				<Records
 					records={site.records}

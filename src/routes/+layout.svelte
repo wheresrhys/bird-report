@@ -13,7 +13,14 @@
 	import { loadRecords } from '../lib/data-loader';
 	import { speciesList, allRecords, year } from '../lib/stores.js';
 	import { Styles } from '@sveltestrap/sveltestrap';
-	let showSpinner = false;
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('svelte').Snippet} [children]
+	 */
+
+	/** @type {Props} */
+	let { children } = $props();
+	let showSpinner = $state(false);
 	/**
 	 * @param {import('../lib/data-loader').BirdRecord[]} records
 	 * @returns {string[]}
@@ -76,7 +83,7 @@
 		</Nav>
 	</Row><Row>
 		{#if $speciesList.length}
-			<slot />
+			{@render children?.()}
 		{/if}
 	</Row>
 </Container>

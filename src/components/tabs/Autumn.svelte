@@ -15,13 +15,24 @@
 	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 	/** @typedef {import('../../lib/bird-settings').Settings} Settings*/
 
-	/** @type {Record[]} */
-	export let records = [];
-	/** @type {Settings} */
-	export let settings;
-	/** @type {string[]} */
-	export let breedingSites;
-	export let bird;
+	
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} [records]
+	 * @property {Settings} settings
+	 * @property {string[]} breedingSites
+	 * @property {any} bird
+	 */
+
+	/** @type {Props} */
+	let {
+		records = [],
+		settings,
+		breedingSites,
+		bird
+	} = $props();
 	/**
 	 * @param {Record[]} records
 	 * @param {string[]} breedingSites
@@ -85,10 +96,10 @@
 		return passageMonths;
 	};
 
-	$: passageMonths = getPassageMonths(settings);
-	$: relevantRecords = getMonthsOfRecords(records, ...passageMonths);
-	$: preStats = getPreStats(relevantRecords, breedingSites);
-	$: postStats = getPostStats(relevantRecords);
+	let passageMonths = $derived(getPassageMonths(settings));
+	let relevantRecords = $derived(getMonthsOfRecords(records, ...passageMonths));
+	let preStats = $derived(getPreStats(relevantRecords, breedingSites));
+	let postStats = $derived(getPostStats(relevantRecords));
 </script>
 
 <ContentOrSettings {settings} {bird} season={AUTUMN}>

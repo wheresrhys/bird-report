@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { Table } from '@sveltestrap/sveltestrap';
 	import NotableRecords from './NotableRecords.svelte';
 	import Records from './Records.svelte';
@@ -15,74 +17,92 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 
-	/** @type {Record[]} */
-	export let records = [];
+	
 
-	export let groupByDay = false;
-	export let groupByMonth = false;
-	export let groupBySite = false;
-	export let viewMoreHeading = 'View all records';
+
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} [records]
+	 * @property {boolean} [groupByDay]
+	 * @property {boolean} [groupByMonth]
+	 * @property {boolean} [groupBySite]
+	 * @property {string} [viewMoreHeading]
+	 * @property {Stat[]} [preStats]
+	 * @property {Stat[]} [postStats]
+	 */
+
+	/** @type {Props} */
+	let {
+		records = [],
+		groupByDay = false,
+		groupByMonth = false,
+		groupBySite = false,
+		viewMoreHeading = 'View all records',
+		preStats = [],
+		postStats = []
+	} = $props();
 
 	/** @type {Stat[]} */
-	export let preStats = [];
-	/** @type {Stat[]} */
-	export let postStats = [];
+	let stats = $state([]);
+	let tolerance = $state(2);
 
-	/** @type {Stat[]} */
-	let stats = [];
-	let tolerance = 2;
+	run(() => {
+		tolerance = $county === 'ALL' ? 2 : 1;
+	});
+	run(() => {
+		if (records.length) {
+			stats = [...preStats];
+			let numberOfSites = getNumberOfSites(records);
+			let highCitywideDayCounts = aggregateByDay(records, countBirds, {tolerance});
+			let highSingleSiteCounts = getOutliers(records, 'numberIndex', {tolerance});
 
-	$: tolerance = $county === 'ALL' ? 2 : 1;
-	$: if (records.length) {
-		stats = [...preStats];
-		let numberOfSites = getNumberOfSites(records);
-		let highCitywideDayCounts = aggregateByDay(records, countBirds, {tolerance});
-		let highSingleSiteCounts = getOutliers(records, 'numberIndex', {tolerance});
-
-		stats = [
-			...stats,
-			{ heading: 'Number of records', content: records.length },
-			{ heading: 'Number of sites', content: numberOfSites }
-		];
-		if (numberOfSites > 1) {
 			stats = [
 				...stats,
-				{
-					heading: 'Max citywide sites in day',
-					content: {
-						records: aggregateByDay(records, countRecords).records,
-						viewMoreHeading: 'Other high counts'
-					}
-				}
+				{ heading: 'Number of records', content: records.length },
+				{ heading: 'Number of sites', content: numberOfSites }
 			];
-		}
-		if (highCitywideDayCounts.numberIndex > 1) {
-			stats = [
-				...stats,
-				{
-					heading: 'Max citywide day count',
-					content: {
-						records: highCitywideDayCounts.records,
-						viewMoreHeading: 'Other high counts'
+			if (numberOfSites > 1) {
+				stats = [
+					...stats,
+					{
+						heading: 'Max citywide sites in day',
+						content: {
+							records: aggregateByDay(records, countRecords).records,
+							viewMoreHeading: 'Other high counts'
+						}
 					}
-				}
-			];
-		}
+				];
+			}
+			if (highCitywideDayCounts.numberIndex > 1) {
+				stats = [
+					...stats,
+					{
+						heading: 'Max citywide day count',
+						content: {
+							records: highCitywideDayCounts.records,
+							viewMoreHeading: 'Other high counts'
+						}
+					}
+				];
+			}
 
-		if (highSingleSiteCounts[0].numberIndex > 1) {
-			stats = [
-				...stats,
-				{
-					heading: 'High single site counts',
-					content: {
-						records: highSingleSiteCounts,
-						viewMoreHeading: 'Other high counts'
+			if (highSingleSiteCounts[0].numberIndex > 1) {
+				stats = [
+					...stats,
+					{
+						heading: 'High single site counts',
+						content: {
+							records: highSingleSiteCounts,
+							viewMoreHeading: 'Other high counts'
+						}
 					}
-				}
-			];
+				];
+			}
+			stats = [...stats, ...postStats];
 		}
-		stats = [...stats, ...postStats];
-	}
+	});
 </script>
 
 <Table>

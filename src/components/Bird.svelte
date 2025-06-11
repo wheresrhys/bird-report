@@ -16,24 +16,30 @@
 	import { clean, getBreedingSites } from '../lib/data-tools';
 	import CountySelector from './UI/CountySelector.svelte';
 	import ThresholdSelector from './UI/ThresholdSelector.svelte';
-	/** @type {string} */
-	export let bird;
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {string} bird
+	 */
 
-	$: settings = getSettingsStore(bird);
-	$: rawRecords = $allRecords
+	/** @type {Props} */
+	let { bird } = $props();
+
+	let settings = $derived(getSettingsStore(bird));
+	let rawRecords = $derived($allRecords
 		.filter(({ species, viceCounty, numberIndex, location }) => {
 			if (species !== bird) return false
 			if ($threshold && numberIndex < $threshold) return false;
 			if ($county === 'ALL') return true
 			return viceCounty === $county
 			// return viceCounty = "KT"
-		})
-	$: records = clean(rawRecords);
+		}))
+	let records = $derived(clean(rawRecords));
 
-	$: breedingData = getBreedingSites(records, $settings);
+	let breedingData = $derived(getBreedingSites(records, $settings));
 
 
-	$: breedingSites = breedingData.map(({ location }) => location);
+	let breedingSites = $derived(breedingData.map(({ location }) => location));
 </script>
 
 <h2>{bird} <CountySelector /><ThresholdSelector /></h2>

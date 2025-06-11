@@ -5,21 +5,34 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record */
 	/** @typedef {import('../../lib/data-tools').Stat} Stat*/
 
-	/** @type {Record[]} */
-	export let records = [];
+	
 
-	/** @type {number[]} */
-	export let months;
-	export let isWidespread;
+	
 
-	/** @type {string} */
-	export let heading;
+	
 
-	/** @type {Stat[]} */
-	export let preStats = [];
+	
 
-	/** @type {Stat[]} */
-	export let postStats = [];
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} [records]
+	 * @property {number[]} months
+	 * @property {any} isWidespread
+	 * @property {string} heading
+	 * @property {Stat[]} [preStats]
+	 * @property {Stat[]} [postStats]
+	 */
+
+	/** @type {Props} */
+	let {
+		records = [],
+		months,
+		isWidespread,
+		heading,
+		preStats = [],
+		postStats = []
+	} = $props();
 
 	/** @type {string[]} */
 	const MONTH_NAMES = [
@@ -46,7 +59,7 @@
 			MONTH_NAMES[months[months.length - 1] - 1]
 		}`;
 
-	$: relevantRecords = getMonthsOfRecords(records, ...months)
+	let relevantRecords = $derived(getMonthsOfRecords(records, ...months))
 </script>
 
 <section>

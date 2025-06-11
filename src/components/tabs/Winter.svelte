@@ -6,15 +6,21 @@
 	/** @typedef {import('../../lib/data-tools').Record} Record*/
 	/** @typedef {import('../../lib/bird-settings').Settings} Settings*/
 
-	/** @type {Record[]} */
-	export let records;
-	/** @type {Settings} */
-	export let settings;
-	export let bird;
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} records
+	 * @property {Settings} settings
+	 * @property {any} bird
+	 */
+
+	/** @type {Props} */
+	let { records, settings, bird } = $props();
 
 	// If it's springPassage not autumnPassage widespread breeder then we assume
 	// winter stretches into March
-	$: firstWinterMonths = settings[BREEDING] < 3 ? [1, 2, 3] : [1, 2];
+	let firstWinterMonths = $derived(settings[BREEDING] < 3 ? [1, 2, 3] : [1, 2]);
 </script>
 
 <ContentOrSettings {settings} {bird} season={WINTER}>
