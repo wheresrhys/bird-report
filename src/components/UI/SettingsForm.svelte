@@ -33,8 +33,7 @@
 		}
 	];
 
-	export let bird;
-	export let season;
+	let { bird, season } = $props();
 	/**
 	 * @param {CustomEvent} ev
 	 */
@@ -43,11 +42,11 @@
 		$settings = { ...$settings, [target.id]: Number(target.value) };
 	}
 
-	$: settings = getSettingsStore(bird);
+	let settings = $derived(getSettingsStore(bird));
 
-	$: fieldsToOutput = season
+	let fieldsToOutput = $derived(season
 		? fields.filter(({ id }) => id === season)
-		: fields;
+		: fields);
 </script>
 
 <Form>

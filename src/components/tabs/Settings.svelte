@@ -3,7 +3,7 @@
 	import { getSettingsStore } from '../../lib/bird-settings';
 	import SettingsForm from '../UI/SettingsForm.svelte';
 
-	export let bird;
+	let { bird } = $props();
 </script>
 
 <TabPane tabId="settings" tab="Settings">

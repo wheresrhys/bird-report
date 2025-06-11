@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { TabPane, Input } from '@sveltestrap/sveltestrap';
 	import { group, sortPropAsc ,
 		getNumberOfSites,
@@ -6,11 +8,17 @@
 	} from '../../lib/data-tools';
 	import { COUNTIES } from '../../lib/constants';
 	import moment from 'moment';
-	/** @type {import('../../lib/data-tools').Record[]} */
-	export let records;
 
-	let superConcise = false
-	let countySummaries;
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('../../lib/data-tools').Record[]} records
+	 */
+
+	/** @type {Props} */
+	let { records } = $props();
+
+	let superConcise = $state(false)
+	let countySummaries = $state();
 
 	const numberMap = {
 		1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten'
@@ -122,7 +130,7 @@ function conciseSummariseCounty (countyRecords) {
 		})
 	}
 
-	$: allCounties = Object.entries(COUNTIES)
+	let allCounties = $derived(Object.entries(COUNTIES)
 			.filter(([county]) => records.length < 300 ? county !== 'ALL' : county === 'IL')
 			.map(([countyCode, countyText]) => {
 				const countyRecords = records
@@ -135,9 +143,11 @@ function conciseSummariseCounty (countyRecords) {
 					countyText,
 					countyRecords
 				};
-			})
+			}))
 
-	$: generateCountySummaries(allCounties, superConcise)
+	run(() => {
+		generateCountySummaries(allCounties, superConcise)
+	});
 
 </script>
 
@@ -163,5 +173,5 @@ function conciseSummariseCounty (countyRecords) {
 				{countySummary}
 		</li>
 	{/each}
-	<ul>
+	</ul>
 </TabPane>

@@ -4,23 +4,35 @@
 	import { Collapse, Table } from '@sveltestrap/sveltestrap';
 	import moment from 'moment';
 	/** @typedef {import('../../lib/data-tools').Record} Record */
-	/** @type {Record[]} */
-	export let records;
-	export let isCollapsible = true;
-	export let isOpen = !isCollapsible;
-	export let dateFormat = 'day'
-	/** @type {string} */
-	export let viewMoreHeading = 'View detail';
+	
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {Record[]} records
+	 * @property {boolean} [isCollapsible]
+	 * @property {any} [isOpen]
+	 * @property {string} [dateFormat]
+	 * @property {string} [viewMoreHeading]
+	 */
+
+	/** @type {Props} */
+	let {
+		records,
+		isCollapsible = true,
+		isOpen = $bindable(!isCollapsible),
+		dateFormat = 'day',
+		viewMoreHeading = 'View detail'
+	} = $props();
 
 	/** @type {Record[][]} */
-	$: days = group(records, ({ date }) => moment(date).format('DD/MM'))
+	let days = $derived(group(records, ({ date }) => moment(date).format('DD/MM')))
 	// .sort((rs1, rs2) => {
 	// 	return rs1[0].date > rs2[0].date ? 1 : rs1[0].date < rs2[0].date ? -1 : 0;
 	// });
 
 </script>
 {#if isCollapsible}
-<button on:click={() => (isOpen = !isOpen)} class="link">
+<button onclick={() => (isOpen = !isOpen)} class="link">
 	{viewMoreHeading}
 </button>
 {/if}

@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import { Accordion, AccordionItem } from '@sveltestrap/sveltestrap';
 	import Entry from '../aggregates/Entry.svelte';
 	import RecordsByDay from '../aggregates/RecordsByDay.svelte';
@@ -19,11 +21,17 @@
 		'December'
 	];
 
-	/** @type {import('../../lib/data-tools').Record[]} */
-	export let records = [];
-	export let fullFat = false;
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {import('../../lib/data-tools').Record[]} [records]
+	 * @property {boolean} [fullFat]
+	 */
 
-	$: months = MONTH_NAMES.map((name, index) => {
+	/** @type {Props} */
+	let { records = [], fullFat = false } = $props();
+
+	let months = $derived(MONTH_NAMES.map((name, index) => {
 		const relevantRecords = getMonthsOfRecords(records, index + 1);
 		return {
 			name,
@@ -31,10 +39,12 @@
 			records: relevantRecords,
 			hasRecords: !!relevantRecords.length
 		};
+	}));
+	run(() => {
+		if (!fullFat) {
+			months = months.filter(({hasRecords}) => hasRecords)
+		}
 	});
-	$: if (!fullFat) {
-		months = months.filter(({hasRecords}) => hasRecords)
-	}
 </script>
 
 <Accordion>

@@ -1,9 +1,12 @@
 <script>
 	import { TabPane } from '@sveltestrap/sveltestrap';
 	import SettingsForm from './SettingsForm.svelte';
-	export let season;
-	export let bird;
-	export let settings;
+	let {
+		season,
+		bird,
+		settings,
+		children
+	} = $props();
 
 	const humanReadable = (season) =>
 		season.replace(
@@ -25,7 +28,7 @@
 		<p>(You can change at any time by going to the 'settings' tab)</p>
 		<SettingsForm {bird} {season} />
 	{:else if settings[season]}
-		<slot />
+		{@render children?.()}
 	{:else}
 		<h3>
 			{bird} is not {grammaticalSeason(season)} bird in the London recording area.

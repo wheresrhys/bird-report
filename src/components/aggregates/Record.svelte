@@ -1,21 +1,37 @@
 <script>
 	import Records from './Records.svelte';
-	export let numberIndex;
-	export let viceCounty;
-	export let location;
-	export let date;
-	export let notes;
-	export let observer;
-	export let records = [];
-	export let aggregationType;
-	/** @type {string[]} */
-	export let parentAggregationTypes = [];
-	export let viewMoreHeading =
-		aggregationType === 'same day'
+	
+	/**
+	 * @typedef {Object} Props
+	 * @property {any} numberIndex
+	 * @property {any} viceCounty
+	 * @property {any} location
+	 * @property {any} date
+	 * @property {any} notes
+	 * @property {any} observer
+	 * @property {any} [records]
+	 * @property {any} aggregationType
+	 * @property {string[]} [parentAggregationTypes]
+	 * @property {any} [viewMoreHeading]
+	 */
+
+	/** @type {Props} */
+	let {
+		numberIndex,
+		viceCounty,
+		location,
+		date,
+		notes,
+		observer,
+		records = [],
+		aggregationType,
+		parentAggregationTypes = [],
+		viewMoreHeading = aggregationType === 'same day'
 			? 'records >'
 			: aggregationType === 'same location'
 			? 'multiple records >'
-			: undefined;
+			: undefined
+	} = $props();
 
 </script>
 
