@@ -30,7 +30,7 @@ export function loadRecords(buffer) {
 		numberIndex: row.NumberIndex,
 		notes: row.Notes,
 		recordingArea: row.RecordingArea,
-		viceCounty: row.ViceCounty || row.Sector || row.RecordingArea,
+		viceCounty: (row.ViceCounty || row.Sector || row.RecordingArea).split('/')[0],
 		observer: row.Observer,
 		source: row.Source
 	}));
